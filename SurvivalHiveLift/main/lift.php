@@ -11,7 +11,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 use pocketmine\event\block\SignChangeEvent;
-/** Not currently used but may be later used  */
 use pocketmine\level\Position;
 use pocketmine\entity\Entity;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -45,7 +44,6 @@ class lift extends PluginBase implements Listener
             	for ($i = 1; $i <= 32; $i++) {
             		$bl = $event->getBlock();
             		$pos = $event->getBlock()->getLevel()->getBlock(new Vector3($bl->x,$bl->y+$i,$bl->z));
-            		// hol die den block (x, y+$i, z)
             		if($pos->getID() == 323 || $pos->getID() == 63 || $pos->getID() == 323)
             		{
             			$event->getPlayer()->teleport(new Position($bl->x,$bl->y+$i,$bl->z));
