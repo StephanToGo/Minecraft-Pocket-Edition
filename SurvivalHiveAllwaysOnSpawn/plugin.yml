@@ -1,0 +1,9 @@
+name: SurvivalHiveAllwaysonSpawn
+main: main\onspawn
+version: 1.0
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Immer am Spawn in der jeweiligen Welt
+website: http://www.survivalhive.de
