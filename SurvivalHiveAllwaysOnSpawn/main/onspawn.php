@@ -31,18 +31,13 @@ use pocketmine\level\Position;
 		public function onRespawn(PlayerRespawnEvent $event)
 		{
 			$player = $event->getPlayer();
-			$player->sendMessage("1");
 			
 			$x = $this->getServer()->getLevelByName($player->getLevel()->getName())->getSafeSpawn()->getX();
 			$y = $this->getServer()->getLevelByName($player->getLevel()->getName())->getSafeSpawn()->getY();
 			$z = $this->getServer()->getLevelByName($player->getLevel()->getName())->getSafeSpawn()->getZ();
 			$level = $player->getLevel()->getName();
 			
-			//$player->teleport($player->getLevel()->getSpawnLocation());
 			$event->setRespawnPosition(new Position($x, $y, $z));
-			$player->sendMessage("2");
-			
-			//$event->getPlayer()->teleport(Server::getInstance()->getLevelByName($event->getPlayer()->getLevel()->getName())->getSafeSpawn());
 		}
 		
 		public function onDisable()
