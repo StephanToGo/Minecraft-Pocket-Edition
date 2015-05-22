@@ -26,6 +26,20 @@ class lift extends PluginBase implements Listener
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
  
+    public function schildaendern(SignChangeEvent $event)
+    {	
+    	$linien = $event->getLine(0);
+    	
+    	if($linien == 'lh')
+    	{
+    		$event->setLine(0, '[Lift hoch]');
+    	}
+    	if($linien == 'lr')
+    	{
+    		$event->setLine(0, '[Lift runter]');
+    	}	
+    }
+ 
     public function playerBlockTouch(PlayerInteractEvent $event)
     {
         if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68)
