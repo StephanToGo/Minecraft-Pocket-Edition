@@ -28,7 +28,7 @@ class pos extends PluginBase implements Listener {
 	public function onEnable() 
 	{	
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
-    }
+	}
 	
     public function onCommand(CommandSender $p, Command $command, $label, array $args)
     {
@@ -56,8 +56,8 @@ class pos extends PluginBase implements Listener {
     	}
     	else 
     	{
-    	$p->sendMessage("Nur im Spiel moeglich");
-    	return true;
+    		$p->sendMessage("Nur im Spiel moeglich");
+    		return true;
     	}
     	break;
     }
@@ -65,7 +65,6 @@ class pos extends PluginBase implements Listener {
 	public function onBlockBreak(BlockBreakEvent $event)
 	{
 		$id = $event->getPlayer()->getID();
-		
 		if(in_array($id, $this->schalter))
 		{
 			$bl = $event->getBlock();
@@ -79,7 +78,6 @@ class pos extends PluginBase implements Listener {
 	public function onBlockPlace(BlockPlaceEvent $event)
 	{
 		$id = $event->getPlayer()->getID();
-	
 		if(in_array($id, $this->schalter))
 		{
 			$bl = $event->getBlock();
