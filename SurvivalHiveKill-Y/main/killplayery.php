@@ -1,8 +1,5 @@
 <?php
-
-
 namespace main;
-
 
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\command\CommandSender;
@@ -19,7 +16,6 @@ use pocketmine\math\Vector3;
 use pocketmine\event\player\PlayerMoveEvent;
 
 	class killplayery extends PluginBase implements Listener
-	
 	{
 		public function onEnable()
 		{
@@ -28,15 +24,16 @@ use pocketmine\event\player\PlayerMoveEvent;
 		public function onPlayerFall(PlayerMoveEvent $event)
 		{
 			$y = $event->getPlayer()->getY();
+			
 			if($y < -25)
 			{
-		  	$event->getPlayer()->kill();
-		  	$event->getPlayer()->sendMessage("Gefallen");
+		  		$event->getPlayer()->kill();
+		  		$event->getPlayer()->sendMessage("Gefallen");
 			}
 		}
-		
 		public function onDisable()
 		{
 			$this->getLogger()->info("Plugin unloaded!");
 		}
 	}
+?>
