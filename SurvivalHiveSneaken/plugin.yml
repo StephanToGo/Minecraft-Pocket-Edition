@@ -1,0 +1,9 @@
+name: SurvivalHiveSneakers
+main: main\sneaken
+version: 1.0
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: sneaken
+website: http://www.survivalhive.de
