@@ -35,7 +35,6 @@ class weiterleitung extends PluginBase implements Listener
 		$name = $event->getPlayer()->getName();
 		$p = $event->getPlayer();
 		$reason = $event->getReason();
-		$this->getLogger()->info(MT::YELLOW."$reason");
 			if($reason == "disconnectionScreen.serverFull")
 			{
 				$pl = $event->getPlayer();
@@ -48,9 +47,8 @@ class weiterleitung extends PluginBase implements Listener
 					$this->getLogger()->info("FAST TRANSFER NOT INSTALLED");
 					return;
 				}
-				$this->getLogger()->info("$name transfer to $addr1 $addr2");
+				$this->getLogger()->info(MT::YELLOW."$name transfer to $addr1 $addr2");
 				$ft->transferPlayer($pl,$addr1,$addr2);
-				 
 				$event->setCancelled(true);
 			}
 	}
