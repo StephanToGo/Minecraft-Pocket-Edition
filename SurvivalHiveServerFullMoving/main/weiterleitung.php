@@ -27,7 +27,7 @@ class weiterleitung extends PluginBase implements Listener
 		{
 			@mkdir($this->getDataFolder(), true);
 		}
-		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("IP" => array(),"Port"=> array()));
+		$this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, ["IP" => "127.0.0.1","Port" => "19132",]);
 	}
 
 	public function onPlayerKickEvent(PlayerKickEvent $event)
