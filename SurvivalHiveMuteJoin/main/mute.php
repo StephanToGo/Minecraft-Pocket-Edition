@@ -17,26 +17,28 @@ use pocketmine\plugin\Plugin;
 class mute extends PluginBase implements Listener 
 {
 	
-	public function onEnable() {	
+	public function onEnable() 
+	{	
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
-    }
+	}
 	
 	public function onJoin (PlayerJoinEvent $ev)
 	{
-	$ev->setJoinMessage("");
+		$ev->setJoinMessage("");
 	}
 
 	public function onQuit(PlayerQuitEvent $ev)
 	{
-	$ev->setQuitMessage("");
+		$ev->setQuitMessage("");
 	} 
 
 	public function onDeath(PlayerDeathEvent $ev)
 	{
 		$player = $ev->getEntity();
+		
 		if($player instanceof Player)
 		{
-		$ev->setDeathMessage("");
+			$ev->setDeathMessage("");
 		}
 	}
 	
