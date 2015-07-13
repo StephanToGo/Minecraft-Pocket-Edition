@@ -1,0 +1,9 @@
+name: SurvivalHiveFullWeiterleitung
+main: main\weiterleitung
+version: 1.3
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Weiterleitung wenn Server voll
+website: http://www.survivalhive.de
