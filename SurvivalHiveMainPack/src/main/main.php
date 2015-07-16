@@ -21,8 +21,13 @@ use main\afkkicker\afkkicker;
 use main\antidoublechest\antidoublechest;
 use main\allwaysonspawn\allwaysonspawn;
 use main\liftsign\liftsign;
+use main\antipvp\antipvp;
+use main\antibuild\antibuild;
 use main\mutejoin\mutejoin;
+use main\bposition\bposition;
 use main\worldborder\worldborder;
+//---------------------------
+use main\commandhandler as commandhandler;
 //---------------------------
 
 	class main extends PluginBase implements Listener
