@@ -28,6 +28,11 @@ use main\worldborder\worldborder;
 	class main extends PluginBase implements Listener
 	
 	{
+		public function onCommand(CommandSender $sender, Command $command, $label, array $args)
+		{
+			$this->command_class->onCommand($sender, $command, $label, $args);
+		}
+		
 	  public function onDisable()
 		{
 			$this->getLogger()->info(MT::GOLD."SurvivalHive Main unloaded!");
