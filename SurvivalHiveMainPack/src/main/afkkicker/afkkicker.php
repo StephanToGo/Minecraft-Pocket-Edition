@@ -37,12 +37,13 @@ use pocketmine\scheduler\PluginTask;
 					
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
 					{	
-						if($this->getOwner()->player[$name]['Counter'] == 1){ $player->kick($reason=MT::RED."KICK! -> A-F-K");unset ($this->getOwner()->player[$name]['Counter']);}
-						if($this->getOwner()->player[$name]['Counter'] == 0) $this->getOwner()->player[$name]['Counter'] = 1;
+						if($this->getOwner()->player[$name]['Counter'] == 1){$player->kick($reason=MT::RED."KICK! -> A-F-K");unset ($this->getOwner()->player[$name]['Counter']);return;}
+						if($this->getOwner()->player[$name]['Counter'] == 0){$this->getOwner()->player[$name]['Counter'] = 1;return;}
 					}
 					else
 					{
 						$this->getOwner()->player[$name]['Counter'] = 0;
+						return;
 					}
 					$this->getOwner()->player[$name]['Coords'] = $coords;
 				}
