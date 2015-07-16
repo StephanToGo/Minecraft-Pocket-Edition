@@ -19,14 +19,17 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\math\Vector3;
 use pocketmine\level\Position;
 use main\main;
+use main\debug\Debug;
 
 	class allwaysonspawn implements Listener
 	
 	{
 		private $plugin;
+		private $debug;
 		
 		public function __construct(Plugin $plugin){
 			$this->plugin = $plugin;
+			$this->debug = new Debug($owner);
 		}
 	
 		public function onRespawn(PlayerRespawnEvent $event)
@@ -36,7 +39,7 @@ use main\main;
 			$z = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 			
 			$event->setRespawnPosition(new Position($x, $y, $z));
-			if($this->plugin->cfg->get("debugmode") == "true"){$this->plugin->getServer()->getLogger()->info(MT::GREEN."Zum Start respawnt");}
+			$this->debug->onDebug('Zum Start respawnt');
 		}
 		
 		public function onJoin(PlayerJoinEvent $event)
@@ -46,6 +49,6 @@ use main\main;
 			$z = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 				
 			$event->getPlayer()->teleport($event->getPlayer()->getLevel()->getSafeSpawn());
-			if($this->plugin->cfg->get("debugmode") == "true"){$this->plugin->getServer()->getLogger()->info(MT::GREEN."Zum Start teleportiert");}
+			$this->debug->onDebug('Zum Start respawnt');
 		}
 	}
