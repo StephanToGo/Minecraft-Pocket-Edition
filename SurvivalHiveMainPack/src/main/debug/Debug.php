@@ -17,12 +17,9 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\utils\Config;
 use main\afkkicker\afkkicker;
 
-
 class Debug implements Listener
 {
-
 	private $plugin;
-	//private $debugmode;
 	
 	public function __construct(Plugin $plugin ){
 		$this->plugin = $plugin;
@@ -35,7 +32,7 @@ class Debug implements Listener
 	
 	public function onInfo($txt)
 	{
-		
+		if(!$this->plugin->cfg->get("debugmode")){return;}
 		$this->plugin->getLogger()->info(MT::GOLD.$text);
 	}
 }
