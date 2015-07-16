@@ -4,6 +4,7 @@
 namespace main\antibuild;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 use pocketmine\server;
@@ -14,13 +15,16 @@ use pocketmine\command\Command;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\utils\TextFormat as MT;
+use main\debug\Debug;
 
 	class antibuild implements Listener
 	{
 		private $plugin;
+		private $debug;
 		
 		public function __construct(Plugin $plugin){
 			$this->plugin = $plugin;
+			$this->debug = new Debug($owner);
 		}
 		
 		public function onPlayerPlaceBlock(BlockPlaceEvent $event)
@@ -28,6 +32,7 @@ use pocketmine\utils\TextFormat as MT;
 			If(!($event->getPlayer()->isOp()))
 			{
 				$event->setCancelled(true);
+				$this->debug->onDebug('BlockPlaceEvent');
 			}
 		}
 		
@@ -36,6 +41,7 @@ use pocketmine\utils\TextFormat as MT;
 			If(!($event->getPlayer()->isOp()))
 			{
 				$event->setCancelled(true);
+				$this->debug->onDebug('BlockBreakEvent');
 			}
 		}	
 	}
