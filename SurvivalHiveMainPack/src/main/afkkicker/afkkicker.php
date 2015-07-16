@@ -28,7 +28,7 @@ use main\debug\Debug;
 	
 		public function onRun($currentTick)
 		{
-			$this->debug->onDebug("AFKKICKER OnRun");
+			$this->debug->onDebug('AFKKICKER OnRun');
 			
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
@@ -46,10 +46,9 @@ use main\debug\Debug;
 				else
 				{	
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
-					{				
-						$txt = "AFKKICKER $name";
-						$this->debug->onDebug($txt);
-						$player->kick($reason=MT::RED."KICK! -> A-F-K");
+					{					
+						$this->debug->onDebug("AFKKICKER $name");
+						$player->kick($reason=MT::RED.'KICK! -> A-F-K');
 						unset ($this->getOwner()->player[$name]);
 					}
 					else
