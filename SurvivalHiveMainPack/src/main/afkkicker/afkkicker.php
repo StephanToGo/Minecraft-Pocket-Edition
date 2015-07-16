@@ -37,7 +37,7 @@ use pocketmine\scheduler\PluginTask;
 					
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
 					{	
-						if($this->getOwner()->player[$name]['Counter'] == 1) $player->kick($reason=MT::RED."KICK! -> A-F-K");
+						if($this->getOwner()->player[$name]['Counter'] == 1){ $player->kick($reason=MT::RED."KICK! -> A-F-K");unset ($this->getOwner()->player[$name]['Counter']);}
 						if($this->getOwner()->player[$name]['Counter'] == 0) $this->getOwner()->player[$name]['Counter'] = 1;
 					}
 					else
