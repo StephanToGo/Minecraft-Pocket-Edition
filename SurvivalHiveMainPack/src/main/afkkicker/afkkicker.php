@@ -46,8 +46,9 @@ use main\debug\Debug;
 				else
 				{	
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
-					{					
-						$this->debug->onDebug("AFKKICKER $name");
+					{				
+						$txt = "AFKKICKER $name";
+						$this->debug->onDebug($txt);
 						$player->kick($reason=MT::RED."KICK! -> A-F-K");
 						unset ($this->getOwner()->player[$name]);
 					}
