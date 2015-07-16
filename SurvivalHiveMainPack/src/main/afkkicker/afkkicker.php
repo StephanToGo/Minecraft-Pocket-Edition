@@ -14,56 +14,51 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
+use main\debug\Debug;
 
 	class afkkicker extends PluginTask
 	{
+		private $debug;
+				
 		public function __construct(Plugin $owner) 
 		{
 			parent::__construct($owner);
+			$this->debug = new Debug($owner);
 		}
 	
 		public function onRun($currentTick)
 		{
-			if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onRun");}
+			$this->debug->onDebug("OnRun");
+			
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
+				if($player->isOp()){return;}
 				$name = $player->getName();
 				$coords = (round($player->getX()).",".round($player->getY()).",".round($player->getZ()));
 				
-				if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER $name $coords");}
+				$this->debug->onDebug("$name $coords");
 				
-				if(!$player->isOp())
+				
+				if(!(isset($this->getOwner()->player[$name]['Coords'])))
 				{
-					if(!(isset($this->getOwner()->player[$name]['Coords'])))$this->getOwner()->player[$name]['Coords'] = 0;
-					if(!(isset($this->getOwner()->player[$name]['Counter'])))$this->getOwner()->player[$name]['Counter'] = 0;
-					
+					$this->getOwner()->player[$name]['Coords'] = $coords;
+				}
+				else
+				{	
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
-					{	
-						if($this->getOwner()->player[$name]['Counter'] == 0)
-						{
-							$this->getOwner()->player[$name]['Counter'] = 1;
-							if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER If Counter 0");}
-						}
-						else
-						{
-							if($this->getOwner()->player[$name]['Counter'] == 1)
-							{
-								if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER If Counter 1");}
-								$player->kick($reason=MT::RED."KICK! -> A-F-K");
-								unset ($this->getOwner()->player[$name]);
-								return;
-							}
-						}
+					{					
+						$this->debug->onDebug("AFKKICKER $name");
+						$player->kick($reason=MT::RED."KICK! -> A-F-K");
+						unset ($this->getOwner()->player[$name]);
 					}
 					else
 					{
-						if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER Else Counter 0");}
-						$this->getOwner()->player[$name]['Counter'] = 0;
+						unset ($this->getOwner()->player[$name]);
 					}
-					$this->getOwner()->player[$name]['Coords'] = $coords;
 				}
-				if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::YELLOW."AFKKICKER: $name ". $this->getOwner()->player[$name]['Counter'] ." ".$this->getOwner()->player[$name]['Coords'] );}	
-			}
-			if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onEnd");}
+				
+			}	
 		}
+			
 	}
+	
