@@ -28,7 +28,7 @@ use main\debug\Debug;
 	
 		public function onRun($currentTick)
 		{
-			$this->debug->onDebug("OnRun");
+			$this->debug->onDebug("AFKKICKER OnRun");
 			
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
