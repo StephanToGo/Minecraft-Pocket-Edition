@@ -22,18 +22,12 @@ class commandhandler implements Listener{
 
 	public function __construct(Main $core) 
 	{
-		//parent::__construct ( $core );
-		
 		$this->plugin = $core;
 	}
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
 	{
-			// hier kannste jetzt alles reinklatschen was du sonst in der Main hattest ;)
-			// bla blub :D
 			$sender->sendMessage("teste");
-			
-			// return nie vergessen X)
 			return false;
 		
 	}
