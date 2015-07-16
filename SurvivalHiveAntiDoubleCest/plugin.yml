@@ -1,9 +1,0 @@
-name: SurvivalHiveAntiDoubleChest
-main: main\antidoublechest
-version: 1.3
-api: 1.4.0
-load: STARTUP
-author: SurvivalHiveDev
-authors: [Xenturio]
-description: Verhindert Doppel Kisten
-website: http://www.survivalhive.de
