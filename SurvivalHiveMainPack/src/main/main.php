@@ -24,3 +24,12 @@ use main\liftsign\liftsign;
 use main\mutejoin\mutejoin;
 use main\worldborder\worldborder;
 //---------------------------
+
+	class main extends PluginBase implements Listener
+	
+	{
+	  public function onDisable()
+		{
+			$this->getLogger()->info(MT::GOLD."SurvivalHive Main unloaded!");
+		}
+	}
