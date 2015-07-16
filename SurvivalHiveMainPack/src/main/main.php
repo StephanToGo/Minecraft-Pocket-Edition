@@ -33,7 +33,7 @@ use main\worldborder\worldborder;
 			$this->command_class->onCommand($sender, $command, $label, $args);
 		}
 		
-	  public function onDisable()
+	  	public function onDisable()
 		{
 			$this->getLogger()->info(MT::GOLD."SurvivalHive Main unloaded!");
 		}
