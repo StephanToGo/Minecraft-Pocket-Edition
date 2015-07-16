@@ -29,7 +29,9 @@ use pocketmine\scheduler\PluginTask;
 			{
 				$name = $player->getName();
 				$coords = (round($player->getX()).",".round($player->getY()).",".round($player->getZ()));
-	
+				
+				if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER $name $coords");}
+				
 				if(!$player->isOp())
 				{
 					if(!(isset($this->getOwner()->player[$name]['Coords'])))$this->getOwner()->player[$name]['Coords'] = 0;
@@ -37,13 +39,26 @@ use pocketmine\scheduler\PluginTask;
 					
 					if($this->getOwner()->player[$name]['Coords'] == $coords)
 					{	
-						if($this->getOwner()->player[$name]['Counter'] == 1){$player->kick($reason=MT::RED."KICK! -> A-F-K");unset ($this->getOwner()->player[$name]['Counter']);return;}
-						if($this->getOwner()->player[$name]['Counter'] == 0){$this->getOwner()->player[$name]['Counter'] = 1;return;}
+						if($this->getOwner()->player[$name]['Counter'] == 0)
+						{
+							$this->getOwner()->player[$name]['Counter'] = 1;
+							if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER If Counter 0");}
+						}
+						else
+						{
+							if($this->getOwner()->player[$name]['Counter'] == 1)
+							{
+								if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER If Counter 1");}
+								$player->kick($reason=MT::RED."KICK! -> A-F-K");
+								unset ($this->getOwner()->player[$name]);
+								return;
+							}
+						}
 					}
 					else
 					{
+						if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER Else Counter 0");}
 						$this->getOwner()->player[$name]['Counter'] = 0;
-						return;
 					}
 					$this->getOwner()->player[$name]['Coords'] = $coords;
 				}
