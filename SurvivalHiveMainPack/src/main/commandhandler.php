@@ -27,8 +27,32 @@ class commandhandler implements Listener{
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
 	{
-			$sender->sendMessage("teste");
-			return false;
+		if($sender instanceof Player)
+		{
+			if(strtolower($command->getName()) == "shpos")
+			{
+				$id = $sender->getID();
+				$name = strtolower($sender->getName());
 		
+				if (! (in_array($id, $this->plugin->bposition->schalter)))
+				{
+					$this->plugin->bposition->schalter[$name] = $id;
+					$sender->sendMessage("Position Eingeschaltet");
+					return true;
+				}
+				else
+				{
+					$index = array_search($id, $this->plugin->bposition->schalter);
+					unset($this->plugin->bposition->schalter[$index]);
+					$sender->sendMessage("Position Ausgeschaltet");
+					return true;
+				}
+			}
+		}
+		else
+		{
+			$sender->sendMessage("Nur im Spiel moeglich");
+			return true;
+		}
 	}
 }
