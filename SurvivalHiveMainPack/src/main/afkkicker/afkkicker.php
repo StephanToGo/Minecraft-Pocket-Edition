@@ -24,7 +24,7 @@ use pocketmine\scheduler\PluginTask;
 	
 		public function onRun($currentTick)
 		{
-			//$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onRun");
+			if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onRun");}
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
 				$name = $player->getName();
@@ -46,8 +46,8 @@ use pocketmine\scheduler\PluginTask;
 					}
 					$this->getOwner()->player[$name]['Coords'] = $coords;
 				}
-				$this->getOwner()->getLogger()->info(MT::YELLOW."AFKKICKER: $name ". $this->getOwner()->player[$name]['Counter'] ." ".$this->getOwner()->player[$name]['Coords'] );	
+				if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::YELLOW."AFKKICKER: $name ". $this->getOwner()->player[$name]['Counter'] ." ".$this->getOwner()->player[$name]['Coords'] );}	
 			}
-			//$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onEnd");
+			if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::GREEN."AFKKICKER onEnd");}
 		}
 	}
