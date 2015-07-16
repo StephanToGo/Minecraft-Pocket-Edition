@@ -34,7 +34,7 @@ use main\debug\Debug;
 			{
 				if($player->isOp()){return;}
 				$name = $player->getName();
-				$coords = (round($player->getX()).",".round($player->getY()).",".round($player->getZ()));
+				$coords = (round($player->getX()).','.round($player->getY()).','.round($player->getZ()));
 				
 				$this->debug->onDebug("$name $coords");
 				
