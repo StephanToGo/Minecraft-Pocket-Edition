@@ -70,8 +70,50 @@ class startticker extends PluginTask
 					$welt = $player->getLevel()->getName();
 					if($this->getOwner()->cfg->get("JumpandRunWelt") == $welt)
 					{
-						$player->sendTip(MT::GOLD."$time2".' warten auf weitere / wait on more');
+						$player->sendTip(MT::RED."$time2".MT::GOLD.' warten auf weitere / wait on more');
 					}
+				}
+			}
+			
+			if(isset($this->getOwner()->zeit))
+			{
+				if($time <= $this->getOwner()->zeit)
+				{
+					$zeit = $this->getOwner()->zeit - $time;
+					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+					{
+						$player->sendTip(MT::GOLD.'Schnell... noch '.MT::RED."$zeit".MT::GOLD.' bis zum Ende');
+					}
+				}
+				else
+				{
+					if(isset($this->getOwner()->platz1))
+					{$platz1 = $this->getOwner()->platz1;}else{$platz1 = 'niemand';}
+					if(isset($this->getOwner()->platz2))
+					{$platz2 = $this->getOwner()->platz2;}else{$platz2 = 'niemand';}
+					if(isset($this->getOwner()->platz3))
+					{$platz3 = $this->getOwner()->platz3;}else{$platz3 = 'niemand';}
+						
+					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+					{
+						$welt = $event->getPlayer()->getLevel()->getName();
+						if($this->getOwner()->cfg->get("JumpandRunWelt") != $welt){return;}
+						$player->sendMessage(MT::RED."Wettlauf beendet");
+						$player->sendMessage(MT::GOLD."Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
+					
+						$player->teleport($player->getLevel()->getSafeSpawn());
+					}
+						
+					unset ($this->getOwner()->zeit);
+					unset ($this->getOwner()->timer);
+					unset ($this->getOwner()->start);
+						
+					unset ($this->getOwner()->tot);
+					unset ($this->getOwner()->coords);
+						
+					unset ($this->getOwner()->platz1);
+					unset ($this->getOwner()->platz2);
+					unset ($this->getOwner()->platz3);
 				}
 			}
 		}	
@@ -95,8 +137,10 @@ class startticker extends PluginTask
 			unset ($this->getOwner()->zeit);
 			unset ($this->getOwner()->timer);
 			unset ($this->getOwner()->start);
+				
 			unset ($this->getOwner()->tot);
 			unset ($this->getOwner()->coords);
+				
 			unset ($this->getOwner()->platz1);
 			unset ($this->getOwner()->platz2);
 			unset ($this->getOwner()->platz3);
