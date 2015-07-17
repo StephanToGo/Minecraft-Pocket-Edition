@@ -64,7 +64,7 @@ use pocketmine\math\Vector3;
 				if(!(isset($this->platz1)))
 				{
 					$this->platz1 = "$name";
-					$player->sendMessage("$name du bist Erster");
+					$player->sendMessage(MT::GOLD."$name du bist Erster");
 				}
 				else 
 				{
@@ -72,7 +72,7 @@ use pocketmine\math\Vector3;
 					{
 						if($name == $this->platz1)return;
 						$this->platz2 = "$name";
-						$player->sendMessage("$name du bist Zweiter");
+						$player->sendMessage(MT::GOLD."$name du bist Zweiter");
 					}
 					else
 					{
@@ -80,7 +80,7 @@ use pocketmine\math\Vector3;
 						{
 							if($name == $this->platz1 || $name == $this->platz2)return;
 							$this->platz3 = "$name";
-							$player->sendMessage("$name du bist Dritter");
+							$player->sendMessage(MT::GOLD."$name du bist Dritter");
 						}
 						else
 						{
@@ -92,7 +92,7 @@ use pocketmine\math\Vector3;
 				
 				foreach($this->getServer()->getOnlinePlayers() as $player)
 				{
-					$player->sendMessage("$name hat das Ziel erreicht");
+					$player->sendMessage(MT::GOLD."$name hat das Ziel erreicht");
 					
 				}
 			}
@@ -103,7 +103,7 @@ use pocketmine\math\Vector3;
 					$zeit = $this->zeit - $time;
 					foreach($this->getServer()->getOnlinePlayers() as $player)
 					{
-						$player->sendTip(MT::GOLD.'Schnell... noch '.MT::RED."$zeit".' bis zum Ende');
+						$player->sendTip(MT::GOLD.'Schnell... noch '.MT::RED."$zeit".MT::GOLD.' bis zum Ende');
 					}
 				}
 				else
@@ -114,8 +114,8 @@ use pocketmine\math\Vector3;
 					
 					foreach($this->getServer()->getOnlinePlayers() as $player)
 					{
-						$player->sendMessage("Wettlauf beendet");
-						$player->sendMessage("Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
+						$player->sendMessage(MT::RED."Wettlauf beendet");
+						$player->sendMessage(MT::GOLD."Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
 						
 						$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
 						$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
