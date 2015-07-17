@@ -39,16 +39,21 @@ use pocketmine\math\Vector3;
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
-			$this->getServer()->getScheduler()->scheduleRepeatingTask(new startticker($this), 200);
+			$this->getServer()->getScheduler()->scheduleRepeatingTask(new startticker($this), 40);
 			$this->getLogger()->info(MT::RED.'PlotschPlugin damit er ruhe gibt... und ich weiter arbeiten kann xD');
-		}
-		public function onPlayerJoinEvent(PlayerJoinEvent $event)
-		{
-			$name = $event->getPlayer()->getName();
+			if (!file_exists($this->getDataFolder()))
+			{
+				@mkdir($this->getDataFolder(), true);
+			}
+			$this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML, [
+					"JumpandRunWelt" => "world",
+					]);
 		}
 		
 		public function onPlayerMoveEvent(PlayerMoveEvent $event)
 		{
+			$welt = $event->getPlayer()->getLevel()->getName();
+			if($this->cfg->get("JumpandRunWelt") != $welt){return;}
 			$name = $event->getPlayer()->getName();
 			$player = $event->getPlayer();	
 			$welt = $event->getPLayer()->getLevel()->getName();		
@@ -139,20 +144,6 @@ use pocketmine\math\Vector3;
 			}
 			if(!(isset($this->start)))
 			{
-				foreach($this->getServer()->getOnlinePlayers() as $player)
-				{
-					$player->sendTip(MT::GOLD.'Warte auf Mitspieler / Wait for other players');
-				}
-				
-				if(isset($this->timer))
-				{
-					$time = ($this->timer - time());
-					foreach($this->getServer()->getOnlinePlayers() as $player)
-					{					
-						$player->sendTip(MT::GOLD."$time".' warten auf weitere / wait on more');
-					}
-
-				}
 				$event->setCancelled(true);
 			}
 
@@ -161,6 +152,9 @@ use pocketmine\math\Vector3;
 		
 		public function onRespawn(PlayerRespawnEvent $event)
 		{
+			$welt = $event->getPlayer()->getLevel()->getName();
+			if($this->cfg->get("JumpandRunWelt") != $welt){return;}
+			
 			$name = $event->getPlayer()->getName();
 			
 			if(isset($this->tot[$name]));
@@ -186,8 +180,11 @@ use pocketmine\math\Vector3;
 		
 		public function onDeath(PlayerDeathEvent $event)
 		{
+		
 			$player = $event->getEntity();
-			if(!$player instanceof Player)return;
+			if(!$player instanceof Player){return;}
+			$welt = $event->getEntity()->getLevel()->getName();
+			if($this->cfg->get("JumpandRunWelt") != $welt){return;}
 			$name = $event->getEntity()->getName();
 			$this->tot[$name] = $name;
 		}
