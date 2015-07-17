@@ -42,18 +42,13 @@ class weiterleitung implements Listener
 				$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 				if (!$ft)
 				{
-					$this->getLogger()->info(MT::RED."FAST TRANSFER NOT INSTALLED");
+					$this->debug('FAST TRANSFER NOT INSTALLED');
 					return;
 				}
-				$this->getLogger()->info(MT::YELLOW."$name transfer to $addr1 $addr2");
+				$this->debug("$name transfer to $addr1 $addr2");
 				$ft->transferPlayer($pl,$addr1,$addr2);
 				 
 				$event->setCancelled(true);
 			}
-	}
-
-	public function onDisable()
-	{
-		$this->getLogger()->info("Plugin unloaded!");
 	}
 }
