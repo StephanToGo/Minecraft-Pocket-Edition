@@ -26,14 +26,25 @@ class startticker extends PluginTask
 	public function onRun($currentTick)
 	{
 		$anzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
+		$i = 0;
+		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+		{
+			$welt = $player->getLevel()->getName();
+			if($this->getOwner()->cfg->get("JumpandRunWelt") == $welt)
+			{
+				$i++;
+			}
+		}
+		
 		$time = time();
 		
-		if($anzahl >= 2)
+		if($i >= 2)
 		{
 			if(!(isset($this->getOwner()->timer)))
 			{
 				$this->getOwner()->timer = (time() + 30);
 			}
+			
 			if($time >= $this->getOwner()->timer)
 			{
 				if(!(isset($this->getOwner()->start)))
@@ -42,21 +53,50 @@ class startticker extends PluginTask
 					
 					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 					{
-						$player->sendMessage(MT::GREEN.'START START START START START START');
+						$welt = $player->getLevel()->getName();
+						if($this->getOwner()->cfg->get("JumpandRunWelt") == $welt)
+						{
+							$player->sendTip(MT::GREEN.'START START START START START START');
+							$player->sendPopup(MT::GREEN.'START START START START START START');
+						}
 					}
 				}	
+			}
+			else
+			{
+				$time2 = ($this->getOwner()->timer - $time);
+				foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+				{
+					$welt = $player->getLevel()->getName();
+					if($this->getOwner()->cfg->get("JumpandRunWelt") == $welt)
+					{
+						$player->sendTip(MT::GOLD."$time2".' warten auf weitere / wait on more');
+					}
+				}
 			}
 		}	
 		else
 		{
+			if(!(isset($this->getOwner()->start)))
+			{
+				if(!(isset($this->getOwner()->timer)))
+				{
+					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+					{
+						$welt = $player->getLevel()->getName();
+						if($this->getOwner()->cfg->get("JumpandRunWelt") == $welt)
+						{
+							$player->sendTip(MT::GOLD.'Warte auf Mitspieler / Wait for other players');
+						}
+					}
+				}
+			}
 			unset ($this->getOwner()->start);
 			unset ($this->getOwner()->zeit);
 			unset ($this->getOwner()->timer);
 			unset ($this->getOwner()->start);
-				
 			unset ($this->getOwner()->tot);
 			unset ($this->getOwner()->coords);
-				
 			unset ($this->getOwner()->platz1);
 			unset ($this->getOwner()->platz2);
 			unset ($this->getOwner()->platz3);
