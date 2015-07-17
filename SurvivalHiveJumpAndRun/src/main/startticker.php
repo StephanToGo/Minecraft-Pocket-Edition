@@ -96,7 +96,7 @@ class startticker extends PluginTask
 						
 					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 					{
-						$welt = $event->getPlayer()->getLevel()->getName();
+						$welt = $player->getLevel()->getName();
 						if($this->getOwner()->cfg->get("JumpandRunWelt") != $welt){return;}
 						$player->sendMessage(MT::RED."Wettlauf beendet");
 						$player->sendMessage(MT::GOLD."Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
