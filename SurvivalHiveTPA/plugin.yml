@@ -1,0 +1,17 @@
+name: SurvivalHiveTeleportTPA
+main: main\tpa
+version: 1.0.0
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDevTeam
+authors: [Xenturio]
+description: kp
+commands:
+ tp:
+  description: "Fuer OP - Teleportiert direkt zu Spieler"
+ tpa:
+  description: "Stellt TPA Anfrage"
+ tpja:
+  description: "Bestaetigt TPA Anfrage"
+ tpnein:
+  description: "Verneint TPA Anfrage"
