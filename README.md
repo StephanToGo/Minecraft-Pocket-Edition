@@ -13,3 +13,12 @@ jeden Fall und bringen diesen zur Anzeige!
 Issues = Probleme
 Bitte hinterlegt hier euren Fehler oder das Problem
 was Ihr Festgestellt habt damit wir dran arbeiten können.
+
+------------------------------------------------------
+All plugin source codes are under my rights.
+If u want to learn from it, do it.
+Dont copy the source code or send it to other sites
+without our ok.
+
+We help if u ask some questions but dont dont copy
+anything from us!
