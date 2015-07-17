@@ -26,6 +26,9 @@ use pocketmine\math\Vector3;
 	{
 		public $var;
 		public $zeit;
+		public $tot;
+		public $coords;
+		
 		public $platz1;
 		public $platz2;
 		public $platz3;
@@ -42,8 +45,6 @@ use pocketmine\math\Vector3;
 		public function onPlayerJoinEvent(PlayerJoinEvent $event)
 		{
 			$name = $event->getPlayer()->getName();
-			$this->var[$name]['coords'] = 0;
-			$this->var[$name]['tot'] = 0;
 		}
 		
 		public function onPlayerMoveEvent(PlayerMoveEvent $event)
@@ -58,7 +59,7 @@ use pocketmine\math\Vector3;
 			if($block == 41)	
 			{	
 				$event->getPlayer()->sendTip(MT::GOLD.'Checkpoint erreicht!');
-				$this->var[$name]['coords'] = $coords;
+				$this->coords[$name] = $coords;
 			}
 			if($block == 57)
 			{
@@ -120,24 +121,37 @@ use pocketmine\math\Vector3;
 					{
 						$player->sendMessage(MT::RED."Wettlauf beendet");
 						$player->sendMessage(MT::GOLD."Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
-						
-						$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
-						$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
-						$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 				
 						$player->teleport($player->getLevel()->getSafeSpawn());
-						unset ($this->zeit);
-						unset ($this->timer);
-						unset ($this->start);
 					}
+					
+					unset ($this->zeit);
+					unset ($this->timer);
+					unset ($this->start);
+					
+					unset ($this->tot);
+					unset ($this->coords);
+					
+					unset ($this->platz1);
+					unset ($this->platz2);
+					unset ($this->platz3);
 				}
 			}
 			if(!(isset($this->start)))
 			{
-				$player->sendTip(MT::GOLD.'Warte auf Mitspieler / Wait for other players');
+				foreach($this->getServer()->getOnlinePlayers() as $player)
+				{
+					$player->sendTip(MT::GOLD.'Warte auf Mitspieler / Wait for other players');
+				}
+				
 				if(isset($this->timer))
 				{
-					$player->sendTip(MT::GOLD.'Mitspieler gefunden warten auf weitere / Found players wait on more');
+					$time = ($this->timer - time());
+					foreach($this->getServer()->getOnlinePlayers() as $player)
+					{					
+						$player->sendTip(MT::GOLD."$time".' warten auf weitere / wait on more');
+					}
+
 				}
 				$event->setCancelled(true);
 			}
@@ -149,26 +163,24 @@ use pocketmine\math\Vector3;
 		{
 			$name = $event->getPlayer()->getName();
 			
-			if(isset($this->var[$name]['tot']));
+			if(isset($this->tot[$name]));
 			{
-				if($this->var[$name]['tot'] == 1)
+				if(isset($this->coords[$name]))
 				{
-					if($this->var[$name]['coords'] != 0)
-					{
-						$pos = $this->var[$name]['coords'];
-						$pos1 = explode(",", $pos);
-						$event->setRespawnPosition(new Position($pos1[0], $pos1[1], $pos1[2]));
-						$this->var[$name]['tot'] = 0;
-						return;
-					}
+					$pos = $this->coords[$name];
+					$pos1 = explode(",", $pos);
+					$event->setRespawnPosition(new Position($pos1[0], $pos1[1], $pos1[2]));
+					$this->tot[$name] = $name;
+					return;
 				}
+				
 			}
 			$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
 			$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
 			$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 					
 			$event->setRespawnPosition(new Position($x, $y, $z));
-			$this->var[$name]['tot'] = 0;
+			unset ($this->tot[$name]);
 			
 		}
 		
@@ -177,7 +189,7 @@ use pocketmine\math\Vector3;
 			$player = $event->getEntity();
 			if(!$player instanceof Player)return;
 			$name = $event->getEntity()->getName();
-			$this->var[$name]['tot'] = 1;
+			$this->tot[$name] = $name;
 		}
 		
 		public function onDisable()
