@@ -30,9 +30,13 @@ use pocketmine\math\Vector3;
 		public $platz2;
 		public $platz3;
 		
+		public $start;
+		public $timer;
+		
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
+			$this->getServer()->getScheduler()->scheduleRepeatingTask(new startticker($this), 200);
 			$this->getLogger()->info(MT::RED.'PlotschPlugin damit er ruhe gibt... und ich weiter arbeiten kann xD');
 		}
 		public function onPlayerJoinEvent(PlayerJoinEvent $event)
@@ -123,24 +127,40 @@ use pocketmine\math\Vector3;
 				
 						$player->teleport($player->getLevel()->getSafeSpawn());
 						unset ($this->zeit);
+						unset ($this->timer);
+						unset ($this->start);
 					}
 				}
 			}
+			if(!(isset($this->start)))
+			{
+				$player->sendTip(MT::GOLD.'Warte auf Mitspieler / Wait for other players');
+				if(isset($this->timer))
+				{
+					$player->sendTip(MT::GOLD.'Mitspieler gefunden warten auf weitere / Found players wait on more');
+				}
+				$event->setCancelled(true);
+			}
+
 			
 		}
 		
 		public function onRespawn(PlayerRespawnEvent $event)
 		{
 			$name = $event->getPlayer()->getName();
-			if($this->var[$name]['tot'] == 1)
+			
+			if(isset($this->var[$name]['tot']));
 			{
-				if($this->var[$name]['coords'] != 0)
+				if($this->var[$name]['tot'] == 1)
 				{
-					$pos = $this->var[$name]['coords'];
-					$pos1 = explode(",", $pos);
-					$event->setRespawnPosition(new Position($pos1[0], $pos1[1], $pos1[2]));
-					$this->var[$name]['tot'] = 0;
-					return;
+					if($this->var[$name]['coords'] != 0)
+					{
+						$pos = $this->var[$name]['coords'];
+						$pos1 = explode(",", $pos);
+						$event->setRespawnPosition(new Position($pos1[0], $pos1[1], $pos1[2]));
+						$this->var[$name]['tot'] = 0;
+						return;
+					}
 				}
 			}
 			$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
