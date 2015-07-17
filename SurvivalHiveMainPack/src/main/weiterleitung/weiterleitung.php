@@ -36,8 +36,8 @@ class weiterleitung implements Listener
 			if($reason == "disconnectionScreen.serverFull")
 			{
 				$pl = $event->getPlayer();
-				$addr1 = $this->plugin->config->get("IP");
-				$addr2 = $this->plugin->config->get("Port");
+				$addr1 = $this->plugin->config->get("WeiterleitungIP");
+				$addr2 = $this->plugin->config->get("WeiterleitungPort");
 				
 				$ft = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
 				if (!$ft)
