@@ -110,36 +110,10 @@ use pocketmine\math\Vector3;
 			{
 				if($time <= $this->zeit)
 				{
-					$zeit = $this->zeit - $time;
-					foreach($this->getServer()->getOnlinePlayers() as $player)
-					{
-						$player->sendTip(MT::GOLD.'Schnell... noch '.MT::RED."$zeit".MT::GOLD.' bis zum Ende');
-					}
 				}
 				else
 				{
-					$platz1 = $this->platz1;
-					$platz2 = $this->platz2;
-					$platz3 = $this->platz3;
-					
-					foreach($this->getServer()->getOnlinePlayers() as $player)
-					{
-						$player->sendMessage(MT::RED."Wettlauf beendet");
-						$player->sendMessage(MT::GOLD."Platz1: $platz1 Platz2: $platz2 Platz3: $platz3");
-				
-						$player->teleport($player->getLevel()->getSafeSpawn());
-					}
-					
-					unset ($this->zeit);
-					unset ($this->timer);
-					unset ($this->start);
-					
-					unset ($this->tot);
-					unset ($this->coords);
-					
-					unset ($this->platz1);
-					unset ($this->platz2);
-					unset ($this->platz3);
+
 				}
 			}
 			if(!(isset($this->start)))
