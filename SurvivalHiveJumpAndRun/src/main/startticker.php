@@ -28,7 +28,7 @@ class startticker extends PluginTask
 		$anzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 		$time = time();
 		
-		if($anzahl >= 1)
+		if($anzahl >= 2)
 		{
 			if(!(isset($this->getOwner()->timer)))
 			{
@@ -39,13 +39,27 @@ class startticker extends PluginTask
 				if(!(isset($this->getOwner()->start)))
 				{
 					$this->getOwner()->start = 1;
-				}
+					
+					foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+					{
+						$player->sendMessage(MT::GREEN.'START START START START START START');
+					}
+				}	
 			}
-		}
-		
-		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+		}	
+		else
 		{
-		}
-	}
-		
+			unset ($this->getOwner()->start);
+			unset ($this->getOwner()->zeit);
+			unset ($this->getOwner()->timer);
+			unset ($this->getOwner()->start);
+				
+			unset ($this->getOwner()->tot);
+			unset ($this->getOwner()->coords);
+				
+			unset ($this->getOwner()->platz1);
+			unset ($this->getOwner()->platz2);
+			unset ($this->getOwner()->platz3);
+		}	
+	}		
 }
