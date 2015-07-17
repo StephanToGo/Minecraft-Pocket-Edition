@@ -29,7 +29,7 @@ class vipslot implements Listener
     
     public function onPlayerKick(PlayerKickEvent $event)
      {
-     	$config = $this->cfg->getAll();
+     	$config = $this->plugin->cfg->getAll();
      	$player = $event->getPlayer();
      	$name = strtolower($event->getPlayer()->getName());
      	$items = $config["Vips"];
