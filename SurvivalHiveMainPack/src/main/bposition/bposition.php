@@ -46,7 +46,7 @@ class bposition implements Listener{
 			$bl = $event->getBlock();
 			$n = strtolower($event->getPlayer()->getName());
 			$this->pos[$n] = new Vector3($bl->getX(),$bl->getY(),$bl->getZ());
-			$event->getPlayer()->sendMessage("Position(" . $this->pos[$n]->getX() . "," . $this->pos[$n]->getY() . "," . $this->pos[$n]->getZ() . ")");
+			$event->getPlayer()->sendMessage(MT::GOLD."Position(" . $this->pos[$n]->getX() . "," . $this->pos[$n]->getY() . "," . $this->pos[$n]->getZ() . ")");
 			$event->setCancelled(true);
 		}
 	}
@@ -61,7 +61,7 @@ class bposition implements Listener{
 			$bl = $event->getBlock();
 			$n = strtolower($event->getPlayer()->getName());
 			$this->pos[$n] = new Vector3($bl->getX(),$bl->getY(),$bl->getZ());
-			$event->getPlayer()->sendMessage("Position(" . $this->pos[$n]->getX() . "," . $this->pos[$n]->getY() . "," . $this->pos[$n]->getZ() . ")");
+			$event->getPlayer()->sendMessage(MT::GOLD."Position(" . $this->pos[$n]->getX() . "," . $this->pos[$n]->getY() . "," . $this->pos[$n]->getZ() . ")");
 			$event->setCancelled(true);
 		}
 	}

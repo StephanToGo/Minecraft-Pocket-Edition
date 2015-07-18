@@ -20,6 +20,7 @@ use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
+use main\debug\Debug;
 
 	class worldborder extends PluginTask
 	{
@@ -27,6 +28,7 @@ use pocketmine\math\Vector3;
 		public function __construct(Plugin $owner)
 		{
 			parent::__construct($owner);
+			$this->debug = new Debug($owner);
 		}
 	
 		public function onRun($currentTick)
@@ -37,7 +39,7 @@ use pocketmine\math\Vector3;
 			$pos1 = explode(",", $pos11);
 			$pos2 = explode(",", $pos22);
 			
-			if($this->getOwner()->cfg->get("debugmode") == "true"){$this->getOwner()->getLogger()->info(MT::YELLOW."Worldborder: $pos11 $pos22 $welt");gamemode 1 }
+			$this->debug->onDebug("Worldborder: $pos11 $pos22 $welt");
 			
 			
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $p)
@@ -98,7 +100,7 @@ use pocketmine\math\Vector3;
 					}
 								
 					$p->teleport(new Vector3($x, $y, $z));
-					$p->sendMessage(MT::RED."End of World/Ende der Welt");
+					$p->sendMessage(MT::RED.'End of World/Ende der Welt');
 				}
 			}
 		}

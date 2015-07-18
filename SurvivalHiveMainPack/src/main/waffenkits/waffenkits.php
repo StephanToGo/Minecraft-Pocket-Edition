@@ -11,6 +11,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 use pocketmine\event\block\SignChangeEvent;
+/** Not currently used but may be later used  */
 use pocketmine\level\Position;
 use pocketmine\level\Level;
 use pocketmine\entity\Entity;
@@ -21,6 +22,7 @@ use pocketmine\tile\Tile;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat as MT;
 use main\debug\Debug;
+
 class waffenkits implements Listener
 {
 
@@ -31,8 +33,8 @@ class waffenkits implements Listener
 		$this->debug = new Debug($plugin);
 	}
 
-	public function tileupdate(SignChangeEvent $event)
-	{
+public function tileupdate(SignChangeEvent $event)
+{
 		if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68)
 		{
 			$sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
