@@ -56,7 +56,7 @@ use main\commandhandler as commandhandler;
 					"Sneaken" => true,
 					"BlockPosition" => true,
 					"Weiterleitung" => false,
-					"WeiterleitungIP" => "148.251.4.154",
+					"WeiterleitungIP" => "0.0.0.0",
 					"WeiterleitungPort" => "19132",
 					"WorldBorder" => true,
 					"WorldBorderPos1" => "1,1,1",
