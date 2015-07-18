@@ -35,7 +35,7 @@ class vipslot implements Listener
      	$items = $config["Vips"];
      	
      	$reason = $event->getReason();
-     	if(($reason == "disconnectionScreen.serverFull") && (in_array($name, $items)))
+     	if((($reason == "disconnectionScreen.serverFull") || $reason == MT::RED.'KICK! -> A-F-K') && (in_array($name, $items)))
      	{
      		$event->setCancelled(true);
      	}
