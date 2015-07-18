@@ -25,7 +25,11 @@ use main\antipvp\antipvp;
 use main\antibuild\antibuild;
 use main\mutejoin\mutejoin;
 use main\bposition\bposition;
+use main\jumpsign\jumpsign;
+use main\sneaken\sneaken;
+use main\waffenkits\waffenkits;
 use main\worldborder\worldborder;
+use main\vipslot\vipslot;
 //---------------------------
 use main\commandhandler as commandhandler;
 //---------------------------
@@ -33,7 +37,7 @@ use main\commandhandler as commandhandler;
 	class main extends PluginBase implements Listener
 	
 	{
-				public function onEnable()
+		public function onEnable()
 		{
 			$this->getLogger()->info(MT::GOLD."SurvivalHive Main loaded!");
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
