@@ -24,7 +24,7 @@ use main\debug\Debug;
 		
 		public function __construct(Plugin $plugin){
 			$this->plugin = $plugin;
-			$this->debug = new Debug($plugin);
+			$this->debug = new Debug($owner);
 		}
 		
 		public function onPlayerPlaceBlock(BlockPlaceEvent $event)

@@ -18,7 +18,6 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\item\Item;
 use pocketmine\tile\Tile;
-use main\debug\Debug;
 
 class liftsign implements Listener
 {
@@ -27,7 +26,6 @@ class liftsign implements Listener
 	
 	public function __construct(Plugin $plugin){
 		$this->plugin = $plugin;
-		$this->debug = new Debug($plugin);
 	}
  
     

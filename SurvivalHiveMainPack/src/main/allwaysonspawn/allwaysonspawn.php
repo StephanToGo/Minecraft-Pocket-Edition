@@ -29,7 +29,7 @@ use main\debug\Debug;
 		
 		public function __construct(Plugin $plugin){
 			$this->plugin = $plugin;
-			$this->debug = new Debug($plugin);
+			$this->debug = new Debug($owner);
 		}
 	
 		public function onRespawn(PlayerRespawnEvent $event)
@@ -49,6 +49,6 @@ use main\debug\Debug;
 			$z = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 				
 			$event->getPlayer()->teleport($event->getPlayer()->getLevel()->getSafeSpawn());
-			$this->debug->onDebug('Zum Start teleportiert');
+			$this->debug->onDebug('Zum Start respawnt');
 		}
 	}

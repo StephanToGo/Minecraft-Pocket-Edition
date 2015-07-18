@@ -16,7 +16,6 @@ use pocketmine\command\Command;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\math\Vector3;
 use main\main;
-use main\debug\Debug;
 
 class antidoublechest implements Listener{
 
@@ -24,7 +23,6 @@ class antidoublechest implements Listener{
 
 	public function __construct(Plugin $plugin){
 		$this->plugin = $plugin;
-		$this->debug = new Debug($plugin);
 	}
 
 public function onPlayerPlaceBlock(BlockPlaceEvent $event)
@@ -43,7 +41,7 @@ public function onPlayerPlaceBlock(BlockPlaceEvent $event)
 		if($block1->getID() == 54 || $block2->getID() == 54 || $block3->getID() == 54 || $block4->getID() == 54)
 		{
 			$event->getPlayer()->sendPopup(MT::RED ."Keine Doppelkisten! - no double chests!");
-			$this->debug->onDebug('Doublechest placement');
+			if($this->plugin->cfg->get("debugmode") == "true"){$this->plugin->getServer()->getLogger()->info(MT::GREEN."Doppelkiste versucht zu setzten");}
 			$event->setCancelled(true);
 		}
 	}
