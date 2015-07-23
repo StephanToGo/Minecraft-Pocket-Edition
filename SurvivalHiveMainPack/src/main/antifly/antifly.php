@@ -56,129 +56,67 @@ use main\debug\Debug;
 			{
 				if($player->isOp()){return;}
 				$name = $player->getName();
-				$block = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-1,$player->getFloorZ()));
-				$block2 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-1,$player->getFloorZ()));
-				$block3 = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-1,$player->getFloorZ()+1));
-				$block4 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-1,$player->getFloorZ()+1));
-				$block5 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-1,$player->getFloorZ()));
-				$block6 = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-1,$player->getFloorZ()-1));
-				$block7 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-1,$player->getFloorZ()-1));
-				$block8 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-1,$player->getFloorZ()-1));
-				$block9 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-1,$player->getFloorZ()+1));
+				$block = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-2,$player->getFloorZ()));
+				$block2 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-2,$player->getFloorZ()));
+				$block3 = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-2,$player->getFloorZ()+1));
+				$block4 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-2,$player->getFloorZ()+1));
+				$block5 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-2,$player->getFloorZ()));
+				$block6 = $player->getLevel()->getBlock(new Vector3($player->getFloorX(),$player->getFloorY()-2,$player->getFloorZ()-1));
+				$block7 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-2,$player->getFloorZ()-1));
+				$block8 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()+1,$player->getFloorY()-2,$player->getFloorZ()-1));
+				$block9 = $player->getLevel()->getBlock(new Vector3($player->getFloorX()-1,$player->getFloorY()-2,$player->getFloorZ()+1));
 				
-				if($block->getID() == 0 and !$block->getID() == 10 and !$block->getID() == 11 and !$block->getID() == 8 and !$block->getID() == 9 and !$block->getID() == 182 and !$block->getID() == 126 and !$block->getID() == 44)
+				if($block->getID() == 0 && $block2->getID() == 0 && $block3->getID() == 0 && $block4->getID() == 0 && $block5->getID() == 0 && $block6->getID() == 0 && $block7->getID() == 0 && $block8->getID() == 0 && $block9->getID() == 0)
 				{
-					if($block2->getID() == 0 and !$block2->getID() == 10 and !$block2->getID() == 11 and !$block2->getID() == 8 and !$block2->getID() == 9 and !$block2->getID() == 182 and !$block2->getID() == 126 and !$block2->getID() == 44)
+					$coords = (round($player->getX()).','.round($player->getY()).','.round($player->getZ()));
+										
+					$this->debug->onDebug("Antifly $name in Luft");
+													
+					if(!(isset($this->getOwner()->antifly[$name])))
 					{
-						if($block3->getID() == 0 and !$block3->getID() == 10 and !$block3->getID() == 11 and !$block3->getID() == 8 and !$block3->getID() == 9 and !$block3->getID() == 182 and !$block3->getID() == 126 and !$block3->getID() == 44)
-						{
-							if($block4->getID() == 0 and !$block4->getID() == 10 and !$block4->getID() == 11 and !$block4->getID() == 8 and !$block4->getID() == 9 and !$block4->getID() == 182 and !$block4->getID() == 126 and !$block4->getID() == 44)
-							{
-								if($block5->getID() == 0 and !$block5->getID() == 10 and !$block5->getID() == 11 and !$block5->getID() == 8 and !$block5->getID() == 9 and !$block5->getID() == 182 and !$block5->getID() == 126 and !$block5->getID() == 44)
-								{
-									if($block6->getID() == 0 and !$block6->getID() == 10 and !$block6->getID() == 11 and !$block6->getID() == 8 and !$block6->getID() == 9 and !$block6->getID() == 182 and !$block6->getID() == 126 and !$block6->getID() == 44)
-									{
-										if($block7->getID() == 0 and !$block7->getID() == 10 and !$block7->getID() == 11 and !$block7->getID() == 8 and !$block7->getID() == 9 and !$block7->getID() == 182 and !$block7->getID() == 126 and !$block7->getID() == 44)
-										{
-											if($block8->getID() == 0 and !$block8->getID() == 10 and !$block8->getID() == 11 and !$block8->getID() == 8 and !$block8->getID() == 9 and !$block8->getID() == 182 and !$block8->getID() == 126 and !$block8->getID() == 44)
-											{
-												if($block9->getID() == 0 and !$block9->getID() == 10 and !$block9->getID() == 11 and !$block9->getID() == 8 and !$block9->getID() == 9 and !$block9->getID() == 182 and !$block9->getID() == 126 and !$block9->getID() == 44)
-												{
-													$coords = (round($player->getX()).','.round($player->getY()).','.round($player->getZ()));
-													
-													$this->debug->onDebug("Antifly $name in Luft");
-													
-													if(!(isset($this->antifly[$name])))
-													{
-														$this->debug->onDebug("Antifly $name ticket 1");
-														$this->antifly[$name] = $this->antifly[$name] = $coords;
-													}
-													else
-													{
-														if(!(isset($this->antifly2[$name])))
-														{
-															$this->debug->onDebug("Antifly $name ticket 2");
-															$this->antifly[$name] = $this->antifly2[$name] = $coords;
-														}
-														else
-														{
-															$this->debug->onDebug("Antifly $name ticket 3");
-															
-															$x = round($player->getX());
-															$y = round($player->getY());
-															$z = round($player->getZ());
-															
-															$coords2 = explode(",", $this->antifly[$name]);
-															
-															$x2 = $coords2[0];
-															$y2 = $coords2[1];
-															$z2 = $coords2[2];
-															
-															$coords3 = explode(",", $this->antifly2[$name]);
-																
-															$x3 = $coords2[0];
-															$y3 = $coords2[1];
-															$z3 = $coords2[2];
-															
-															$this->debug->onDebug("Antifly $name $x $y $z $x2 $y2 $z2 $x3 $y3 $z3");
-															
-															if((!($y<=$y2)) && (!($y<=$y3)))
-															{
-																$player->kick('Flyhack');
-																$this->debug->onDebug("Antifly $name HACKT!");
-																unset ($this->antifly[$name]);
-															}
-															else
-															{
-																$this->debug->onDebug("Antifly $name faellt");
-																unset ($this->antifly[$name]);
-															}
-														}
-													}
-												}
-												else
-												{
-													unset ($this->antifly[$name]);
-												}
-											}
-											else
-											{
-												unset ($this->antifly[$name]);
-											}
-										}
-										else
-										{
-											unset ($this->antifly[$name]);
-										}
-									}
-									else
-									{
-										unset ($this->antifly[$name]);
-									}
-								}
-								else
-								{
-									unset ($this->antifly[$name]);
-								}
-							}
-							else
-							{
-								unset ($this->antifly[$name]);
-							}
-						}
-						else
-						{
-							unset ($this->antifly[$name]);
-						}
+						$this->debug->onDebug("Antifly $name ticket 1");
+						$this->getOwner()->antifly[$name] = $coords;
 					}
 					else
 					{
-						unset ($this->antifly[$name]);
-					}
+							$this->debug->onDebug("Antifly $name ticket 1 else");
+
+															
+							$x = round($player->getX());
+							$y = round($player->getY());
+							$z = round($player->getZ());
+															
+							$coords2 = explode(",", $this->getOwner()->antifly[$name]);
+															
+							$x2 = $coords2[0];
+							$y2 = $coords2[1];
+							$z2 = $coords2[2];
+															
+													
+							$this->debug->onDebug("Antifly $name $x $y $z $x2 $y2 $z2");
+							if($y<$y2)
+							{	
+								$this->debug->onDebug("Antifly $name faellt");
+								unset ($this->getOwner()->antifly[$name]);
+							}							
+							if($y>$y2)
+							{
+								unset ($this->getOwner()->antifly[$name]);
+								$player->kick('Flyhack');
+								$this->debug->onDebug("Antifly $name HACKT!");
+								
+							}
+							if($y=$y2)
+							{
+								$this->debug->onDebug("Antifly $name gleich");
+								$this->getOwner()->antifly[$name] = $coords;
+							}
+						}
+					
 				}
 				else
 				{
-					unset ($this->antifly[$name]);
+					unset ($this->getOwner()->antifly[$name]);
 				}
 			}													
     	}
