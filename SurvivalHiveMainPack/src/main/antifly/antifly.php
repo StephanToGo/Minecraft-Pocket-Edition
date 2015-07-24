@@ -120,4 +120,8 @@ use main\debug\Debug;
 				}
 			}													
     	}
+<<<<<<< HEAD
 	}
+=======
+	}
+>>>>>>> origin/master
