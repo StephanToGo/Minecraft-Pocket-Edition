@@ -33,19 +33,20 @@ class weiterleitung implements Listener
 		$name = $event->getPlayer()->getName();
 		$p = $event->getPlayer();
 		$reason = $event->getReason();
+		$this->debug->onDebug("$name $reason");
 			if($reason == 'disconnectionScreen.serverFull')
 			{
 				$pl = $event->getPlayer();
-				$addr1 = $this->plugin->config->get('WeiterleitungIP');
-				$addr2 = $this->plugin->config->get('WeiterleitungPort');
+				$addr1 = $this->plugin->cfg->get('WeiterleitungIP');
+				$addr2 = $this->plugin->cfg->get('WeiterleitungPort');
 				
-				$ft = $this->getServer()->getPluginManager()->getPlugin('FastTransfer');
+				$ft = $this->plugin->getServer()->getPluginManager()->getPlugin('FastTransfer');
 				if (!$ft)
 				{
 					$this->debug('FAST TRANSFER NOT INSTALLED');
 					return;
 				}
-				$this->debug("$name transfer to $addr1 $addr2");
+				$this->debug->onDebug("$name transfer to $addr1 $addr2");
 				$ft->transferPlayer($pl,$addr1,$addr2);
 				 
 				$event->setCancelled(true);
