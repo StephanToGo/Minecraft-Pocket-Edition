@@ -11,7 +11,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 use pocketmine\event\block\SignChangeEvent;
-/** Not currently used but may be later used  */
 use pocketmine\level\Position;
 use pocketmine\level\Level;
 use pocketmine\entity\Entity;

@@ -3,7 +3,6 @@
 
 namespace main\sneaken;
 
-
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
@@ -16,22 +15,10 @@ use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\event\block\BlockPlaceEvent;
-
 use pocketmine\math\Vector3;
-use pocketmine\level\Position;
-
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
-
 use pocketmine\entity\Entity;
-use pocketmine\event\entity\EntityMoveEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
 
 class sneaken implements Listener 
 {

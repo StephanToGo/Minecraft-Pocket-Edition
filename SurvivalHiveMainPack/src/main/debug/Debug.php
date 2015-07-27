@@ -9,14 +9,10 @@ use pocketmine\command\CommandSender;
 use pocketmine\IPlayer;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\level\Level;
-use pocketmine\level\Position;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\utils\Config;
-use main\afkkicker\afkkicker;
-
 
 class Debug implements Listener
 {

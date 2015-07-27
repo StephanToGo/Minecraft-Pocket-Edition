@@ -12,8 +12,6 @@ use pocketmine\level;
 use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
-use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 
 use pocketmine\math\Vector3;

@@ -13,7 +13,6 @@ use pocketmine\level;
 use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
-use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\math\Vector3;
