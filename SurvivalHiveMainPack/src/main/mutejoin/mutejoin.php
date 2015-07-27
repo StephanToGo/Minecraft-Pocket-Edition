@@ -13,7 +13,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\Plugin;
-use main\main;
+use main\debug\Debug;
 
 class mutejoin implements Listener 
 {
@@ -22,25 +22,29 @@ class mutejoin implements Listener
 
 	public function __construct(Plugin $plugin){
 		$this->plugin = $plugin;
+		$this->debug = new Debug($plugin);
 	}
 	
 	public function onJoin (PlayerJoinEvent $ev)
 	{
-		$ev->setJoinMessage("");
+		$this->debug->onDebug('Mutejoin onJoin');
+		$ev->setJoinMessage('');
 	}
 
 	public function onQuit(PlayerQuitEvent $ev)
 	{
-		$ev->setQuitMessage("");
+		$this->debug->onDebug('Mutejoin onQuit');
+		$ev->setQuitMessage('');
 	} 
 
 	public function onDeath(PlayerDeathEvent $ev)
 	{
+		$this->debug->onDebug('Mutejoin onDeath');
 		$player = $ev->getEntity();
 		
 		if($player instanceof Player)
 		{
-			$ev->setDeathMessage("");
+			$ev->setDeathMessage('');
 		}
 	}
 }

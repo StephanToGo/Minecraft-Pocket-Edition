@@ -33,7 +33,6 @@ class liftsign implements Listener
     
     public function schildaendern(SignChangeEvent $event)
     {	
-    	if($this->plugin->cfg->get("debugmode") == "true"){$this->plugin->getServer()->getLogger()->info(MT::GREEN."Liftsign change");}
     	$linien = $event->getLine(0);
     	
     	if($linien == 'lh')
@@ -49,8 +48,7 @@ class liftsign implements Listener
     
     public function playerBlockTouch(PlayerInteractEvent $event)
     {
-    	if($this->plugin->cfg->get("debugmode") == "true"){$this->plugin->getServer()->getLogger()->info(MT::GREEN."Liftsign touch");}
-        if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68)
+    	if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68)
         {
            $sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
            
@@ -63,6 +61,7 @@ class liftsign implements Listener
             
             if($sign[0] == '[Lift hoch]')
             {
+            	$this->debug->onDebug('Lift hoch touch');
             	for ($i = 1; $i <= 32; $i++) {
             		$bl = $event->getBlock();
             		$pos = $event->getBlock()->getLevel()->getBlock(new Vector3($bl->x,$bl->y+$i,$bl->z));
@@ -72,10 +71,10 @@ class liftsign implements Listener
             			return true;
             		}
             	}
-            	
             }
             if($sign[0] == '[Lift runter]')
             {
+            	$this->debug->onDebug('Lift runter touch');
             	for($i = 32; $i >=0; $i--) {
             		$bl = $event->getBlock();
             		$pos = $event->getBlock()->getLevel()->getBlock(new Vector3($bl->x,$bl->y-$i,$bl->z));
@@ -84,8 +83,7 @@ class liftsign implements Listener
             			$event->getPlayer()->teleport(new Position($bl->x,$bl->y-$i,$bl->z));
             			return true;
             		}
-            	}
-            	 
+            	} 
             }
         }
     }
