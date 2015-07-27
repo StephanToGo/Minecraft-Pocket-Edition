@@ -55,34 +55,103 @@ use main\debug\Debug;
 	
 		public function onRun($currentTick)
 		{
-			$this->debug->onDebug('SpiralParticleRegen');
-			
-			$pos33 = new Vector3(127.5, 4, 136);
-			$level1 = "lobby";
-			$level = $this->getOwner()->getServer()->getLevelByName($level1);
-				
-			foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
+			if($this->owner->cfg->get("PlayerParticleTyp") == 'Spirale')
 			{
-				$name = strtolower($spieler->getName());
+				$this->debug->onDebug('SpiralParticleRegen');
+					
+				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
+				{
+					$name = strtolower($spieler->getName());
+					
+						$level = $spieler->getLevel();
+						$x = $spieler->getX();
+						$y = $spieler->getY();
+						$z = $spieler->getZ();
+						$center = new Vector3($x, $y, $z);
+						$radius = 0.5;
+						$count = 100;
+						$colr = rand(1,254);
+						$colg = rand(1,254);
+						$colb = rand(1,254);
+						$particle = new DustParticle($center, $colr, $colg, $colb, 1);
+						
+						for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20)
+						{
+							$x = -sin($yaw) + $center->x;
+							$z = cos($yaw) + $center->z;
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+					
+				}
+			}
+			if($this->owner->cfg->get("PlayerParticleTyp") == 'Herzen')
+			{
+				$this->debug->onDebug('HerzParticle');
 				
+				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
+				{
+					$name = strtolower($spieler->getName());
 					$level = $spieler->getLevel();
 					$x = $spieler->getX();
 					$y = $spieler->getY();
 					$z = $spieler->getZ();
-					$center = new Vector3($x, $y, $z);
-					$radius = 0.5;
-					$count = 100;
+				
+					$pos = new Vector3($x,$y+2,$z);
+					$level->addParticle(new HeartParticle($pos));
+				}
+			}
+			if($this->owner->cfg->get("PlayerParticleTyp") == 'Kreis')
+			{		
+			
+				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
+				{
+					
+					$x = $spieler->getX();
+					$y = $spieler->getY();
+					$z = $spieler->getZ();
+					
+					$level = $spieler->getLevel();
+					
+					$pos = new Vector3($x,$y+2,$z);
+					
+					$radius = 1;
+					
 					$colr = rand(1,254);
 					$colg = rand(1,254);
-					$colb = rand(1,254);
-					$particle = new DustParticle($center, $colr, $colg, $colb, 1);
-					for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
-						$x = -sin($yaw) + $center->x;
-						$z = cos($yaw) + $center->z;
-						$particle->setComponents($x, $y, $z);
+					$colb = rand(1,254);					
+							
+					$particle = new DustParticle($pos, $colr, $colg, $colb, 1);
+									
+					
+						$particle->setComponents($x + $radius, $y+2, $z + $radius);
 						$level->addParticle($particle);
+						
+						$particle->setComponents($x - $radius, $y+2, $z - $radius);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x + $radius, $y+2, $z - $radius);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x - $radius, $y+2, $z + $radius);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x + $radius, $y+2, $z);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x, $y+2, $z + $radius);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x - $radius, $y+2, $z);
+						$level->addParticle($particle);
+						
+						$particle->setComponents($x, $y+2, $z - $radius);
+						$level->addParticle($particle);
+
+						
 					}
+					
 				
 			}
 		}
-	}
+}
