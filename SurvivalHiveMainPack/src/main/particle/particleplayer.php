@@ -88,7 +88,7 @@ use main\debug\Debug;
 			}
 			if($this->owner->cfg->get("PlayerParticleTyp") == 'Kreis')
 			{		
-			
+				$this->debug->onDebug('Kreis');
 				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
 				{
 					
@@ -137,6 +137,45 @@ use main\debug\Debug;
 					}
 					
 				
+			}
+			if($this->owner->cfg->get("PlayerParticleTyp") == 'Regen')
+			{
+				$this->debug->onDebug('Regen');
+				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
+				{
+				$level = $spieler->getLevel();
+				}
+				
+				
+				$colr = rand(1,254);
+				$colg = rand(1,254);
+				$colb = rand(1,254);
+				
+				$startX = -52;
+				$endX = -46;
+				$startY = 11;
+				$endY = 11;
+				$startZ = 187;
+				$endZ = 193;
+					
+				$this->debug->onDebug('0');
+				for($x = $startX; $x <= $endX; ++$x)
+				{
+					
+					for($y = $startY; $y <= $endY; ++$y)
+					{
+						
+						for($z = $startZ; $z <= $endZ; ++$z)
+						{
+							//$this->debug->onDebug('3');
+							$pos = new Vector3($x,$y,$z);
+							$particle = new DustParticle($pos, $colr, $colg, $colb, 1);
+							$level->addParticle($particle);
+							
+						}
+					}
+				}
+				$this->debug->onDebug('1');
 			}
 		}
 }

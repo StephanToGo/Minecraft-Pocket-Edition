@@ -9,7 +9,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\IPlayer;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\plugin\Plugin;
@@ -37,6 +36,99 @@ class commandhandler implements Listener{
 			case "shvip":
 					$this->onSHVIP($sender,$args);
 					break;
+			case "shitemban":
+					$this->onSHITEMBAN($sender,$args);
+					break;
+		}
+	}
+	
+	public function onSHITEMBAN($player, $args)
+	{
+		if(!($sender instanceof player))
+		{
+			if(isset($args[0]))
+			{
+				$config = $this->plugin->cfg->getAll();
+				$items = $config["Items"];
+		
+				if($args[0] == "add")
+				{
+					if(isset($args[1]))
+					{
+						$banid = $args[1];
+						if(is_numeric($banid))
+						{
+							if(!in_array($banid, $items))
+							{
+								if(!is_array($items))
+								{
+									$items = array($banid);
+								}else
+								{
+									$bannedItem = Item::fromString($banid);
+									$items[] = $banid;
+									$sender->sendMessage("Erfolgreich gebannt".$bannedItem);
+									$config["Items"] = $items;
+									$this->cfg->setAll($config);
+									$this->cfg->save();
+								}
+							}else
+							{
+								$sender->sendMessage("Ist schon gebannt");
+							}
+						}else
+						{
+							if(preg_match('/:[0-9]/', $banid))
+							{
+								$bannedItem = Item::fromString($banid);
+								$items[] = $banid;
+								$config["Items"] = $items;
+								$this->plugin->cfg->setAll($config);
+								$this->plugin->cfg->save();
+								$sender->sendMessage("Erfolgreich gebannt".$bannedItem);
+							}else
+							{
+								$sender->sendMessage("Nutz /shbanitem add id");
+							}
+						}
+					}else
+					{
+						$sender->sendMessage("Nutz /shbanitem add id");
+					}
+				}
+				if($args[0] == "del")
+				{
+					if(isset($args[1]))
+					{
+						$banid = $args[1];
+						if(in_array($banid, $items))
+						{
+							$bannedItem = Item::fromString($banid);
+							$key = array_search($banid, $items);
+							unset($items[$key]);
+							$sender->sendMessage("Erfolgreich entbant".$bannedItem);
+							$config["Items"] = $items;
+							$this->plugin->cfg->setAll($config);
+							$this->plugin->cfg->save();
+						}else
+						{
+							$sender->sendMessage("Das Item is net gebant");
+						}
+					}else
+					{
+						$sender->sendMessage("Nutz /shbanitem del id");
+					}
+				}
+				if($args[0] == "list")
+				{
+					$sender->sendMessage("Gebannte Items: ".implode(", ", $items));
+				}
+			}else
+			{
+				$sender->sendMessage("Nutz /shbanitem <add/del> <id>");
+				$sender->sendMessage("Nutz /shbanitem <list>");
+			}
+		
 		}
 	}
 	
