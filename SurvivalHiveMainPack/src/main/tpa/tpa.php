@@ -94,6 +94,7 @@ use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\utils\TextFormat as MT;
+use main\debug\Debug;
 
 class tpa implements Listener
 {

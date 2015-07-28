@@ -151,12 +151,24 @@ use main\debug\Debug;
 				$colg = rand(1,254);
 				$colb = rand(1,254);
 				
-				$startX = -52;
+				$pos1 = explode(",",$this->owner->cfg->get("PlayerParticleRegenPos1"));
+				$pos2 = explode(",",$this->owner->cfg->get("PlayerParticleRegenPos2"));
+				
+				
+				$startX = $pos1[0];
+				$endX = $pos2[0];
+				$startY = $pos1[1];
+				$endY = $pos2[1];
+				$startZ = $pos1[2];
+				$endZ = $pos2[2];
+				
+				
+			/*	$startX = -52;
 				$endX = -46;
 				$startY = 11;
 				$endY = 11;
 				$startZ = 187;
-				$endZ = 193;
+				$endZ = 193;*/
 					
 				$this->debug->onDebug('0');
 				for($x = $startX; $x <= $endX; ++$x)

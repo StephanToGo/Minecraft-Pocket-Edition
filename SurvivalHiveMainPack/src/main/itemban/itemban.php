@@ -1,5 +1,5 @@
 <?php
-namespace main\vipslot;
+namespace main\itemban;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandExecutor;
