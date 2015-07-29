@@ -39,7 +39,7 @@ Sneaken: true
 BlockPosition: true
 PlayerParticle: false
 Weiterleitung: false
-WeiterleitungIP: 148.251.4.154
+WeiterleitungIP: 80.80.80.80
 WeiterleitungPort: "19132"
 WorldBorder: true
 WorldBorderPos1: -1000,1,-1000
