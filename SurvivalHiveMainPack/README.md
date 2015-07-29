@@ -38,6 +38,9 @@ Waffenkits: true
 Sneaken: true
 BlockPosition: true
 PlayerParticle: false
+PlayerParticleSek: "20"
+PlayerParticleRegenPos1: "-52,11,187"
+PlayerParticleRegenPos2: "-46,11,193"
 Weiterleitung: false
 WeiterleitungIP: 80.80.80.80
 WeiterleitungPort: "19132"
@@ -52,9 +55,6 @@ JoinSound: true
 JoinSoundTyp: BatSound
 ItemBan: true
 Items: []
-PlayerParticleSek: "20"
-PlayerParticleRegenPos1: "-52,11,187"
-PlayerParticleRegenPos2: "-46,11,193"
 Tpa: true
 Schwebetext: true
 ...
