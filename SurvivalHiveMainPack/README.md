@@ -42,7 +42,7 @@ Weiterleitung: false
 WeiterleitungIP: 80.80.80.80
 WeiterleitungPort: "19132"
 WorldBorder: true
-WorldBorderPos1: -1000,1,-1000
+WorldBorderPos1: "-1000,1,-1000"
 WorldBorderPos2: "1000,1000,1000"
 WorldBorderWorld: world
 Vipslot: true
@@ -60,3 +60,5 @@ Schwebetext: true
 ...
 
 ```
+
+##Manuel##
