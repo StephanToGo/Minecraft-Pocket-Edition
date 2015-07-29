@@ -1,9 +1,24 @@
 name: SurvivalHiveMain
 main: main\main
 version: 1.0
-api: 1.4.0
+api: 1.12.0
 load: STARTUP
 author: SurvivalHiveDev
 authors: [Xenturio]
 description: Main
 website: http://www.survivalhive.de
+commands:
+ shpos:
+  description: "Position auslesen An/Aus"
+ shvip:
+  description: "Vip Slots"
+ shitemban:
+  description: "Item Ban"
+ tpa:
+  description: "Stellt TPA Anfrage"
+ tpja:
+  description: "Bestaetigt TPA Anfrage"
+ tpnein:
+  description: "Verneint TPA Anfrage"
+ create:
+  description: "Schwebetext"
