@@ -1,6 +1,6 @@
 #SurvivalHiveMainPack#
 
-- "AFK-Kick"
+- "AFK-Kick" -> kicks player from server if they dont move loner then a min.
 - "AllwaysOnSpawn"
 - "AntiBuildGenerell"
 - "AntiPvPGenrell"
@@ -63,6 +63,7 @@ Schwebetext: true
 
 ##Manuel##
 ###AFK-Kick###
+
 ###AllwaysOnSpawn###
 ###AntiBuildGenerell###
 ###AntiPvPGenrell###
