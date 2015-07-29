@@ -62,7 +62,23 @@ Schwebetext: true
 ```
 
 ##Manuel##
-### Antifly ###
-### Antifly ###
-### Antifly ###
-### Antifly ###
+###AFK-Kick###
+###AllwaysOnSpawn###
+###AntiBuildGenerell###
+###AntiPvPGenrell###
+###AntiDoubleChest###
+###Antifly###
+###BlockPosition###
+###Liftsign###
+###MuteJoin###
+###ItemBan###
+###JumpSign###
+###PlayerParticle###
+###JoinSound###
+###Schwebetext###
+###Sneaken###
+###Tpa###
+###Vipslot###
+###Waffenkits###
+###Weiterleitung###
+###WorldBorder###
