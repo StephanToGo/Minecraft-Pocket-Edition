@@ -185,6 +185,5 @@ class tpa implements Listener
 			$sender->sendMessage("Nur im Spiel moeglich | Only in game");
 			return true;
 		}
-		break;
 	}
 }

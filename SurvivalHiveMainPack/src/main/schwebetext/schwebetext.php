@@ -48,13 +48,16 @@ use main\debug\Debug;
 			if(!(isset($this->var)))
 			{
 				$test = $event->getPlayer()->getLevel()->getEntities();
+				
 				foreach($test as $sender)
 				{	
-					if(strpos(strtolower($sender),"human") !== false)
+					if(!($sender instanceof Player))
 					{
 						$sender->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
+						$this->debug->onDebug('Schwebetext -> Entity unsichtbar gemacht');
 					}	
-					$this->debug->onDebug("$sender");	
+					
+					$this->debug->onDebug("Join Schwebetext $sender");	
 				}
 				$this->var = 1;
 			}
@@ -106,10 +109,11 @@ use main\debug\Debug;
 							//$entity = Entity::createEntity(15, $chunk, $nbt);
 							$entity = Entity::createEntity("$args[2]", $chunk, $nbt);
 							$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_SHOW_NAMETAG, true);
+							$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_AIR, true);
 						//	$entity->setSkin(str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4), false);
 							//$entity->setSkin($skin, false);
-							//$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_SHOW_NAMETAG, true);
-							$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
+							$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
+							$entity->canCollideWith(false);
 							
 							if($farbe == "gruen") $entity->setNameTag(MT::GREEN."$args[1]");
 							if($farbe == "blau") $entity->setNameTag(MT::AQUA."$args[1]");
@@ -118,9 +122,9 @@ use main\debug\Debug;
 							
 							$test = $p->getLevel()->getEntities();
 							
-							foreach($test as $sender)
+							foreach($test as $z)
 							{
-								$this->debug->onDebug()->info("$sender");
+								$this->debug->onDebug("$z");
 							}
 										
 							$entity->spawnToAll();
@@ -128,16 +132,28 @@ use main\debug\Debug;
 					}
 					if($args[0] == "remove")
 					{
+						$this->debug->onDebug('Schwebetext -> Remove start');
 						$test = $p->getLevel()->getEntities();
-						foreach($test as $sender)
+						foreach($test as $z)
 						{
-							if(!($sender instanceof Player))
+							if(!($z instanceof Player))
 							{
-								$sender->close();
+								$z->close();
+								$this->debug->onDebug('Schwebetext -> geloescht');
 							}
 						}
 					}
 				}
+				else
+				{
+					$p->sendMessage(MT::RED."Farbe und Text waehlen");
+					return true;
+				}
+			}
+			else
+			{
+				$p->sendMessage(MT::RED."Nur OPs");
+				return true;
 			}
 		}
 	}

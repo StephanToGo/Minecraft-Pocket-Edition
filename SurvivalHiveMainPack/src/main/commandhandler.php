@@ -39,8 +39,96 @@ class commandhandler implements Listener{
 			case "shitemban":
 					$this->onSHITEMBAN($sender,$args);
 					break;
+			case "shmr":
+					$this->onSHMARIOROEHREN($sender,$args);
+					break;
 		}
 	}
+	public function onSHMARIOROEHREN($player, $args)
+	{
+		//if(!($player instanceof player))
+		//{
+			if(isset($args[0]))
+			{
+				if($args[0] == "add")
+				{
+					if(isset($args[1]) && isset($args[2]) && isset($args[3]))
+					{
+						$config = $this->plugin->cfg->getAll();
+						$items = $config["MarioRoehren"];
+						
+						$pos1 = $args[1];
+						$pos2 = $args[2];
+						$name = $args[3];
+						
+						if(!in_array($name, $items))
+						{
+							//if(!is_array($items))
+							//{
+							//	$items = array($name);
+							//}
+							//else
+							
+							//{
+								$items[] = $name;
+								$items[$name]['pos1'] = $pos1;
+								$items[$name]['pos2'] = $pos2;
+								$items[$name]['welt'] = $sender;
+								
+								
+								$player->sendMessage("Erfolgreich gebannt".$bannedItem);
+								$config["Items"] = $items;
+								$this->plugin->cfg->setAll($config);
+								$this->plugin->cfg->save();
+							//}
+						}
+						else
+						{
+							$player->sendMessage("Roehre mit Namen exestiert bereits");
+						}
+					}
+					else
+					{
+						$player->sendMessage("Bitte beide Positionen + Namen angeben");
+					}
+				}
+				if($args[0] == "del")
+				{
+					if(isset($args[1]))
+					{
+						$banid = $args[1];
+						if(in_array($banid, $items))
+						{
+							$bannedItem = Item::fromString($banid);
+							$key = array_search($banid, $items);
+							unset($items[$key]);
+							$player->sendMessage("Erfolgreich entbant".$bannedItem);
+							$config["Items"] = $items;
+							$this->plugin->cfg->setAll($config);
+							$this->plugin->cfg->save();
+						}
+						else
+						{
+							$player->sendMessage("Das Item is net gebant");
+						}
+					}
+					else
+					{
+						$player->sendMessage("Nutz /shbanitem del id");
+					}
+				}
+				if($args[0] == "list")
+				{
+					$player->sendMessage("Gebannte Items: ".implode(", ", $items));
+				}
+			}
+			else
+			{
+				$player->sendMessage("Nutz /shmr add/del 1,1,1 2,2,2 NamederRoehre ggf IP fuer Fast Transfer");
+			}
+			
+		}
+			
 	
 	public function onSHITEMBAN($player, $args)
 	{
@@ -67,14 +155,14 @@ class commandhandler implements Listener{
 								{
 									$bannedItem = Item::fromString($banid);
 									$items[] = $banid;
-									$sender->sendMessage("Erfolgreich gebannt".$bannedItem);
+									$player->sendMessage("Erfolgreich gebannt".$bannedItem);
 									$config["Items"] = $items;
-									$this->cfg->setAll($config);
-									$this->cfg->save();
+									$this->plugin->cfg->setAll($config);
+									$this->plugin->cfg->save();
 								}
 							}else
 							{
-								$sender->sendMessage("Ist schon gebannt");
+								$player->sendMessage("Ist schon gebannt");
 							}
 						}else
 						{
@@ -85,15 +173,15 @@ class commandhandler implements Listener{
 								$config["Items"] = $items;
 								$this->plugin->cfg->setAll($config);
 								$this->plugin->cfg->save();
-								$sender->sendMessage("Erfolgreich gebannt".$bannedItem);
+								$player->sendMessage("Erfolgreich gebannt".$bannedItem);
 							}else
 							{
-								$sender->sendMessage("Nutz /shbanitem add id");
+								$player->sendMessage("Nutz /shbanitem add id");
 							}
 						}
 					}else
 					{
-						$sender->sendMessage("Nutz /shbanitem add id");
+						$player->sendMessage("Nutz /shbanitem add id");
 					}
 				}
 				if($args[0] == "del")
@@ -112,21 +200,21 @@ class commandhandler implements Listener{
 							$this->plugin->cfg->save();
 						}else
 						{
-							$sender->sendMessage("Das Item is net gebant");
+							$player->sendMessage("Das Item is net gebant");
 						}
 					}else
 					{
-						$sender->sendMessage("Nutz /shbanitem del id");
+						$player->sendMessage("Nutz /shbanitem del id");
 					}
 				}
 				if($args[0] == "list")
 				{
-					$sender->sendMessage("Gebannte Items: ".implode(", ", $items));
+					$player->sendMessage("Gebannte Items: ".implode(", ", $items));
 				}
 			}else
 			{
-				$sender->sendMessage("Nutz /shbanitem <add/del> <id>");
-				$sender->sendMessage("Nutz /shbanitem <list>");
+				$player->sendMessage("Nutz /shbanitem <add/del> <id>");
+				$player->sendMessage("Nutz /shbanitem <list>");
 			}
 		
 		}

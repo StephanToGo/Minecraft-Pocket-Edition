@@ -132,18 +132,14 @@ use main\debug\Debug;
 						
 						$particle->setComponents($x, $y+2, $z - $radius);
 						$level->addParticle($particle);
-
-						
-					}
-					
-				
+					}		
 			}
 			if($this->owner->cfg->get("PlayerParticleTyp") == 'Regen')
 			{
 				$this->debug->onDebug('Regen');
 				foreach ($this->getOwner()->getServer()->getOnlinePlayers() as $spieler)
 				{
-				$level = $spieler->getLevel();
+					$level = $spieler->getLevel();
 				}
 				
 				
