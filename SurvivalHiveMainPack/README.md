@@ -1,25 +1,25 @@
 #SurvivalHiveMainPack#
 
-- "AFK-Kick" -> kicks player from server if they dont move loner then a min.
-- "AllwaysOnSpawn"
-- "AntiBuildGenerell"
-- "AntiPvPGenrell"
-- "AntiDoubleChest"
-- "Antifly"
-- "BlockPosition"
-- "Liftsign"
-- "MuteJoin"
-- "ItemBan"
-- "JumpSign"
-- "PlayerParticle"
-- "JoinSound"
-- "Schwebetext"
-- "Sneaken"
-- "Tpa"
-- "Vipslot"
-- "Waffenkits"
-- "Weiterleitung"
-- "WorldBorder"
+- "AFK-Kick" -> kicks player from server if they dont move loner then a min
+- "AllwaysOnSpawn" -> teleport player allways to spawn by join
+- "AntiBuildGenerell" -> player cant build anymore
+- "AntiPvPGenrell" -> player cant kill each other anymore
+- "AntiDoubleChest" -> anti doublechest
+- "Antifly" -> kick player if hes flying
+- "BlockPosition" -> shows you the position of the breaked/placed block
+- "Liftsign" -> signs that lift you up and down
+- "MuteJoin" -> mute the join/left/death messages in chat
+- "ItemBan" -> ban blocks or items
+- "JumpSign" -> signs that teleport you to a position
+- "PlayerParticle" -> spawn particles
+- "JoinSound" -> play a sound if player join
+- "Schwebetext" -> create a hollow text
+- "Sneaken" -> sneaken by tap with a torch
+- "Tpa" -> teleport to a player
+- "Vipslot" -> vipslot dont kick player by "afk" or "serverfull"
+- "Waffenkits" -> signs for weapon kits
+- "Weiterleitung" -> forwarding a player if server is full (fast transfer needed)
+- "WorldBorder" -> set world end
 
 ##Config##
 ```
