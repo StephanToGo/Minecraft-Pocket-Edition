@@ -1,0 +1,11 @@
+name: SurvivalHiveHungergames
+main: main\minigame
+version: 1.1
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: testplugin
+commands:
+ minigamestart:
+  description: "Startet das Minigame"
