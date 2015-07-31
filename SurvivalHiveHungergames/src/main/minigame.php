@@ -110,9 +110,12 @@ class statuscheck extends PluginTask
 		$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 		$time = time();
 		
-		foreach($this->getOwner()->players as $p)
+		if(isset($this->getOwner()->players))
 		{
-			$this->getOwner()->getLogger()->info("$p ");
+			foreach($this->getOwner()->players as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p ");
+			}
 		}
 		
 		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
@@ -259,11 +262,19 @@ class statuscheck extends PluginTask
 								foreach($this->getOwner()->players as $p)
 								{
 									$gewinner = $p;
-									
 								}
 								$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
 								$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'Winner ist '.MT::AQUA.$gewinner);
 							}
+							
+							unset ($this->getOwner()->players);
+							unset ($this->getOwner()->arena1);
+							unset ($this->getOwner()->arena2);
+							unset ($this->getOwner()->arena3);
+							unset ($this->getOwner()->arena4);
+							unset ($this->getOwner()->arena5);
+							unset ($this->getOwner()->aftervotetimer);
+							unset ($this->getOwner()->afterteleporttimer);
 						}
 					}
 				}
@@ -274,8 +285,6 @@ class statuscheck extends PluginTask
 
 class minigame extends PluginBase implements Listener{
 	
-	public $players = array();
-
 	private $listener;
 	public $time = array();
 	public $schalter = array();
@@ -373,148 +382,23 @@ class minigame extends PluginBase implements Listener{
 		$event->setCancelled(true);
 	}
 	
-	
-	/*	$time = time();
-		$id = $event->getBlock()->getID();
-		$p = $event->getPlayer();
-		$bl = $event->getBlock();
-		$pos = new Vector3($bl->getX(),$bl->getY(),$bl->getZ());
-		$name = strtolower($event->getPlayer()->getName());
-		
-			
-			if ($bl->getLevel()->getName() == in_array($bl->getLevel()->getName(), $this->config->get("Spielwelt")))
-			{				
-				if($id == in_array($id, $this->config->get("Startblock")))
+	public function onEntityDamageByEntity(EntityDamageEvent $event)
+	{
+		if($event instanceof EntityDamageByEntityEvent)
+		{
+			$victim = $event->getEntity();
+			$attacker = $event->getDamager();
+			if($victim instanceof Player && $attacker instanceof Player)
+			{
+				if($this->getServer()->getDefaultLevel() == $victim->getLevel())
 				{
-				$time = time();
-					if(!($time >= $this->round['Zeit']))
-					{
-					$event->getPlayer()->sendMessage("Eine Runde laeuft bereits");
-					$event->setCancelled();	
-					}
-					else
-					{
-						if(count($p->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getX()-5, $pos->getY()-5, $pos->getZ()-5, $pos->getX()+5, $pos->getY()+5, $pos->getZ()+5))) >= 4)
-						{
-							$p = $event->getPlayer();
-							$pos = new Vector3($bl->getX(),$bl->getY(),$bl->getZ());
-							$event->getPlayer()->teleport(new Position(rand(170, 161), 4, rand(132, 136))) || $event->getPlayer()->teleport(new Position(rand(102, 113), 4, rand(120, 132))) || $event->getPlayer()->teleport(new Position(rand(117, 122), 4, rand(131, 147))) || $event->getPlayer()->teleport(new Position(rand(151, 156), 4, rand(109, 125)));
-							$event->getPlayer()->sendMessage("15 Sek. bis zum Start LEGE DEINE RUESTUNG AN!!!");
-							$this->schalter[$name] = $p->getID();
-							$this->time['Zeit'] = ($time + 15);
-							$this->round['Zeit'] = ($time + 135);
-							
-							foreach($p->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getX()-5, $pos->getY()-5, $pos->getZ()-5, $pos->getX()+5, $pos->getY()+5, $pos->getZ()+5), $p) as $entity)
-							{
-								if ($entity instanceof Player)
-								{
-									$p2 = $entity->getPlayer();
-									$entity->sendMessage("15 Sek. bis zum Start LEGE DEINE RUESTUNG AN!!!");
-									$entity->teleport(new Position(rand(170, 161), 4, rand(132, 136))) || $event->getPlayer()->teleport(new Position(rand(102, 113), 4, rand(120, 132))) || $event->getPlayer()->teleport(new Position(rand(117, 122), 4, rand(131, 147))) || $event->getPlayer()->teleport(new Position(rand(151, 156), 4, rand(109, 125)));
-									$id = $entity->getID();
-									$name = $entity->getName();
-									$this->schalter[$name] = $entity->getID();
-									$time = time();
-									
-									$p->getInventory()->addItem(new Item(276, 0, 1));
-									$p->getInventory()->addItem(new Item(310, 0, 1));
-									$p->getInventory()->addItem(new Item(311, 0, 1));
-									$p->getInventory()->addItem(new Item(312, 0, 1));
-									$p->getInventory()->addItem(new Item(313, 0, 1));
-									$p->getInventory()->addItem(new Item(297, 0, 5));
-									$p2->getInventory()->addItem(new Item(276, 0, 1));
-									$p2->getInventory()->addItem(new Item(310, 0, 1));
-									$p2->getInventory()->addItem(new Item(311, 0, 1));
-									$p2->getInventory()->addItem(new Item(312, 0, 1));
-									$p2->getInventory()->addItem(new Item(313, 0, 1));
-									$p2->getInventory()->addItem(new Item(297, 0, 5));
-									
-									$event->setCancelled();
-								}
-							}
-						$event->setCancelled();
-					}
-					else
-					{
-						$event->getPlayer()->sendMessage("Erst ab 4 Spieler und mehr - " . count($p->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getX()-5, $pos->getY()-5, $pos->getZ()-5, $pos->getX()+5, $pos->getY()+5, $pos->getZ()+5))) . " Spieler in der naehe.");
-						$event->setCancelled();
-					}
+					$event->setCancelled(true);
 				}
 			}
-			$event->setCancelled();
-		
-	}
-	
-	
-	
-	public function onPlayerMoveEvent(PlayerMoveEvent $event)
-	{
-		if ($event->getPlayer()->getLevel()->getName() == in_array($event->getPlayer()->getLevel()->getName(), $this->config->get("Spielwelt")))
-		{
-		$time = time();
-		$name = strtolower($event->getPlayer()->getName());
-		$p = $event->getPlayer();
-		
-				if(!($time >= $this->time['Zeit']))
-				{
-					$zeigzeit = ($this->time['Zeit'] - $time);
-					$event->setCancelled();
-					
-				}
-				if($time == ($this->round['Zeit']-60) || $time == ($this->round['Zeit']-59)|| $time == ($this->round['Zeit']-58))
-				{
-					$zeigzeit = ($this->round['Zeit'] - $time);
-					$event->getPlayer()->sendMessage("$zeigzeit");
-					$event->getPlayer()->sendMessage("Spieler " . count($this->schalter)." noch 1 Minute" );
-					
-				}
-				if(in_array($event->getPLayer()->getID(), $this->schalter))
-				{
-					if($time >= $this->round['Zeit'])
-					{
-						$zeigzeit = ($this->round['Zeit'] - $time);
-						$bl = $event->getPlayer();
-						$pos = new Vector3($bl->getX(),$bl->getY(),$bl->getZ());
-								
-						if(count($this->schalter) >= 2)
-						{
-							foreach($event->getPlayer()->getLevel()->getNearbyEntities(new AxisAlignedBB($pos->getX()-150, $pos->getY()-100, $pos->getZ()-150, $pos->getX()+150, $pos->getY()+100, $pos->getZ()+150), $p) as $entity)
-							{
-								if ($entity instanceof Player)
-								{	
-									$p2 = $entity->getPlayer();
-									$entity->sendMessage("Runde ist beendet");
-									$entity->sendMessage("Unentschieden - kein Sieger - Kein Gewinn");
-									//$index = array_search($entity->getID(), $this->schalter);
-									//unset($this->schalter[$index]);
-									$entity->teleport(Server::getInstance()->getLevelByName('pocket')->getSafeSpawn());
-								}
-							}
-							
-							$event->getPlayer()->sendMessage("Runde ist beendet");
-							$event->getPlayer()->sendMessage("Unentschieden - kein Sieger - Kein Gewinn");
-							//$index = array_search($event->getPlayer()->getID(), $this->schalter);
-							//unset($this->schalter[$index]);
-							$event->getPlayer()->teleport(Server::getInstance()->getLevelByName('pocket')->getSafeSpawn());
-						}
-					}
-					if(count($this->schalter) == 1)
-					{
-						$event->getPlayer()->teleport(Server::getInstance()->getLevelByName('pocket')->getSafeSpawn());
-						//$event->getPlayer()->sendMessage("Du hast gewonnen $1000 + 5Diamanten");
-						$event->getPlayer()->sendMessage("GEWONNEN - Noch gibt es keine Gewinne - Tut uns leid (Test)");
-						$i = "givemoney {PLAYER} 1000";
-						$i2 = "give {PLAYER} 264 5";
-						//$this->getServer()->dispatchCommand(new ConsoleCommandSender(),str_replace("{PLAYER}",$event->getPlayer()->getName(),$i));
-						//$this->getServer()->dispatchCommand(new ConsoleCommandSender(),str_replace("{PLAYER}",$event->getPlayer()->getName(),$i2));
-						//$index = array_search($event->getPlayer()->getID(), $this->schalter);
-						//unset($this->schalter[$index]);
-						$this->round['Zeit'] = 0;
-					}
-				}				
+			
 		}
-	}*/
-	
+	}
+
 	public function onPlayerDeathEvent(PlayerDeathEvent $event)
 	{
 		$player = $event->getEntity();
