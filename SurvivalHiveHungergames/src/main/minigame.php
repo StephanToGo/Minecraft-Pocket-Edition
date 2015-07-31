@@ -90,7 +90,6 @@ use pocketmine\network\SourceInterface;
 use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\plugin\Plugin;
-
 use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
@@ -111,6 +110,39 @@ class statuscheck extends PluginTask
 		$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 		$time = time();
 		
+		if(isset($this->getOwner()->arena1))
+		{
+			foreach($this->getOwner()->arena1 as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p <-vote für arena1");
+			}
+		}
+		if(isset($this->getOwner()->arena2))
+		{
+			foreach($this->getOwner()->arena2 as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p <-vote für arena2");
+			}}
+			if(isset($this->getOwner()->arena3))
+			{
+			foreach($this->getOwner()->arena3 as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p <-vote für arena3");
+			}}
+			if(isset($this->getOwner()->arena4))
+			{
+			foreach($this->getOwner()->arena4 as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p <-vote für arena4");
+			}}
+			if(isset($this->getOwner()->arena5))
+			{
+			foreach($this->getOwner()->arena5 as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p <-vote für arena5");
+			}}
+
+		
 		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 		{
 			$name = $player->getName();
@@ -119,107 +151,120 @@ class statuscheck extends PluginTask
 			{
 				$player->sendPopUp(MT::BLUE.'Wait for other players');
 			}
-
-			if($spieleranzahl >= 2 && (!(isset($this->getOwner()->arena1[$name]))) && (!(isset($this->getOwner()->arena2[$name]))) && (!(isset($this->getOwner()->arena3[$name]))) && (!(isset($this->getOwner()->arena4[$name]))) && (!(isset($this->getOwner()->arena5[$name]))))
-			{
-				$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
-			}
 			else
 			{
-				if(!(isset($this->getOwner()->afterteleporttimer)))
+				if((!(isset($this->getOwner()->arena1))) && (!(isset($this->getOwner()->arena2))) && (!(isset($this->getOwner()->arena3))) && (!(isset($this->getOwner()->arena4))) && (!(isset($this->getOwner()->arena5))))
 				{
-					if(!(isset($this->getOwner()->aftervotetimer)))
-					{
-						$this->getOwner()->aftervotetimer = $time+60;
-						
-						$player->sendPopUp(MT::RED.'Teleport timer started');
-					}
-					else
-					{
-						if($time < $this->getOwner()->aftervotetimer)
-						{
-							$seconds = $this->getOwner()->aftervotetimer - $time;
-							$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
-						}
-						if($time > $this->getOwner()->aftervotetimer)
-						{
-							$arena1 = count ($this->getOwner()->arena1);
-							$arena2 = count ($this->getOwner()->arena2);
-							$arena3 = count ($this->getOwner()->arena3);
-							$arena4 = count ($this->getOwner()->arena4);
-							$arena5 = count ($this->getOwner()->arena5);
-							
-							if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
-							{
-								$arena = 1;
-								$arenaname = '';
-								$x = 100;
-								$y = 10;
-								$z = 100;
-							}
-							elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
-							{
-								$arena = 2;
-								$arenaname = '';
-								$x = 100;
-								$y = 10;
-								$z = 100;
-							}
-							elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
-							{
-								$arena = 3;
-								$arenaname = '';
-								$x = 100;
-								$y = 10;
-								$z = 100;
-							}
-							elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
-							{
-								$arena = 4;
-								$arenaname = '';
-								$x = 100;
-								$y = 10;
-								$z = 100;
-							}
-							elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
-							{
-								$arena = 5;
-								$arenaname = '';
-								$x = 100;
-								$y = 10;
-								$z = 100;
-							}
-							else 
-							{
-								$player->sendPopUp(MT::BLUE.'no arena voted');
-							}
-							
-							$player->sendMessage('Arena '.$arena.' win');
-							
-							$player->sendPopUp(MT::BLUE.'Teleport event start now');
-
-							$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x, $y, $z)));
-							$this->getOwner()->afterteleporttimer = $time+30;
-						}
-						
-					}
+					$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
 				}
 				else
 				{
-					if($time < $this->getOwner()->afterteleporttimer)
+					if(!(isset($this->getOwner()->afterteleporttimer)))
 					{
-						$seconds = $this->getOwner()->afterteleporttimer - $time;
-						$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
-						
-						$his->getOwner()->players[$name] = 1;
-						//stop move event
+						if(!(isset($this->getOwner()->aftervotetimer)))
+						{
+							$this->getOwner()->aftervotetimer = $time+60;
+				
+							$player->sendPopUp(MT::RED.'Teleport timer started');
+						}
+						else
+						{
+							if($time < $this->getOwner()->aftervotetimer)
+							{
+								$seconds = $this->getOwner()->aftervotetimer - $time;
+								$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
+							}
+							if($time > $this->getOwner()->aftervotetimer)
+							{
+								$arena1 = count ($this->getOwner()->arena1);
+								$arena2 = count ($this->getOwner()->arena2);
+								$arena3 = count ($this->getOwner()->arena3);
+								$arena4 = count ($this->getOwner()->arena4);
+								$arena5 = count ($this->getOwner()->arena5);
+								
+								if(!(isset($this->getOwner()->arena1)))$arena1 = 0;
+								if(!(isset($this->getOwner()->arena2)))$arena2 = 0;
+								if(!(isset($this->getOwner()->arena3)))$arena3 = 0;
+								if(!(isset($this->getOwner()->arena4)))$arena4 = 0;
+								if(!(isset($this->getOwner()->arena5)))$arena5 = 0;
+								
+								$this->getOwner()->getLogger()->info("$arena1 $arena2 $arena3 $arena4 $arena5");
+									
+								if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
+								{
+									$arena = 1;
+									$arenaname = '';
+									$x = 100;
+									$y = 10;
+									$z = 100;
+								}
+								elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
+								{
+									$arena = 2;
+									$arenaname = '';
+									$x = 100;
+									$y = 10;
+									$z = 100;
+								}
+								elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
+								{
+									$arena = 3;
+									$arenaname = '';
+									$x = 100;
+									$y = 10;
+									$z = 100;
+								}
+								elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
+								{
+									$arena = 4;
+									$arenaname = '';
+									$x = 100;
+									$y = 10;
+									$z = 100;
+								}
+								elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
+								{
+									$arena = 5;
+									$arenaname = '';
+									$x = 100;
+									$y = 10;
+									$z = 100;
+								}
+								else
+								{
+									$player->sendPopUp(MT::BLUE.'no arena voted');
+								}
+									
+								$player->sendMessage('Arena '.$arena.' win');
+									
+								$player->sendPopUp(MT::BLUE.'Teleport event start now');
+				
+								$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x, $y, $z)));
+								$this->getOwner()->afterteleporttimer = $time+30;
+							}
+				
+						}
 					}
 					else
 					{
-						$player->sendPopUp(MT::BLUE.'Game start NOW!!!');
-					}	
+						if($time < $this->getOwner()->afterteleporttimer)
+						{
+							$seconds = $this->getOwner()->afterteleporttimer - $time;
+							$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
+				
+							$his->getOwner()->players[$name] = 1;
+							//stop move event
+						}
+						else
+						{
+							$player->sendPopUp(MT::BLUE.'Game start NOW!!!');
+						}
+					}
 				}
-			}	
+			}
+
+
+			
 		}
 	}
 }
@@ -228,11 +273,11 @@ class minigame extends PluginBase implements Listener{
 	
 	public $players = array();
 	
-	public $arena1 = array();
-	public $arena2 = array();
-	public $arena3 = array();
-	public $arena4 = array();
-	public $arena5 = array();
+///	public $arena1 = array();
+//	public $arena2 = array();
+///	public $arena3 = array();
+//	public $arena4 = array();
+//	public $arena5 = array();
 	
 	//public $aftervotetimer = array();
 	//public $afterteleporttimer = array();
@@ -253,8 +298,8 @@ class minigame extends PluginBase implements Listener{
 		//}
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		//	$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Startblock" => array(),"Spielwelt"=> array()));
-			$this->time['Zeit'] = 0;
-			$this->round['Zeit'] = 0;
+		//	$this->time['Zeit'] = 0;
+		//	$this->round['Zeit'] = 0;
 	}
 	
 	public function onJoin(PlayerJoinEvent $event)
@@ -265,15 +310,20 @@ class minigame extends PluginBase implements Listener{
 		$event->getPlayer()->sendMessage(MT::AQUA.'Vote your fighting place /vote');
 		$event->getPlayer()->sendMessage(MT::AQUA.'After first vote and 2 players starts timer');
 		$event->getPlayer()->sendMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
+		
+		$this->getLogger()->info("$name joint");
 	}
 	
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
+		$name = $sender->getName();
+		
 		if(!($sender instanceof Player))
 		{
 			$sender->sendMessage(MT::RED.'Nur im Spiel moeglich / Only ingame possible');
 			return true;
 		}
+		
 		switch($cmd->getName())
 		{
 			case "vote":
@@ -281,6 +331,7 @@ class minigame extends PluginBase implements Listener{
 				{
 					$sender->sendMessage(MT::RED.'Vote with /vote *arenanumber* (1-5)');
 					$sender->sendMessage(MT::RED.'At the moment only "1" possible');
+					$this->getLogger()->info("$name benutzt vote befehl");
 					return true;
 				}
 				else
@@ -288,13 +339,12 @@ class minigame extends PluginBase implements Listener{
 					if($args[0] == 1 || $args[0] == 2 || $args[0] == 3 || $args[0] == 4 || $args[0] == 5)
 					{
 						$sender->sendMessage(MT::RED.'Thank u for voting the arena '.MT::GREEN.$args[0]);
-						$name = $sender->getName();
-						
-						if($args[0] === 1)$this->arena1[$name] = 1;		
-						if($args[0] === 2)$this->arena2[$name] = 1;
-						if($args[0] === 3)$this->arena3[$name] = 1;
-						if($args[0] === 4)$this->arena4[$name] = 1;
-						if($args[0] === 5)$this->arena5[$name] = 1;
+						$this->getLogger()->info("$name hat gevotet");
+						if($args[0] == 1)$this->arena1[$name] = 1;		
+						if($args[0] == 2)$this->arena2[$name] = 1;
+						if($args[0] == 3)$this->arena3[$name] = 1;
+						if($args[0] == 4)$this->arena4[$name] = 1;
+						if($args[0] == 5)$this->arena5[$name] = 1;
 						return true;
 					}
 					else 
@@ -315,6 +365,7 @@ class minigame extends PluginBase implements Listener{
 		{
 			if($time < $this->afterteleporttimer)
 			{
+				$this->getLogger()->info("$name move cancel afterteleporttimer");
 				$event->setCancelled(true);
 			}
 		}
