@@ -95,9 +95,50 @@ use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\ReversePriorityQueue;
-use pocketmine\utils\TextFormat;
+use pocketmine\utils\TextFormat as MT;
+
+class statuscheck extends PluginTask
+{
+	public function __construct(Plugin $owner)
+	{
+		parent::__construct($owner);
+	}
+
+	public function onRun($currentTick)
+	{
+		$spieleranzahl = count($this->getOwner->getServer()->getOnlinePlayers());
+		
+		foreach($this->getOwner->getServer()->getOnlinePlayers() as $player)
+		{
+			$name = $player->getNamer();
+			
+			if($spieleranzahl < 2)$player->sendPopUp(MT::BLUE.'Wait for other players');
+			
+			if($spieleranzahl >= 2 && (!(isset($this->getOwner()->arena1[$name])) && !(isset($this->getOwner()->arena2[$name])) && !(isset($this->getOwner()->arena3[$name])) && !(isset($this->getOwner()->arena4[$name])) && !(isset($this->getOwner()->arena5[$name])))
+			{
+				$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
+			}
+			else
+			{
+				$player->sendPopUp(MT::BLUE.'Wait for other arena votes');
+			}
+				
+		}
+	}
+}
 
 class minigame extends PluginBase implements Listener{
+	
+	public $players = array();
+	
+	public $arena1 = array();
+	public $arena2 = array();
+	public $arena3 = array();
+	public $arena4 = array();
+	public $arena5 = array();
+	
+	public $aftervotetimer = array();
+	public $afterteleporttimer = array();
 
 	private $listener;
 	public $time = array();
@@ -107,28 +148,80 @@ class minigame extends PluginBase implements Listener{
 		
 	public function onEnable()
 	{
-		if (!file_exists($this->getDataFolder()))
-		{
-			@mkdir($this->getDataFolder(), true);
-		}
+		$this->getLogger()->info("SurvivalHive Hungergames loaded!");
+		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
+		//if (!file_exists($this->getDataFolder()))
+		//{
+		//	@mkdir($this->getDataFolder(), true);
+		//}
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Startblock" => array(),"Spielwelt"=> array()));
+		//	$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Startblock" => array(),"Spielwelt"=> array()));
 			$this->time['Zeit'] = 0;
 			$this->round['Zeit'] = 0;
 	}
 	
+	public function onJoin(PlayerJoinEvent $event)
+	{
+		$name = $event->getPlayer()->getName();
+		$event->setJoinMessage(MT::GREEN.'Welcome '.MT::RED.$name.MT::GREEN.' to Hungergameslobby!');
+		
+		$event->setJoinMessage(MT::AQUA.'Vote your fighting place /vote');
+		$event->setJoinMessage(MT::AQUA.'After first vote and 2 players starts timer');
+		$event->setJoinMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
+		$event->setJoinMessage(MT::AQUA.'Fight start after 30 seconds');
+	}
+	
+	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
+	{
+		if(!($sender instanceof Player))
+		{
+			$sender->sendMessage(MTT::RED.'Nur im Spiel moeglich / Only ingame possible');
+			return true;
+		}
+		switch($cmd->getName())
+		{
+			case "vote":
+				if(!(isset($args[0])))
+				{
+					$sender->sendMessage(MT::RED.'Vote with /vote *arenanumber* (1-5)');
+					$sender->sendMessage(MT::RED.'At the moment only "1" possible');
+					return true;
+				}
+				else
+				{
+					if($args[0] === 1 || $args[0] === 2 || $args[0] === 3 || $args[0] === 4 || $args[0] === 5)
+					{
+						$sender->sendMessage(MT::RED.'Thank u for voting the arena '.MT::GREEN.$args[0]);
+						$name = $sender->getName();
+						
+						if($args[0] === 1)$this->arena1[$name] = 1;		
+						if($args[0] === 2)$this->arena2[$name] = 1;
+						if($args[0] === 3)$this->arena3[$name] = 1;
+						if($args[0] === 4)$this->arena4[$name] = 1;
+						if($args[0] === 5)$this->arena5[$name] = 1;
+						return true;
+					}
+					else 
+					{
+						$sender->sendMessage(MT::RED.'Wrong arena number or arena not loaded');
+						return false;
+					}
+				}
+				break;
+		}
+	}
 	
 	public function onBlockPlaceEvent(BlockPlaceEvent $event)
 	{
-		$bl = $event->getBlock();		
-		if ($bl->getLevel()->getName() == in_array($bl->getLevel()->getName(), $this->config->get("Spielwelt")))
-		{
-			$event->setCancelled();
-		}
+		$event->setCancelled(true);
 	}
 	
 	public function onBlockBreak(BlockBreakEvent $event)
 	{
+		$event->setCancelled(true);
+	}
+	
+	
 		$time = time();
 		$id = $event->getBlock()->getID();
 		$p = $event->getPlayer();
@@ -197,7 +290,7 @@ class minigame extends PluginBase implements Listener{
 				}
 			}
 			$event->setCancelled();
-		}
+		
 	}
 	
 	
@@ -329,6 +422,6 @@ class minigame extends PluginBase implements Listener{
 	}
 	
  	public function onDisable(){
-		$this->getLogger()->info("Plugin unloaded!");
+		$this->getLogger()->info("SurvivalHive Hungergames unloaded!");
 	}
 }
