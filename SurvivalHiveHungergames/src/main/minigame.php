@@ -107,6 +107,7 @@ class statuscheck extends PluginTask
 	public function onRun($currentTick)
 	{
 		$spieleranzahl = count($this->getOwner->getServer()->getOnlinePlayers());
+		$time = time();
 		
 		foreach($this->getOwner->getServer()->getOnlinePlayers() as $player)
 		{
@@ -124,9 +125,8 @@ class statuscheck extends PluginTask
 				{
 					if(!(isset($this->getOwner()->aftervotetimer)))
 					{
-						$this->getOwner()->aftervotetimer = time()+60;
+						$this->getOwner()->aftervotetimer = $time+60;
 						
-						$time = time();
 						$seconds = $this->getOwner()->aftervotetimer - $time;
 						
 						$player->sendPopUp(MT::RED.'Teleport timer started');
@@ -145,32 +145,71 @@ class statuscheck extends PluginTask
 							$arena4 = count ($this->getOwner()->arena4);
 							$arena5 = count ($this->getOwner()->arena5);
 							
-							if($arena1 > $arena 2 && $arena1 > $arena 3 && $arena1 > $arena 4 && $arena1 > $arena 5)$arena = 1;
-							if($arena2 > $arena 1 && $arena2 > $arena 3 && $arena2 > $arena 4 && $arena2 > $arena 5)$arena = 2;
-							if($arena3 > $arena 1 && $arena3 > $arena 2 && $arena3 > $arena 4 && $arena3 > $arena 5)$arena = 3;
-							if($arena4 > $arena 1 && $arena4 > $arena 2 && $arena4 > $arena 3 && $arena4 > $arena 5)$arena = 4;
-							if($arena5 > $arena 1 && $arena5 > $arena 2 && $arena5 > $arena 3 && $arena5 > $arena 4)$arena = 5;
+							if($arena1 > $arena 2 && $arena1 > $arena 3 && $arena1 > $arena 4 && $arena1 > $arena 5)
+							{
+								$arena = 1;
+								$arenaname = '';
+								$x = 100;
+								$y = 10;
+								$z = 100;
+							}
+							if($arena2 > $arena 1 && $arena2 > $arena 3 && $arena2 > $arena 4 && $arena2 > $arena 5)
+							{
+								$arena = 2;
+								$arenaname = '';
+								$x = 100;
+								$y = 10;
+								$z = 100;
+							}
+							if($arena3 > $arena 1 && $arena3 > $arena 2 && $arena3 > $arena 4 && $arena3 > $arena 5)
+							{
+								$arena = 3;
+								$arenaname = '';
+								$x = 100;
+								$y = 10;
+								$z = 100;
+							}
+							if($arena4 > $arena 1 && $arena4 > $arena 2 && $arena4 > $arena 3 && $arena4 > $arena 5)
+							{
+								$arena = 4;
+								$arenaname = '';
+								$x = 100;
+								$y = 10;
+								$z = 100;
+							}
+							if($arena5 > $arena 1 && $arena5 > $arena 2 && $arena5 > $arena 3 && $arena5 > $arena 4)
+							{
+								$arena = 5;
+								$arenaname = '';
+								$x = 100;
+								$y = 10;
+								$z = 100;
+							}
 							
 							$player->sendMessage('Arena '.$arena.' win');
 							
 							$player->sendPopUp(MT::BLUE.'Teleport event start now');
-							
-							
-							
-							//teleport event
-							$player->teleport();
+
+							$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x, $y, $z)));
+							$this->getOwner()->afterteleporttimer = $time+30;
 						}
 						
 					}
 				}
 				else
 				{
-					
+					if($time < $this->getOwner()->afterteleporttimer)
+					{
+						$seconds = $this->getOwner()->afterteleporttimer - $time;
+						$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
+						//stop move event
+					}
+					else
+					{
+						$player->sendPopUp(MT::BLUE.'Game start NOW!!!');
+					}	
 				}
-			}
-			
-			
-				
+			}	
 		}
 	}
 }
@@ -256,6 +295,19 @@ class minigame extends PluginBase implements Listener{
 					}
 				}
 				break;
+		}
+	}
+	
+	public function onPlayerMoveEvent(PlayerMoveEvent $event)
+	{
+		$time = time();
+		
+		if(isset($this->getOwner()->afterteleporttimer))
+		{
+			if($time < $this->getOwner()->afterteleporttimer)
+			{
+				$event->setCancelled(true);
+			}
 		}
 	}
 	
