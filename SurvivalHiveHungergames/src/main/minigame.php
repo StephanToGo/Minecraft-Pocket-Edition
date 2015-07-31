@@ -252,11 +252,17 @@ class statuscheck extends PluginTask
 						{
 							$player->sendPopUp(MT::GREEN.'Game start NOW!!!');
 						}
-						if(count($this->getOwner()->players) <= 1)
+						if(count($this->getOwner()->players) <= 1 && $time > $this->getOwner()->afterteleporttimer)
 						{
 							foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 							{
-								$player->sendMessage(MT::RED.'Game Over');
+								foreach($this->getOwner()->players as $p)
+								{
+									$gewinner = $p;
+									
+								}
+								$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
+								$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'Winner ist '.MT::AQUA.$gewinner);
 							}
 						}
 					}
