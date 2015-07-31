@@ -90,12 +90,14 @@ use pocketmine\network\SourceInterface;
 use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\plugin\Plugin;
-use pocketmine\scheduler\CallbackTask;
+
 use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\utils\TextFormat as MT;
+use pocketmine\scheduler\PluginTask;
+use pocketmine\scheduler\CallbackTask;
 
 class statuscheck extends PluginTask
 {
@@ -106,16 +108,19 @@ class statuscheck extends PluginTask
 
 	public function onRun($currentTick)
 	{
-		$spieleranzahl = count($this->getOwner->getServer()->getOnlinePlayers());
+		$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 		$time = time();
 		
-		foreach($this->getOwner->getServer()->getOnlinePlayers() as $player)
+		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 		{
-			$name = $player->getNamer();
+			$name = $player->getName();
 			
-			if($spieleranzahl < 2)$player->sendPopUp(MT::BLUE.'Wait for other players');
+			if($spieleranzahl < 2)
+			{
+				$player->sendPopUp(MT::BLUE.'Wait for other players');
+			}
 
-			if($spieleranzahl >= 2 && (!(isset($this->getOwner()->arena1[$name])) && !(isset($this->getOwner()->arena2[$name])) && !(isset($this->getOwner()->arena3[$name])) && !(isset($this->getOwner()->arena4[$name])) && !(isset($this->getOwner()->arena5[$name])))
+			if($spieleranzahl >= 2 && (!(isset($this->getOwner()->arena1[$name]))) && (!(isset($this->getOwner()->arena2[$name]))) && (!(isset($this->getOwner()->arena3[$name]))) && (!(isset($this->getOwner()->arena4[$name]))) && (!(isset($this->getOwner()->arena5[$name]))))
 			{
 				$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
 			}
@@ -127,14 +132,13 @@ class statuscheck extends PluginTask
 					{
 						$this->getOwner()->aftervotetimer = $time+60;
 						
-						$seconds = $this->getOwner()->aftervotetimer - $time;
-						
 						$player->sendPopUp(MT::RED.'Teleport timer started');
 					}
 					else
 					{
 						if($time < $this->getOwner()->aftervotetimer)
 						{
+							$seconds = $this->getOwner()->aftervotetimer - $time;
 							$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
 						}
 						if($time > $this->getOwner()->aftervotetimer)
@@ -145,7 +149,7 @@ class statuscheck extends PluginTask
 							$arena4 = count ($this->getOwner()->arena4);
 							$arena5 = count ($this->getOwner()->arena5);
 							
-							if($arena1 > $arena 2 && $arena1 > $arena 3 && $arena1 > $arena 4 && $arena1 > $arena 5)
+							if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
 							{
 								$arena = 1;
 								$arenaname = '';
@@ -153,7 +157,7 @@ class statuscheck extends PluginTask
 								$y = 10;
 								$z = 100;
 							}
-							if($arena2 > $arena 1 && $arena2 > $arena 3 && $arena2 > $arena 4 && $arena2 > $arena 5)
+							elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
 							{
 								$arena = 2;
 								$arenaname = '';
@@ -161,7 +165,7 @@ class statuscheck extends PluginTask
 								$y = 10;
 								$z = 100;
 							}
-							if($arena3 > $arena 1 && $arena3 > $arena 2 && $arena3 > $arena 4 && $arena3 > $arena 5)
+							elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
 							{
 								$arena = 3;
 								$arenaname = '';
@@ -169,7 +173,7 @@ class statuscheck extends PluginTask
 								$y = 10;
 								$z = 100;
 							}
-							if($arena4 > $arena 1 && $arena4 > $arena 2 && $arena4 > $arena 3 && $arena4 > $arena 5)
+							elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
 							{
 								$arena = 4;
 								$arenaname = '';
@@ -177,13 +181,17 @@ class statuscheck extends PluginTask
 								$y = 10;
 								$z = 100;
 							}
-							if($arena5 > $arena 1 && $arena5 > $arena 2 && $arena5 > $arena 3 && $arena5 > $arena 4)
+							elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
 							{
 								$arena = 5;
 								$arenaname = '';
 								$x = 100;
 								$y = 10;
 								$z = 100;
+							}
+							else 
+							{
+								$player->sendPopUp(MT::BLUE.'no arena voted');
 							}
 							
 							$player->sendMessage('Arena '.$arena.' win');
@@ -202,6 +210,8 @@ class statuscheck extends PluginTask
 					{
 						$seconds = $this->getOwner()->afterteleporttimer - $time;
 						$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
+						
+						$his->getOwner()->players[$name] = 1;
 						//stop move event
 					}
 					else
@@ -224,8 +234,8 @@ class minigame extends PluginBase implements Listener{
 	public $arena4 = array();
 	public $arena5 = array();
 	
-	public $aftervotetimer = array();
-	public $afterteleporttimer = array();
+	//public $aftervotetimer = array();
+	//public $afterteleporttimer = array();
 
 	private $listener;
 	public $time = array();
@@ -252,17 +262,16 @@ class minigame extends PluginBase implements Listener{
 		$name = $event->getPlayer()->getName();
 		$event->setJoinMessage(MT::GREEN.'Welcome '.MT::RED.$name.MT::GREEN.' to Hungergameslobby!');
 		
-		$event->setJoinMessage(MT::AQUA.'Vote your fighting place /vote');
-		$event->setJoinMessage(MT::AQUA.'After first vote and 2 players starts timer');
-		$event->setJoinMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
-		$event->setJoinMessage(MT::AQUA.'Fight start after 30 seconds');
+		$event->getPlayer()->sendMessage(MT::AQUA.'Vote your fighting place /vote');
+		$event->getPlayer()->sendMessage(MT::AQUA.'After first vote and 2 players starts timer');
+		$event->getPlayer()->sendMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
 	}
 	
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
 		if(!($sender instanceof Player))
 		{
-			$sender->sendMessage(MTT::RED.'Nur im Spiel moeglich / Only ingame possible');
+			$sender->sendMessage(MT::RED.'Nur im Spiel moeglich / Only ingame possible');
 			return true;
 		}
 		switch($cmd->getName())
@@ -276,7 +285,7 @@ class minigame extends PluginBase implements Listener{
 				}
 				else
 				{
-					if($args[0] === 1 || $args[0] === 2 || $args[0] === 3 || $args[0] === 4 || $args[0] === 5)
+					if($args[0] == 1 || $args[0] == 2 || $args[0] == 3 || $args[0] == 4 || $args[0] == 5)
 					{
 						$sender->sendMessage(MT::RED.'Thank u for voting the arena '.MT::GREEN.$args[0]);
 						$name = $sender->getName();
@@ -302,9 +311,9 @@ class minigame extends PluginBase implements Listener{
 	{
 		$time = time();
 		
-		if(isset($this->getOwner()->afterteleporttimer))
+		if(isset($this->afterteleporttimer))
 		{
-			if($time < $this->getOwner()->afterteleporttimer)
+			if($time < $this->afterteleporttimer)
 			{
 				$event->setCancelled(true);
 			}
@@ -322,7 +331,7 @@ class minigame extends PluginBase implements Listener{
 	}
 	
 	
-		$time = time();
+	/*	$time = time();
 		$id = $event->getBlock()->getID();
 		$p = $event->getPlayer();
 		$bl = $event->getBlock();
@@ -461,67 +470,25 @@ class minigame extends PluginBase implements Listener{
 					}
 				}				
 		}
-	}
+	}*/
 	
 	public function onPlayerDeathEvent(PlayerDeathEvent $event)
 	{
-			if ($event->getEntity()->getLevel()->getName() == in_array($event->getEntity()->getLevel()->getName(), $this->config->get("Spielwelt")))
-			{
-				$p = $event->getEntity();
 
-				$event->setKeepInventory(true);
-				$p->teleport(Server::getInstance()->getLevelByName('pocket')->getSafeSpawn());
-				/*$id = $event->getEntity()->getID();
-				$name = $event->getEntity()->getName();
-				$index = array_search($id, $this->schalter);
-				unset($this->schalter[$index]);
-				$event->getEntity()->sendMessage("Du bist ausgeschieden");	*/	
-			}
-		
 	}
 	
 	public function onEntityLevelChangeEvent(EntityLevelChangeEvent $event)
 	{
-		//if ($event->getEntity()->getLevel()->getName() == in_array($event->getEntity()->getLevel()->getName(), $this->config->get("Spielwelt")))
-		//{
-			$player = $event->getEntity();
-			$id = $event->getEntity()->getID();
-			$ziel = $event->getTarget()->getName();
-			$von = $event->getOrigin()->getName();
-			
-			
-			if($ziel == 'pocket' && $von == 'minigame' && in_array($id, $this->schalter))
-			{
-			
-			
-			$name = $event->getEntity()->getName();
-			$index = array_search($id, $this->schalter);
-			unset($this->schalter[$index]);
-			$event->getEntity()->sendMessage("Du bist ausgeschieden");
-			
-			$player->getInventory()->remove(new Item(276, 0, 1));
-			$player->getInventory()->remove(new Item(310, 0, 1));
-			$player->getInventory()->remove(new Item(311, 0, 1));
-			$player->getInventory()->remove(new Item(312, 0, 1));
-			$player->getInventory()->remove(new Item(313, 0, 1));
-			$player->getInventory()->remove(new Item(297, 0, 5));
-			}
-		//}
-	
+
 	}
 	
 	public function onPlayerQuitEvent(PlayerQuitEvent $event)
 	{
-		if ($event->getPlayer()->getLevel()->getName() == in_array($event->getPlayer()->getLevel()->getName(), $this->config->get("Spielwelt")))
-		{
-			//$event->getPlayer()->teleport(Server::getInstance()->getLevelByName('pocket')->getSafeSpawn());
-			$id = $event->getPlayer()->getID();
-			$index = array_search($id, $this->schalter);
-			unset($this->schalter[$index]);
-		}
+
 	}
 	
- 	public function onDisable(){
+ 	public function onDisable()
+ 	{
 		$this->getLogger()->info("SurvivalHive Hungergames unloaded!");
 	}
 }
