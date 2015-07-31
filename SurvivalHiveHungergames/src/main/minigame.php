@@ -113,15 +113,63 @@ class statuscheck extends PluginTask
 			$name = $player->getNamer();
 			
 			if($spieleranzahl < 2)$player->sendPopUp(MT::BLUE.'Wait for other players');
-			
+
 			if($spieleranzahl >= 2 && (!(isset($this->getOwner()->arena1[$name])) && !(isset($this->getOwner()->arena2[$name])) && !(isset($this->getOwner()->arena3[$name])) && !(isset($this->getOwner()->arena4[$name])) && !(isset($this->getOwner()->arena5[$name])))
 			{
 				$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
 			}
 			else
 			{
-				$player->sendPopUp(MT::BLUE.'Wait for other arena votes');
+				if(!(isset($this->getOwner()->afterteleporttimer)))
+				{
+					if(!(isset($this->getOwner()->aftervotetimer)))
+					{
+						$this->getOwner()->aftervotetimer = time()+60;
+						
+						$time = time();
+						$seconds = $this->getOwner()->aftervotetimer - $time;
+						
+						$player->sendPopUp(MT::RED.'Teleport timer started');
+					}
+					else
+					{
+						if($time < $this->getOwner()->aftervotetimer)
+						{
+							$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
+						}
+						if($time > $this->getOwner()->aftervotetimer)
+						{
+							$arena1 = count ($this->getOwner()->arena1);
+							$arena2 = count ($this->getOwner()->arena2);
+							$arena3 = count ($this->getOwner()->arena3);
+							$arena4 = count ($this->getOwner()->arena4);
+							$arena5 = count ($this->getOwner()->arena5);
+							
+							if($arena1 > $arena 2 && $arena1 > $arena 3 && $arena1 > $arena 4 && $arena1 > $arena 5)$arena = 1;
+							if($arena2 > $arena 1 && $arena2 > $arena 3 && $arena2 > $arena 4 && $arena2 > $arena 5)$arena = 2;
+							if($arena3 > $arena 1 && $arena3 > $arena 2 && $arena3 > $arena 4 && $arena3 > $arena 5)$arena = 3;
+							if($arena4 > $arena 1 && $arena4 > $arena 2 && $arena4 > $arena 3 && $arena4 > $arena 5)$arena = 4;
+							if($arena5 > $arena 1 && $arena5 > $arena 2 && $arena5 > $arena 3 && $arena5 > $arena 4)$arena = 5;
+							
+							$player->sendMessage('Arena '.$arena.' win');
+							
+							$player->sendPopUp(MT::BLUE.'Teleport event start now');
+							
+							
+							
+							//teleport event
+							$player->teleport();
+						}
+						
+					}
+				}
+				else
+				{
+					
+				}
 			}
+			
+			
 				
 		}
 	}
