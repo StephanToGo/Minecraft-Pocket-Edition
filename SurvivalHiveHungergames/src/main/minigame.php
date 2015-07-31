@@ -110,38 +110,10 @@ class statuscheck extends PluginTask
 		$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 		$time = time();
 		
-		if(isset($this->getOwner()->arena1))
+		foreach($this->getOwner()->players as $p)
 		{
-			foreach($this->getOwner()->arena1 as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p <-vote für arena1");
-			}
+			$this->getOwner()->getLogger()->info("$p ");
 		}
-		if(isset($this->getOwner()->arena2))
-		{
-			foreach($this->getOwner()->arena2 as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p <-vote für arena2");
-			}}
-			if(isset($this->getOwner()->arena3))
-			{
-			foreach($this->getOwner()->arena3 as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p <-vote für arena3");
-			}}
-			if(isset($this->getOwner()->arena4))
-			{
-			foreach($this->getOwner()->arena4 as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p <-vote für arena4");
-			}}
-			if(isset($this->getOwner()->arena5))
-			{
-			foreach($this->getOwner()->arena5 as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p <-vote für arena5");
-			}}
-
 		
 		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 		{
@@ -176,74 +148,96 @@ class statuscheck extends PluginTask
 							}
 							if($time > $this->getOwner()->aftervotetimer)
 							{
-								$arena1 = count ($this->getOwner()->arena1);
-								$arena2 = count ($this->getOwner()->arena2);
-								$arena3 = count ($this->getOwner()->arena3);
-								$arena4 = count ($this->getOwner()->arena4);
-								$arena5 = count ($this->getOwner()->arena5);
+								if(!(isset($this->getOwner()->arena1)))
+								{
+									$arena1 = 0;
+								}
+								else
+								{
+									$arena1 = count ($this->getOwner()->arena1);
+								}
 								
-								if(!(isset($this->getOwner()->arena1)))$arena1 = 0;
-								if(!(isset($this->getOwner()->arena2)))$arena2 = 0;
-								if(!(isset($this->getOwner()->arena3)))$arena3 = 0;
-								if(!(isset($this->getOwner()->arena4)))$arena4 = 0;
-								if(!(isset($this->getOwner()->arena5)))$arena5 = 0;
-								
+								if(!(isset($this->getOwner()->arena2)))
+								{
+									$arena2 = 0;
+								}
+								else
+								{
+										$arena2 = count ($this->getOwner()->arena2);
+								}
+								if(!(isset($this->getOwner()->arena3)))
+								{
+									$arena3 = 0;
+								}
+								else
+								{
+									$arena3 = count ($this->getOwner()->arena3);
+								}
+								if(!(isset($this->getOwner()->arena4)))
+								{
+									$arena4 = 0;
+								}
+								else
+								{
+									$arena4 = count ($this->getOwner()->arena4);
+								}
+								if(!(isset($this->getOwner()->arena5)))
+								{
+									$arena5 = 0;
+								}
+								else
+								{
+									$arena5 = count ($this->getOwner()->arena5);
+								}
+
 								$this->getOwner()->getLogger()->info("$arena1 $arena2 $arena3 $arena4 $arena5");
 									
 								if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
 								{
 									$arena = 1;
-									$arenaname = '';
-									$x = 100;
-									$y = 10;
-									$z = 100;
+									
+									$arenaname = $this->getOwner()->config->get("Arena1");
 								}
 								elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
 								{
 									$arena = 2;
-									$arenaname = '';
-									$x = 100;
-									$y = 10;
-									$z = 100;
+									$arenaname = $this->getOwner()->config->get("Arena2");
 								}
 								elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
 								{
 									$arena = 3;
-									$arenaname = '';
-									$x = 100;
-									$y = 10;
-									$z = 100;
+									$arenaname = $this->getOwner()->config->get("Arena3");
 								}
 								elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
 								{
 									$arena = 4;
-									$arenaname = '';
-									$x = 100;
-									$y = 10;
-									$z = 100;
+									$arenaname = $this->getOwner()->config->get("Arena4");
 								}
 								elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
 								{
 									$arena = 5;
-									$arenaname = '';
-									$x = 100;
-									$y = 10;
-									$z = 100;
+									$arenaname = $this->getOwner()->config->get("Arena5");
 								}
 								else
 								{
 									$player->sendPopUp(MT::BLUE.'no arena voted');
 								}
 									
-								$player->sendMessage('Arena '.$arena.' win');
+								foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+								{
+									$x = rand(100,200);
+									$y = rand(100,200);
+									$z = rand(100,200);
 									
-								$player->sendPopUp(MT::BLUE.'Teleport event start now');
-				
-								$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x, $y, $z)));
+									$player->sendMessage('Arena '.$arena.' win');
+									$player->sendPopUp(MT::BLUE.'Teleport event start now');
+									$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
+								}
 								$this->getOwner()->afterteleporttimer = $time+30;
 							}
 				
 						}
+						
 					}
 					else
 					{
@@ -252,19 +246,22 @@ class statuscheck extends PluginTask
 							$seconds = $this->getOwner()->afterteleporttimer - $time;
 							$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
 				
-							$his->getOwner()->players[$name] = 1;
-							//stop move event
+							$this->getOwner()->players[$name] = $name;
 						}
-						else
+						if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 10)
 						{
-							$player->sendPopUp(MT::BLUE.'Game start NOW!!!');
+							$player->sendPopUp(MT::GREEN.'Game start NOW!!!');
+						}
+						if(count($this->getOwner()->players) <= 1)
+						{
+							foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+							{
+								$player->sendMessage(MT::RED.'Game Over');
+							}
 						}
 					}
 				}
 			}
-
-
-			
 		}
 	}
 }
@@ -272,15 +269,6 @@ class statuscheck extends PluginTask
 class minigame extends PluginBase implements Listener{
 	
 	public $players = array();
-	
-///	public $arena1 = array();
-//	public $arena2 = array();
-///	public $arena3 = array();
-//	public $arena4 = array();
-//	public $arena5 = array();
-	
-	//public $aftervotetimer = array();
-	//public $afterteleporttimer = array();
 
 	private $listener;
 	public $time = array();
@@ -292,14 +280,12 @@ class minigame extends PluginBase implements Listener{
 	{
 		$this->getLogger()->info("SurvivalHive Hungergames loaded!");
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
-		//if (!file_exists($this->getDataFolder()))
-		//{
-		//	@mkdir($this->getDataFolder(), true);
-		//}
+		if (!file_exists($this->getDataFolder()))
+		{
+			@mkdir($this->getDataFolder(), true);
+		}
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		//	$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Startblock" => array(),"Spielwelt"=> array()));
-		//	$this->time['Zeit'] = 0;
-		//	$this->round['Zeit'] = 0;
+			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Arena1" => 'world',"Arena2" => 'world2',"Arena3" => 'world3',"Arena4" => 'world4',"Arena5" => 'world5'));
 	}
 	
 	public function onJoin(PlayerJoinEvent $event)
@@ -360,7 +346,7 @@ class minigame extends PluginBase implements Listener{
 	public function onPlayerMoveEvent(PlayerMoveEvent $event)
 	{
 		$time = time();
-		
+		$name = $event->getPlayer()->getName();
 		if(isset($this->afterteleporttimer))
 		{
 			if($time < $this->afterteleporttimer)
@@ -525,17 +511,16 @@ class minigame extends PluginBase implements Listener{
 	
 	public function onPlayerDeathEvent(PlayerDeathEvent $event)
 	{
-
-	}
-	
-	public function onEntityLevelChangeEvent(EntityLevelChangeEvent $event)
-	{
-
+		$player = $event->getEntity();
+		if(!($player instanceof Player))return;
+		$name = $event->getEntity()->getName();
+		unset ($this->players[$name]);	
 	}
 	
 	public function onPlayerQuitEvent(PlayerQuitEvent $event)
 	{
-
+		$name = $event->getPlayer()->getName();
+		unset ($this->players[$name]);
 	}
 	
  	public function onDisable()
