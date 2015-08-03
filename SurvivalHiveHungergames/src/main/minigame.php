@@ -355,7 +355,7 @@ class statuscheck extends PluginTask
 														$kistencoords = ($randx.",".($yachse+1).",".$randz);
 														$this->getOwner()->kisten[] = $kistencoords;
 															
-														//Kisten füllen
+														//Kisten fÃ¼llen
 														$truhe15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3($randx, $yachse+1, $randz));
 														$chest15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getTile($truhe15);
 														
@@ -503,12 +503,10 @@ class minigame extends PluginBase implements Listener{
 	public function onEnable()
 	{
 		$this->getLogger()->info("SurvivalHive Hungergames loaded!");
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		if (!file_exists($this->getDataFolder()))
 		{
 			@mkdir($this->getDataFolder(), true);
 		}
-			$this->getServer()->getPluginManager()->registerEvents($this, $this);
 			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Arena1" => 'world',"Arena2" => 'world2',"Arena3" => 'world3',"Arena4" => 'world4',"Arena5" => 'world5'));
 	}
 	
