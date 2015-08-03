@@ -55,9 +55,10 @@ use pocketmine\inventory\InventoryHolder;
 use pocketmine\inventory\SimpleTransactionGroup;
 use pocketmine\inventory\StonecutterShapelessRecipe;
 use pocketmine\item\Item;
+use pocketmine\level;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\LevelProvider;
-use pocketmine\level\Level;
+//use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
@@ -91,12 +92,15 @@ use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\plugin\Plugin;
 use pocketmine\tile\Sign;
+use pocketmine\tile\Chest;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\scheduler\CallbackTask;
+
+use pocketmine\tile\Chest as TileChest;
 
 class statuscheck extends PluginTask
 {
@@ -107,180 +111,385 @@ class statuscheck extends PluginTask
 
 	public function onRun($currentTick)
 	{
-		$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
-		$time = time();
-		
-		if(isset($this->getOwner()->players))
-		{
-			foreach($this->getOwner()->players as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p ");
-			}
-		}
-		
-		foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
-		{
-			$name = $player->getName();
+			$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
+			$time = time();
 			
-			if($spieleranzahl < 2)
+			//if(isset($this->getOwner()->players))
+			//{
+			//	foreach($this->getOwner()->players as $p)
+			//	{
+			//		$this->getOwner()->getLogger()->info("$p");
+			//	}
+			//}
+			
+			//if(isset($this->getOwner()->kisten))
+			//{
+			//	foreach($this->getOwner()->kisten as $p)
+			//	{
+			//		$this->getOwner()->getLogger()->info("$p");
+			//	}
+			//}
+			
+			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
-				$player->sendPopUp(MT::BLUE.'Wait for other players');
-			}
-			else
-			{
-				if((!(isset($this->getOwner()->arena1))) && (!(isset($this->getOwner()->arena2))) && (!(isset($this->getOwner()->arena3))) && (!(isset($this->getOwner()->arena4))) && (!(isset($this->getOwner()->arena5))))
+				$name = $player->getName();
+				
+				if($spieleranzahl < 2)
 				{
-					$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
+					$player->sendPopUp(MT::BLUE.'Wait for other players');
 				}
 				else
 				{
-					if(!(isset($this->getOwner()->afterteleporttimer)))
+					if((!(isset($this->getOwner()->arena1))) && (!(isset($this->getOwner()->arena2))) && (!(isset($this->getOwner()->arena3))) && (!(isset($this->getOwner()->arena4))) && (!(isset($this->getOwner()->arena5))))
 					{
-						if(!(isset($this->getOwner()->aftervotetimer)))
-						{
-							$this->getOwner()->aftervotetimer = $time+60;
-				
-							$player->sendPopUp(MT::RED.'Teleport timer started');
-						}
-						else
-						{
-							if($time < $this->getOwner()->aftervotetimer)
-							{
-								$seconds = $this->getOwner()->aftervotetimer - $time;
-								$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
-							}
-							if($time > $this->getOwner()->aftervotetimer)
-							{
-								if(!(isset($this->getOwner()->arena1)))
-								{
-									$arena1 = 0;
-								}
-								else
-								{
-									$arena1 = count ($this->getOwner()->arena1);
-								}
-								
-								if(!(isset($this->getOwner()->arena2)))
-								{
-									$arena2 = 0;
-								}
-								else
-								{
-										$arena2 = count ($this->getOwner()->arena2);
-								}
-								if(!(isset($this->getOwner()->arena3)))
-								{
-									$arena3 = 0;
-								}
-								else
-								{
-									$arena3 = count ($this->getOwner()->arena3);
-								}
-								if(!(isset($this->getOwner()->arena4)))
-								{
-									$arena4 = 0;
-								}
-								else
-								{
-									$arena4 = count ($this->getOwner()->arena4);
-								}
-								if(!(isset($this->getOwner()->arena5)))
-								{
-									$arena5 = 0;
-								}
-								else
-								{
-									$arena5 = count ($this->getOwner()->arena5);
-								}
-
-								$this->getOwner()->getLogger()->info("$arena1 $arena2 $arena3 $arena4 $arena5");
-									
-								if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
-								{
-									$arena = 1;
-									
-									$arenaname = $this->getOwner()->config->get("Arena1");
-								}
-								elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
-								{
-									$arena = 2;
-									$arenaname = $this->getOwner()->config->get("Arena2");
-								}
-								elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
-								{
-									$arena = 3;
-									$arenaname = $this->getOwner()->config->get("Arena3");
-								}
-								elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
-								{
-									$arena = 4;
-									$arenaname = $this->getOwner()->config->get("Arena4");
-								}
-								elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
-								{
-									$arena = 5;
-									$arenaname = $this->getOwner()->config->get("Arena5");
-								}
-								else
-								{
-									$player->sendPopUp(MT::BLUE.'no arena voted');
-								}
-									
-								foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
-								{
-									$x = rand(100,200);
-									$y = rand(100,200);
-									$z = rand(100,200);
-									
-									$player->sendMessage('Arena '.$arena.' win');
-									$player->sendPopUp(MT::BLUE.'Teleport event start now');
-									$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
-								}
-								$this->getOwner()->afterteleporttimer = $time+30;
-							}
-				
-						}
-						
+						$player->sendPopUp(MT::BLUE.'Vote for arena with /vote *arenanumber*');
 					}
 					else
 					{
-						if($time < $this->getOwner()->afterteleporttimer)
+						if(!(isset($this->getOwner()->afterteleporttimer)))
 						{
-							$seconds = $this->getOwner()->afterteleporttimer - $time;
-							$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
-				
-							$this->getOwner()->players[$name] = $name;
-						}
-						if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 10)
-						{
-							$player->sendPopUp(MT::GREEN.'Game start NOW!!!');
-						}
-						if(count($this->getOwner()->players) <= 1 && $time > $this->getOwner()->afterteleporttimer)
-						{
-							foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+							if(!(isset($this->getOwner()->aftervotetimer)))
 							{
-								foreach($this->getOwner()->players as $p)
+								$this->getOwner()->aftervotetimer = $time+60;
+					
+								$player->sendPopUp(MT::RED.'Teleport timer started');
+							}
+							else
+							{
+								if($time < $this->getOwner()->aftervotetimer)
 								{
-									$gewinner = $p;
+									$seconds = $this->getOwner()->aftervotetimer - $time;
+									$player->sendPopUp(MT::BLUE.'Wait for other arena votes '.MT::RED.$seconds.'sec');
 								}
-								$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
-								$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'Winner ist '.MT::AQUA.$gewinner);
+								if($time > $this->getOwner()->aftervotetimer)
+								{
+									if(!(isset($this->getOwner()->arena1)))
+									{
+										$arena1 = 0;
+									}
+									else
+									{
+										$arena1 = count ($this->getOwner()->arena1);
+									}
+									
+									if(!(isset($this->getOwner()->arena2)))
+									{
+										$arena2 = 0;
+									}
+									else
+									{
+											$arena2 = count ($this->getOwner()->arena2);
+									}
+									if(!(isset($this->getOwner()->arena3)))
+									{
+										$arena3 = 0;
+									}
+									else
+									{
+										$arena3 = count ($this->getOwner()->arena3);
+									}
+									if(!(isset($this->getOwner()->arena4)))
+									{
+										$arena4 = 0;
+									}
+									else
+									{
+										$arena4 = count ($this->getOwner()->arena4);
+									}
+									if(!(isset($this->getOwner()->arena5)))
+									{
+										$arena5 = 0;
+									}
+									else
+									{
+										$arena5 = count ($this->getOwner()->arena5);
+									}
+	
+									$this->getOwner()->getLogger()->info("$arena1 $arena2 $arena3 $arena4 $arena5");
+										
+									if($arena1 > $arena2 && $arena1 > $arena3 && $arena1 > $arena4 && $arena1 > $arena5)
+									{
+										$arena = 1;
+										
+										$arenaname = $this->getOwner()->config->get("Arena1");
+									}
+									elseif($arena2 > $arena1 && $arena2 > $arena3 && $arena2 > $arena4 && $arena2 > $arena5)
+									{
+										$arena = 2;
+										$arenaname = $this->getOwner()->config->get("Arena2");
+									}
+									elseif($arena3 > $arena1 && $arena3 > $arena2 && $arena3 > $arena4 && $arena3 > $arena5)
+									{
+										$arena = 3;
+										$arenaname = $this->getOwner()->config->get("Arena3");
+									}
+									elseif($arena4 > $arena1 && $arena4 > $arena2 && $arena4 > $arena3 && $arena4 > $arena5)
+									{
+										$arena = 4;
+										$arenaname = $this->getOwner()->config->get("Arena4");
+									}
+									elseif($arena5 > $arena1 && $arena5 > $arena2 && $arena5 > $arena3 && $arena5 > $arena4)
+									{
+										$arena = 5;
+										$arenaname = $this->getOwner()->config->get("Arena5");
+									}
+									else
+									{
+										$player->sendPopUp(MT::BLUE.'no winner by arena voting -> random map loaded');
+										$random = rand(1,5);
+										
+										if($random == 1)
+										{
+											$arena = 1;
+											$arenaname = $this->getOwner()->config->get("Arena1");
+										}
+										if($random == 2)
+										{
+											$arena = 2;
+											$arenaname = $this->getOwner()->config->get("Arena2");
+										}
+										if($random == 3)
+										{
+											$arena = 3;
+											$arenaname = $this->getOwner()->config->get("Arena3");
+										}
+										if($random == 4)
+										{
+											$arena = 4;
+											$arenaname = $this->getOwner()->config->get("Arena4");
+										}
+										if($random == 5)
+										{
+											$arena = 5;
+											$arenaname = $this->getOwner()->config->get("Arena5");
+										}
+									
+									}
+										
+									foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+									{
+										$x = rand(100,200);
+										$y = rand(100,200);
+										$z = rand(100,200);
+										
+										$player->sendMessage('Arena '.$arena.' win');
+										$player->sendPopUp(MT::BLUE.'Teleport event start now');
+										$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
+										
+										$player->getInventory()->clearAll();
+									}
+									$this->getOwner()->afterteleporttimer = $time+30;
+									$this->getOwner()->selectarena = $arenaname;
+								}
+					
 							}
 							
-							unset ($this->getOwner()->players);
-							unset ($this->getOwner()->arena1);
-							unset ($this->getOwner()->arena2);
-							unset ($this->getOwner()->arena3);
-							unset ($this->getOwner()->arena4);
-							unset ($this->getOwner()->arena5);
-							unset ($this->getOwner()->aftervotetimer);
-							unset ($this->getOwner()->afterteleporttimer);
+						}
+						else
+						{
+							if($time < $this->getOwner()->afterteleporttimer)
+							{
+								$seconds = $this->getOwner()->afterteleporttimer - $time;
+								$player->sendPopUp(MT::BLUE.'Wait, game starts in '.MT::RED.$seconds.'sec');
+					
+								$this->getOwner()->players[$name] = $name;
+								
+								//Chest Generator---
+								//Chest Generator---
+								//Chest Generator---
+								//Chest Generator---
+								//Chest Generator---
+								//Chest Generator---
+								if(!(isset($this->getOwner()->chestgenerator)))
+								{
+									$level = $this->getOwner()->selectarena;
+									$this->getOwner()->getLogger()->info('STARTET');
+									
+									for($i = 1; $i < 31; $i++)
+									{
+										$randx = rand(1,300);
+										$randz = rand(1,300);
+										
+										for ($i2 = 1; $i2 <= 100; $i2++) 
+										{
+											$yachse = (3 + $i2);
+											
+											//$blocktest = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3(20,5,20))->getId();
+												
+											$block = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlockIdAt($randx,$yachse,$randz);
+											
+											$this->getOwner()->getLogger()->info($randx." ".$randz." ".$yachse." ".$block." ".$level." ");
+											
+											if($block == 2)
+											{
+												$block0 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,($yachse+1),$randz));
+												
+												if($block0->getID() == 0)
+												{
+	
+													$block1 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx+1,$yachse+1,$randz));
+													$block2 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx-1,$yachse+1,$randz));
+													$block3 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,$yachse+1,$randz+1));
+													$block4 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,$yachse+1,$randz-1));
+													
+													if(($block1->getID() == 0) && ($block2->getID() == 0) && ($block3->getID() == 0) && ($block4->getID() == 0))
+													{
+														
+														$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($randx,$yachse+1,$randz), BLOCK::get(54), false, true);
+														$nbt = new Compound("", [
+																new Enum("Items", []),
+																new String("id", Tile::CHEST),
+																new Int("x", $randx),
+																new Int("y", $yachse+1),
+																new Int("z", $randz)
+														]);
+														$nbt->Items->setTagType(NBT::TAG_Compound);
+														$tile = Tile::createTile("Chest", $this->getOwner()->getServer()->getLevelByName("$level")->getChunk($randx >> 4, $randz >> 4), $nbt);
+														
+														if($chest instanceof TileChest and $tile instanceof TileChest)
+														{
+															$chest->pairWith($tile);
+															$tile->pairWith($chest);
+														}	
+														
+														$kistencoords = ($randx.",".($yachse+1).",".$randz);
+														$this->getOwner()->kisten[] = $kistencoords;
+															
+														//Kisten füllen
+														$truhe15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3($randx, $yachse+1, $randz));
+														$chest15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getTile($truhe15);
+														
+														if($chest15 instanceof Chest)
+														{
+															$rand = rand(1,10);
+																
+															$chest15->getInventory()->clearAll();
+																
+															if($rand == 1)
+															{
+																$chest15->getRealInventory()->addItem(new Item(298, 0, 1));
+															}
+															if($rand == 2)
+															{
+																$chest15->getRealInventory()->addItem(new Item(299, 0, 1));
+															}
+															if($rand == 3)
+															{
+																$chest15->getRealInventory()->addItem(new Item(300, 0, 1));
+															}
+															if($rand == 4)
+															{
+																$chest15->getRealInventory()->addItem(new Item(301, 0, 1));
+															}
+															if($rand == 5)
+															{
+																$chest15->getRealInventory()->addItem(new Item(260, 0, 5));
+															}
+															if($rand == 6)
+															{
+																$chest15->getRealInventory()->addItem(new Item(339, 0, 5));
+															}
+															if($rand == 7)
+															{
+																$chest15->getRealInventory()->addItem(new Item(325, 8, 1));
+															}
+															if($rand == 8)
+															{
+																$chest15->getRealInventory()->addItem(new Item(351, 15, 1));
+															}
+															if($rand == 9)
+															{
+																$chest15->getRealInventory()->addItem(new Item(297, 0, 2));
+															}
+															if($rand == 10)
+															{
+																$chest15->getRealInventory()->addItem(new Item(320, 0, 2));
+															}
+														}
+														$this->getOwner()->getLogger()->info('erfolgreich kiste gesetzt');
+													}
+													else
+													{
+														$this->getOwner()->getLogger()->info('bloecke drum herum sind nicht luft');
+													}
+												}
+												else
+												{
+													$this->getOwner()->getLogger()->info('block ueber grass ist nicht luft');
+												}
+											}
+											else
+											{
+												$this->getOwner()->getLogger()->info('kein Grass block gefunden');
+											}
+										}
+									
+									}
+								$this->getOwner()->chestgenerator = 1;
+								//Chest Generator---
+								//Chest Generator---
+								}
+							}
+							if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 10)
+							{
+								$player->sendPopUp(MT::GREEN.'Game start NOW!!!');
+							}
+							if(count($this->getOwner()->players) <= 1 && $time > $this->getOwner()->afterteleporttimer)
+							{
+								foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
+								{
+									foreach($this->getOwner()->players as $p)
+									{
+										$gewinner = $p;
+									}
+									
+									$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
+									$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'Winner ist '.MT::AQUA.$gewinner);
+								}
+								
+								
+								if(isset($this->getOwner()->kisten))
+								{
+									foreach($this->getOwner()->kisten as $kiste)
+									{
+										$this->getOwner()->getServer()->getLogger()->info('kiste start');
+										$level = $this->getOwner()->selectarena;
+										$coords = explode(",", $kiste);
+										$this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);	
+										$this->getOwner()->getServer()->getLogger()->info('kiste weg');
+									}
+									
+									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest) {
+										if($chest instanceof Chest) {
+											$chest->close();
+										}
+									}
+								}
+								
+								
+								$this->getOwner()->getServer()->getLogger()->info('unset start');
+								unset ($this->getOwner()->players);
+								
+								unset ($this->getOwner()->arena1);
+								unset ($this->getOwner()->arena2);
+								unset ($this->getOwner()->arena3);
+								unset ($this->getOwner()->arena4);
+								unset ($this->getOwner()->arena5);
+								
+								unset ($this->getOwner()->aftervotetimer);
+								unset ($this->getOwner()->afterteleporttimer);
+								
+								unset ($this->getOwner()->selectarena);
+								unset ($this->getOwner()->chestgenerator);
+								unset ($this->getOwner()->kisten);
+								$this->getOwner()->getServer()->getLogger()->info('unset ende');
+								
+							}
 						}
 					}
 				}
 			}
-		}
-	}
+		}	
 }
 
 class minigame extends PluginBase implements Listener{
@@ -313,17 +522,12 @@ class minigame extends PluginBase implements Listener{
 		$event->getPlayer()->sendMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
 		
 		$this->getLogger()->info("$name joint");
+		$event->getPlayer()->getInventory()->clearAll();
 	}
 	
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
 		$name = $sender->getName();
-		
-		if(!($sender instanceof Player))
-		{
-			$sender->sendMessage(MT::RED.'Nur im Spiel moeglich / Only ingame possible');
-			return true;
-		}
 		
 		switch($cmd->getName())
 		{
@@ -374,12 +578,19 @@ class minigame extends PluginBase implements Listener{
 	
 	public function onBlockPlaceEvent(BlockPlaceEvent $event)
 	{
-		$event->setCancelled(true);
+		if(!$event->getPlayer()->isOp())
+		{
+			$event->setCancelled(true);
+		}
+	
 	}
 	
 	public function onBlockBreak(BlockBreakEvent $event)
 	{
-		$event->setCancelled(true);
+		if(!$event->getPlayer()->isOp())
+		{
+			$event->setCancelled(true);
+		}
 	}
 	
 	public function onEntityDamageByEntity(EntityDamageEvent $event)
@@ -389,14 +600,20 @@ class minigame extends PluginBase implements Listener{
 			$victim = $event->getEntity();
 			$attacker = $event->getDamager();
 			if($victim instanceof Player && $attacker instanceof Player)
-			{
+			{			
 				if($this->getServer()->getDefaultLevel() == $victim->getLevel())
 				{
 					$event->setCancelled(true);
 				}
 			}
-			
 		}
+	}
+	
+	public function onRespawn(PlayerRespawnEvent $event)
+	{
+		$pos = $this->getServer()->getDefaultLevel()->getSafeSpawn();
+		
+		$event->setRespawnPosition($pos);
 	}
 
 	public function onPlayerDeathEvent(PlayerDeathEvent $event)
@@ -404,17 +621,56 @@ class minigame extends PluginBase implements Listener{
 		$player = $event->getEntity();
 		if(!($player instanceof Player))return;
 		$name = $event->getEntity()->getName();
-		unset ($this->players[$name]);	
+		unset ($this->players[$name]);
+		
+		if(isset($this->players))
+		{
+			$letztespieler = count($this->players);
+			
+			foreach($this->getServer()->getOnlinePlayers() as $player)
+			{
+				$player->sendMessage(MT::RED.$name.' would be killed -> '.MT::GREEN.$letztespieler.MT::RED.' players alive');
+			}
+		}
+
+
 	}
 	
 	public function onPlayerQuitEvent(PlayerQuitEvent $event)
 	{
 		$name = $event->getPlayer()->getName();
 		unset ($this->players[$name]);
+		
+		if(isset($this->players))
+		{
+			$letztespieler = count($this->players);
+			
+			foreach($this->getServer()->getOnlinePlayers() as $player)
+			{
+				$player->sendMessage(MT::RED.$name.' has left the game -> '.MT::GREEN.$letztespieler.MT::RED.' players alive');
+			}
+		}
 	}
 	
  	public function onDisable()
  	{
+ 		if(isset($this->kisten))
+ 		{
+ 			foreach($this->kisten as $kiste)
+ 			{
+ 				$this->getServer()->getLogger()->info('kiste start');
+ 				$level = $this->selectarena;
+ 				$coords = explode(",", $kiste);
+ 				$this->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);
+ 				$this->getServer()->getLogger()->info('kiste weg');
+ 			}
+ 				
+ 			foreach($this->getServer()->getLevelbyName("$level")->getTiles() as $chest) {
+ 				if($chest instanceof Chest) {
+ 					$chest->close();
+ 				}
+ 			}
+ 		}
 		$this->getLogger()->info("SurvivalHive Hungergames unloaded!");
 	}
 }
