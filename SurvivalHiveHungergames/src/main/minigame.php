@@ -791,7 +791,7 @@ class minigame extends PluginBase implements Listener{
 						if($this->arena5name == $arenaname)
 						{
 							$pos111 = explode(",", $this->arena5areapos1);
-							$pos222 = explode(",", $this->arena55areapos2);
+							$pos222 = explode(",", $this->arena5areapos2);
 						}
 						
 						$randx = rand($pos111[0],$pos222[0]);
