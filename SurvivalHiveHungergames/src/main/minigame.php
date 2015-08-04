@@ -417,7 +417,9 @@ class statuscheck extends PluginTask
 										$z = rand($pos11[2], $pos22[2]);
 										$player->setGamemode(0);
 										$player->setHealth(20);
+										---
 										$player->getInventory()->clearAll();
+										---
 										$player->sendMessage(MT::GREEN.'Arena '.MT::RED.$arena.MT::GREEN.' win');
 										$player->sendPopUp(MT::AQUA.'Teleport event start now');
 										$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
@@ -774,10 +776,12 @@ class minigame extends PluginBase implements Listener{
 		$name = $event->getPlayer()->getName();
 		$event->setJoinMessage('');
 		$event->getPlayer()->sendMessage(MT::GREEN.'Welcome '.MT::RED.$name.MT::GREEN.' to Hungergameslobby!');
-		$event->getPlayer()->sendMessage(MT::AQUA.'Vote your fighting place /vote');
+		$event->getPlayer()->sendMessage(MT::AQUA.'Vote for your arena with /vote *number 1-5*');
 		$event->getPlayer()->sendMessage(MT::AQUA.'After first vote and 2 players starts timer');
 		$event->getPlayer()->sendMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
 		$event->getPlayer()->getInventory()->clearAll();
+		$event->getPlayer()->setGamemode(0);
+		$event->getPlayer()->teleport($event->getPlayer()->getLevelbyName($this->lobbyname)->getSafeSpawn());
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
