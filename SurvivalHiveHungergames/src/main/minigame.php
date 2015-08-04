@@ -413,11 +413,11 @@ class statuscheck extends PluginTask
 										}
 										
 										$x = rand($pos11[0], $pos22[0]);
-										$y = rand($pos11[1], $pos22[1]);
+										$y = 75;
 										$z = rand($pos11[2], $pos22[2]);
 										$player->setGamemode(0);
 										$player->setHealth(20);
-									
+					//problem
 										$player->getInventory()->clearAll();
 									
 										$player->sendMessage(MT::GREEN.'Arena '.MT::RED.$arena.MT::GREEN.' win');
