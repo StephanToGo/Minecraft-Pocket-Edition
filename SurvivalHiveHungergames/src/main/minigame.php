@@ -511,9 +511,12 @@ class statuscheck extends PluginTask
 															$rand = rand(1,10);			
 															$chest15->getInventory()->clearAll();
 															$inv = $chest15->getRealInventory();
-															$ids = [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366]; //Edit the items here...
+															
+															$ids = $this->getOwner()->itemids;
+															$itemanzahl = $this->getOwner()->numberofitemsperchest;
+															//$ids = [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366]; //Edit the items here...
 															$ids[array_rand($ids)];
-															for($i3 = 0; $i3 < 6; $i3++)
+															for($i3 = 0; $i3 < $itemanzahl; $i3++)
 															{
 																$inv->addItem(Item::get($ids[mt_rand(0, count($ids) - 1)]));
 															}				
@@ -707,6 +710,9 @@ class minigame extends PluginBase implements Listener{
 	public $numberofchests;
 	public $roundtime;
 	
+	public $numberofitemsperchest;
+	public $itemids = array();
+	
 	public function onEnable()
 	{
 		$this->getLogger()->info('SurvivalHive Hungergames loaded!');
@@ -719,7 +725,7 @@ class minigame extends PluginBase implements Listener{
 			@mkdir($this->getDataFolder(), true);
 		}
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Lobby" => 'lobbyworld',"LobbyPos1" => "50,0,50","LobbyPos2" => "50,0,50","Arena1" => 'world',"Arena1Pos1" => "50,0,50","Arena1Pos2" => "50,0,50", "Arena2" => 'world2',"Arena2Pos1" => "50,0,50","Arena2Pos2" => "50,0,50","Arena3" => 'world3',"Arena3Pos1" => "50,0,50","Arena3Pos2" => "50,0,50","Arena4" => 'world4',"Arena4Pos1" => "50,0,50","Arena4Pos2" => "50,0,50","Arena5" => 'world5',"Arena5Pos1" => "50,0,50","Arena5Pos2" => "50,0,50","NumberofChests" => "30","Roundtime" => "10"));
+			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Lobby" => 'lobbyworld',"LobbyPos1" => "50,0,50","LobbyPos2" => "50,0,50","Arena1" => 'world',"Arena1Pos1" => "50,0,50","Arena1Pos2" => "50,0,50", "Arena2" => 'world2',"Arena2Pos1" => "50,0,50","Arena2Pos2" => "50,0,50","Arena3" => 'world3',"Arena3Pos1" => "50,0,50","Arena3Pos2" => "50,0,50","Arena4" => 'world4',"Arena4Pos1" => "50,0,50","Arena4Pos2" => "50,0,50","Arena5" => 'world5',"Arena5Pos1" => "50,0,50","Arena5Pos2" => "50,0,50","NumberofChests" => "30","NumberofItemsperChest" => "6","PossibleItemIds" => [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366],"Roundtime" => "10"));
 	
 		$this->lobbyname = 	$this->config->get("Lobby");
 		$this->lobbyareapos1 = $this->config->get("LobbyPos1");
@@ -748,6 +754,9 @@ class minigame extends PluginBase implements Listener{
 		$this->numberofchests = $this->config->get("NumberofChests");
 		
 		$this->roundtime = (($this->config->get("Roundtime")*20)*3);
+		
+		$this->numberofitemsperchest = $this->config->get("NumberofItemsperChest");
+		$this->itemids = $this->config->get("PossibleItemIds");
 	}
 	public function onJoin(PlayerJoinEvent $event)
 	{
