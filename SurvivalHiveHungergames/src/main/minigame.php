@@ -637,7 +637,7 @@ class statuscheck extends PluginTask
 									$time = time();
 									$rundenzeit = ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime) - $time;
 									$level = $player->getLevel()->getName();
-									if($this->getOwner()->lobbyname == $level)$player->sendPopUp(MT::GOLD.'  Please wait '.MT::RED.$letztespieler.MT::GOLD.' players alive'.MT::AQUA.$rundenzeit.MT::GREEN.' left'."\nuse ".MT::AQUA.'/watch'.MT::GREEN.' for spectator mode');
+									if($this->getOwner()->lobbyname == $level)$player->sendPopUp(MT::GOLD.'  Please wait '.MT::RED.$letztespieler.MT::GOLD.' players alive'."\nuse ".MT::AQUA.'/watch'.MT::GREEN.' for spectator mode'."\n".MT::AQUA.$rundenzeit.MT::GREEN.' left');
 								}
 							}
 						}
