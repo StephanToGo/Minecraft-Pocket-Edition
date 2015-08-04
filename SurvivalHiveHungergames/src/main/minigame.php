@@ -222,13 +222,13 @@ class info extends PluginTask
 					$this->getOwner()->getLogger()->info("$p");
 				}
 			}
-			if(isset($this->getOwner()->feuer))
-			{
-				foreach($this->getOwner()->feuer as $p)
-				{
-					$this->getOwner()->getLogger()->info("$p");
-				}
-			}
+			//if(isset($this->getOwner()->feuer))
+			//{
+			//	foreach($this->getOwner()->feuer as $p)
+			//	{
+			//		$this->getOwner()->getLogger()->info("$p");
+			//	}
+			//}
 		
 	}
 }
@@ -421,6 +421,9 @@ class statuscheck extends PluginTask
 										$player->sendMessage(MT::GREEN.'Arena '.MT::RED.$arena.MT::GREEN.' win');
 										$player->sendPopUp(MT::AQUA.'Teleport event start now');
 										$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
+										
+										$name = $player->getName();
+										$this->getOwner()->players[$name] = $name;
 									}
 									$this->getOwner()->afterteleporttimer = $time+30;
 									$this->getOwner()->selectarena = $arenaname;
@@ -433,7 +436,7 @@ class statuscheck extends PluginTask
 							{
 								$seconds = $this->getOwner()->afterteleporttimer - $time;
 								$player->sendPopUp(MT::AQUA.'Wait, game starts in '.MT::RED.$seconds.'sec');	
-								$this->getOwner()->players[$name] = $name;
+								
 								//Chest Generator---
 								//Chest Generator---
 								if(!(isset($this->getOwner()->chestgenerator)))
@@ -858,7 +861,17 @@ class minigame extends PluginBase implements Listener{
 				}
 				else
 				{
-					$sender->sendMessage(MT::RED.'Your are not in Lobby and playing!');
+					$name = $sender->getName();
+					
+					if(in_array($name, $this->players))
+					{
+						$sender->sendMessage(MT::RED.'Your are not in Lobby and playing!');
+					}
+					else 
+					{
+						$sender->teleport($this->getServer()->getLevelByName($this->lobbyname)->getSafeSpawn());
+						$sender->setGamemode(0);
+					}
 					return false;
 				}
 				break;
