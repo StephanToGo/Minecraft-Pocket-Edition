@@ -563,7 +563,7 @@ class statuscheck extends PluginTask
 									$player->setHealth(20);
 									$player->setGamemode(0);
 									$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
-									$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'Winner ist '.MT::AQUA.$gewinner);
+									$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'winner is '.MT::AQUA.$gewinner);
 								}		
 								if(isset($this->getOwner()->kisten))
 								{
@@ -589,10 +589,13 @@ class statuscheck extends PluginTask
 										$sender->close();
 									}
 								}
-								foreach($this->getOwner()->feuer as $feuer)
+								if(isset($this->getOwner()->feuer))
 								{
-									$feurerpos = explode(",", $feuer);
-									$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
+									foreach($this->getOwner()->feuer as $feuer)
+									{
+										$feurerpos = explode(",", $feuer);
+										$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
+									}
 								}
 								unset ($this->getOwner()->players);
 								unset ($this->getOwner()->arena1);
@@ -657,10 +660,13 @@ class statuscheck extends PluginTask
 										$sender->close();
 									}
 								}
-								foreach($this->getOwner()->feuer as $feuer)
+								if(isset($this->getOwner()->feuer))
 								{
-									$feurerpos = explode(",", $feuer);
-									$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
+									foreach($this->getOwner()->feuer as $feuer)
+									{
+										$feurerpos = explode(",", $feuer);
+										$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
+									}
 								}
 								unset ($this->getOwner()->players);
 								unset ($this->getOwner()->arena1);
