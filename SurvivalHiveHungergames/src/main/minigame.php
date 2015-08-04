@@ -965,7 +965,7 @@ class minigame extends PluginBase implements Listener{
 			}
 			else
 			{
-				$kistencoords = ($event->getBlock()->getX().",".$event->getBlock()->getY().",".$event->getBlock()->getZ());
+				$kistencoords = ($event->getBlock()->getX().",".($event->getBlock()->getY()+1).",".$event->getBlock()->getZ());
 				$this->feuer[] = $kistencoords;
 			}
 
