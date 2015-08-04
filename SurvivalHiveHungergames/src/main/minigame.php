@@ -606,6 +606,7 @@ class statuscheck extends PluginTask
 								unset ($this->getOwner()->chestgenerator);
 								unset ($this->getOwner()->kisten);	
 								unset ($this->getOwner()->feuer);
+								return true;
 							}
 							else
 							{
@@ -673,6 +674,7 @@ class statuscheck extends PluginTask
 								unset ($this->getOwner()->chestgenerator);
 								unset ($this->getOwner()->kisten);
 								unset ($this->getOwner()->feuer);
+								return true;
 							}
 						}
 					}
