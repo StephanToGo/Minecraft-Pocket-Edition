@@ -444,7 +444,7 @@ class statuscheck extends PluginTask
 										if($this->getOwner()->arena5name == $this->getOwner()->selectarena)
 										{
 											$pos1 = explode(",", $this->getOwner()->arena5areapos1);
-											$pos2 = explode(",", $this->getOwner()->arena55areapos2);
+											$pos2 = explode(",", $this->getOwner()->arena5areapos2);
 										}		
 										$randx = rand($pos1[0],$pos2[0]);
 										$randz = rand($pos1[2],$pos2[2]);
