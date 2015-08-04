@@ -417,9 +417,9 @@ class statuscheck extends PluginTask
 										$z = rand($pos11[2], $pos22[2]);
 										$player->setGamemode(0);
 										$player->setHealth(20);
-										---
+									
 										$player->getInventory()->clearAll();
-										---
+									
 										$player->sendMessage(MT::GREEN.'Arena '.MT::RED.$arena.MT::GREEN.' win');
 										$player->sendPopUp(MT::AQUA.'Teleport event start now');
 										$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($x,$y,$z)));
@@ -781,7 +781,7 @@ class minigame extends PluginBase implements Listener{
 		$event->getPlayer()->sendMessage(MT::AQUA.'All players in lobby will be teleportet in the arena');
 		$event->getPlayer()->getInventory()->clearAll();
 		$event->getPlayer()->setGamemode(0);
-		$event->getPlayer()->teleport($event->getPlayer()->getLevelbyName($this->lobbyname)->getSafeSpawn());
+		$event->getPlayer()->teleport($this->getServer()->getLevelbyName($this->lobbyname)->getSafeSpawn());
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
