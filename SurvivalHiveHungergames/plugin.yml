@@ -1,11 +1,13 @@
 name: SurvivalHiveHungergames
 main: main\minigame
-version: 1.1
-api: 1.4.0
+version: 1.0
+api: 1.12.0
 load: STARTUP
 author: SurvivalHiveDev
 authors: [Xenturio]
-description: testplugin
+description: SurvivalHive Hungergames
 commands:
- minigamestart:
-  description: "Startet das Minigame"
+ vote:
+  description: "Vote for arena"
+ watch:
+  description: "Spectator mode"
