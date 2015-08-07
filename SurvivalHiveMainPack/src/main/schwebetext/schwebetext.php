@@ -65,8 +65,10 @@ use main\debug\Debug;
 	
 		public function onCommand(CommandSender $p, Command $command, $label, array $args)
 		{
-			if(strtolower($command->getName()) == "create" && $p->isOP())
+			if(strtolower($command->getName()) == "create")
 			{
+				if(!($player->isOp())){$player->sendMessage('nope');return;}
+				
 				if(isset($args[0]))
 				{
 					if($args[0] == "gruen" || $args[0] == "blau" || $args[0] == "rot" || $args[0] == "gelb")
@@ -113,7 +115,7 @@ use main\debug\Debug;
 						//	$entity->setSkin(str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\xFF", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4) . str_repeat("\x80", 64 * 32 * 4), false);
 							//$entity->setSkin($skin, false);
 							$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
-							$entity->canCollideWith(false);
+							$entity->canCollideWith();
 							
 							if($farbe == "gruen") $entity->setNameTag(MT::GREEN."$args[1]");
 							if($farbe == "blau") $entity->setNameTag(MT::AQUA."$args[1]");
@@ -149,11 +151,6 @@ use main\debug\Debug;
 					$p->sendMessage(MT::RED."Farbe und Text waehlen");
 					return true;
 				}
-			}
-			else
-			{
-				$p->sendMessage(MT::RED."Nur OPs");
-				return true;
 			}
 		}
 	}

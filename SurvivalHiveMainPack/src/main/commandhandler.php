@@ -75,7 +75,6 @@ class commandhandler implements Listener{
 								$items[$name]['pos2'] = $pos2;
 								$items[$name]['welt'] = $sender;
 								
-								
 								$player->sendMessage("Erfolgreich gebannt".$bannedItem);
 								$config["Items"] = $items;
 								$this->plugin->cfg->setAll($config);
@@ -138,7 +137,6 @@ class commandhandler implements Listener{
 			{
 				$config = $this->plugin->cfg->getAll();
 				$items = $config["Items"];
-		
 				if($args[0] == "add")
 				{
 					if(isset($args[1]))
@@ -198,7 +196,8 @@ class commandhandler implements Listener{
 							$config["Items"] = $items;
 							$this->plugin->cfg->setAll($config);
 							$this->plugin->cfg->save();
-						}else
+						}
+						else
 						{
 							$player->sendMessage("Das Item is net gebant");
 						}
@@ -249,7 +248,7 @@ class commandhandler implements Listener{
 		if(!(isset($args[0])))
 		{
 			$player->sendMessage(MT::GOLD."Vips: ".implode(", ", $items));
-			return;
+			return true;
 		}
 		if($args[0] == "add")
 		{
@@ -263,7 +262,7 @@ class commandhandler implements Listener{
 						if(!is_array($items))
 						{
 							$items = array($banid);
-							break;
+							return true;
 						}
 						else
 						{
@@ -272,26 +271,26 @@ class commandhandler implements Listener{
 							$config["Vips"] = $items;
 							$this->plugin->cfg->setAll($config);
 							$this->plugin->cfg->save();
-							break;
+							return true;
 						}
 					}
 					else
 					{
 						$player->sendMessage(MT::GOLD."Ist schon VIP");
-						break;
+						return true;
 					}
 						
 				}
 				else
 				{
 					$player->sendMessage(MT::GOLD."Nutz /shvip add NAME");
-					break;
+					return true;
 				}
 			}
 			else
 			{
 				$player->sendMessage(MT::GOLD."Nur fuer Operatoren");
-				break;
+				return true;
 			}
 		}
 		
@@ -314,19 +313,19 @@ class commandhandler implements Listener{
 					else
 					{
 						$player->sendMessage("Spieler ist kein VIP");
-						break;
+						return true;
 					}
 				}
 				else
 				{
 					$player->sendMessage("Nutz /shvip del NAME");
-					break;
+					return true;
 				}
 			}
 			else
 			{
 				$player->sendMessage("Nur fuer Operatoren");
-				break;
+				return true;
 			}
 		}
 	}

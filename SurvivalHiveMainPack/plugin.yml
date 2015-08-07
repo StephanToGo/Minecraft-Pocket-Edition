@@ -21,4 +21,10 @@ commands:
  tpnein:
   description: "Verneint TPA Anfrage"
  create:
-  description: "Schwebetext"
+  description: "Schwebetext erstellen"
+ remove:
+  description: "Schwebetext entfernen"
+ shmr:
+  description: "MarioRoehren"
+ jump:
+  description: "Teleport to a place"
