@@ -239,6 +239,7 @@ class statuscheck extends PluginTask
 					if((!(isset($this->getOwner()->arena1))) && (!(isset($this->getOwner()->arena2))) && (!(isset($this->getOwner()->arena3))) && (!(isset($this->getOwner()->arena4))) && (!(isset($this->getOwner()->arena5))))
 					{
 						$player->sendPopUp(MT::AQUA.'Vote for arena with /vote *arenanumber*');
+						$this->getOwner()->stats[$name]['Kills'] = 0;
 					}
 					else
 					{
@@ -538,6 +539,9 @@ class statuscheck extends PluginTask
 								$rundenzeit = ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime) - $time;
 								$letztespieler = count($this->getOwner()->players);
 								$player->sendPopUp(MT::RED.$letztespieler.MT::GOLD.' players alive '.MT::RED.$rundenzeit.MT::GREEN.' left');
+								$kills = $this->getOwner()->stats[$name]['Kills'];
+								if(isset($this->getOwner()->stats[$name]))$player->sendTip("\n\n\n\n".'                                  Kills '.$kills);
+								
 							}
 							if(count($this->getOwner()->players) <= 1 && $time > $this->getOwner()->afterteleporttimer)
 							{
@@ -583,6 +587,7 @@ class statuscheck extends PluginTask
 										$sender->close();
 									}
 								}
+								
 								unset ($this->getOwner()->players);
 								unset ($this->getOwner()->arena1);
 								unset ($this->getOwner()->arena2);
@@ -697,6 +702,7 @@ class minigame extends PluginBase implements Listener{
 	public $arena5areapos2;
 	public $numberofchests;
 	public $roundtime;
+	public $stats;
 	
 	public $numberofitemsperchest;
 	public $itemids = array();
@@ -756,6 +762,7 @@ class minigame extends PluginBase implements Listener{
 		$event->getPlayer()->getInventory()->clearAll();
 		$event->getPlayer()->setGamemode(0);
 		$event->getPlayer()->teleport($this->getServer()->getLevelbyName($this->lobbyname)->getSafeSpawn());
+		$this->stats[$name]['Kills'] = 0;
 	}
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args)
 	{
@@ -914,7 +921,7 @@ class minigame extends PluginBase implements Listener{
 		if(!($player instanceof Player))return;
 		$name = $event->getEntity()->getName();
 		unset ($this->players[$name]);
-		$event->getEntity()->setGamemode(0);
+		$player->setGamemode(0);
 		if(isset($this->players))
 		{
 			$letztespieler = count($this->players);
@@ -923,11 +930,23 @@ class minigame extends PluginBase implements Listener{
 			{
 				$player->sendMessage(MT::GREEN.$name.MT::RED.' died '.MT::AQUA.'-> '.MT::RED.$letztespieler.MT::GREEN.' players alive');
 			}
-			foreach($this->getOwner()->players as $p)
+			foreach($this->players as $p)
 			{
-				$this->getOwner()->getLogger()->info("$p");
+				$this->getLogger()->info("$p");
 			}
 		}
+		
+		$cause = $player->getLastDamageCause();
+		if($cause instanceof EntityDamageByEntityEvent)
+		{
+			$damager = $cause->getDamager();
+			if($damager instanceof Player)
+			{
+				$name = $damager->getName();
+				$this->stats[$name]['Kills'] = ($this->stats[$name]['Kills']+1);
+			}
+		}
+		
 	}
 	public function onPlayerQuitEvent(PlayerQuitEvent $event)
 	{
