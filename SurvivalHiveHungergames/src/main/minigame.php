@@ -207,29 +207,19 @@ class sgworldborder extends PluginTask
 
 class info extends PluginTask
 {
-
 	public function __construct(Plugin $owner)
 	{
 		parent::__construct($owner);
 	}
-
 	public function onRun($currentTick)
 	{
-			if(isset($this->getOwner()->players))
+		if(isset($this->getOwner()->players))
+		{
+			foreach($this->getOwner()->players as $p)
 			{
-				foreach($this->getOwner()->players as $p)
-				{
-					$this->getOwner()->getLogger()->info("$p");
-				}
+				$this->getOwner()->getLogger()->info("$p");
 			}
-			//if(isset($this->getOwner()->feuer))
-			//{
-			//	foreach($this->getOwner()->feuer as $p)
-			//	{
-			//		$this->getOwner()->getLogger()->info("$p");
-			//	}
-			//}
-		
+		}
 	}
 }
 
@@ -244,8 +234,6 @@ class statuscheck extends PluginTask
 	{
 			$spieleranzahl = count($this->getOwner()->getServer()->getOnlinePlayers());
 			$time = time();
-			
-			
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
 				$name = $player->getName();	
@@ -478,27 +466,26 @@ class statuscheck extends PluginTask
 										for ($i2 = 1; $i2 <= 100; $i2++) 
 										{
 											$yachse = (3 + $i2);	
-											$block = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlockIdAt($randx,$yachse,$randz);										
-											$this->getOwner()->getLogger()->info($randx." ".$randz." ".$yachse." ".$block." ".$level." ");
-											if($block == 2)
+											$block = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlockIdAt($randx,$yachse,$randz);	
+											$block0 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlockIdAt($randx,($yachse-1),$randz);
+											$block5 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlockIdAt($randx,($yachse-2),$randz);
+											$block1 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlockIdAt($randx,($yachse+1),$randz);
+											$block2 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlockIdAt($randx,($yachse+2),$randz);
+											$block3 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlockIdAt($randx,($yachse+3),$randz);
+											$block4 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlockIdAt($randx,($yachse+4),$randz);
+											
+											if(($block == 0) && ($block0 != 0) && ($block0 != 54) && ($block5 != 0) && ($block1 == 0) && ($block2 == 0) && ($block3 == 0) && ($block4 == 0))
 											{
-												$block0 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,($yachse+1),$randz));
-												if($block0->getID() == 0)
-												{
-													$block1 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx+1,$yachse+1,$randz));
-													$block2 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx-1,$yachse+1,$randz));
-													$block3 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,$yachse+1,$randz+1));
-													$block4 = $this->getOwner()->getServer()->getLevelByName("$level")->getBlock(new Vector3($randx,$yachse+1,$randz-1));		
-													if(($block1->getID() == 0) && ($block2->getID() == 0) && ($block3->getID() == 0) && ($block4->getID() == 0))
-													{
-														$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($randx,$yachse+1,$randz), BLOCK::get(54), false, true);
+							
+														$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($randx,$yachse,$randz), BLOCK::get(54), false, true);
 														$nbt = new Compound("", [
 																new Enum("Items", []),
 																new String("id", Tile::CHEST),
 																new Int("x", $randx),
-																new Int("y", $yachse+1),
+																new Int("y", $yachse),
 																new Int("z", $randz)
 														]);
+														
 														$nbt->Items->setTagType(NBT::TAG_Compound);
 														$tile = Tile::createTile("Chest", $this->getOwner()->getServer()->getLevelByName("$level")->getChunk($randx >> 4, $randz >> 4), $nbt);
 														if($chest instanceof TileChest and $tile instanceof TileChest)
@@ -509,7 +496,7 @@ class statuscheck extends PluginTask
 														$kistencoords = ($randx.",".($yachse+1).",".$randz);
 														$this->getOwner()->kisten[] = $kistencoords;	
 														//Kisten füllen
-														$truhe15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3($randx, $yachse+1, $randz));
+														$truhe15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3($randx, $yachse, $randz));
 														$chest15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getTile($truhe15);
 														if($chest15 instanceof Chest)
 														{
@@ -527,28 +514,42 @@ class statuscheck extends PluginTask
 															}				
 														}
 														$this->getOwner()->getLogger()->info('erfolgreich kiste gesetzt');
-													}
-													else
-													{
-														$this->getOwner()->getLogger()->info('bloecke drum herum sind nicht luft');
-													}
-												}
-												else
-												{
-													$this->getOwner()->getLogger()->info('block ueber grass ist nicht luft');
-												}
 											}
 										}
 									}
 								$this->getOwner()->chestgenerator = 1;
 								//Chest Generator---
 								$zahl = count($this->getOwner()->kisten);
-								$this->getOwner()->getLogger()->info("$zahl");					
+								$this->getOwner()->getLogger()->info("KISTEN $zahl");
+
+								//feuer check and deleter
+								
+								$startX = $pos1[0];
+								$endX = $pos2[0];
+								$startY = $pos1[1];
+								$endY = $pos2[1];
+								$startZ = $pos1[2];
+								$endZ = $pos2[2];
+									
+									for($x = $startX; $x <= $endX; ++$x)
+									{
+										for($y = $startY; $y <= $endY; ++$y)
+										{
+											for($z = $startZ; $z <= $endZ; ++$z)
+											{
+												if($this->getOwner()->getServer()->getLevelByName("$level")->getBlockIdAt($x, $y, $z) == 51)
+												{
+													$this->getOwner()->getServer()->getLevelByName("$level")->setBlockIdAt($x, $y, $z, 0);
+													$this->getOwner()->getLogger()->info("Fire removed");
+												}
+											}
+										}
+									}
 								}
 							}
 							if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 10)
 							{
-								$player->sendPopUp(MT::GREEN.'Game start NOW!!!');
+								$player->sendPopUp(MT::GREEN.'Game start NOW!!!');	
 							}
 							if($time > $this->getOwner()->afterteleporttimer + 10 && $time < ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime))
 							{
@@ -731,7 +732,7 @@ class minigame extends PluginBase implements Listener{
 		$this->getLogger()->info('SurvivalHive Hungergames loaded!');
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new sgworldborder($this), 40);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(new info($this), 200);
+		$this->getServer()->getScheduler()->scheduleRepeatingTask(new info($this), 600);
 		
 		if (!file_exists($this->getDataFolder()))
 		{
@@ -885,11 +886,16 @@ class minigame extends PluginBase implements Listener{
 	{
 		$time = time();
 		$name = $event->getPlayer()->getName();
-		if(isset($this->afterteleporttimer))
+		$level = $event->getPlayer()->getLevel()->getName();
+		
+		if($level != $this->lobbyname)
 		{
-			if($time < $this->afterteleporttimer)
+			if(isset($this->afterteleporttimer))
 			{
-				$event->setCancelled(true);
+				if($time < $this->afterteleporttimer)
+				{
+					$event->setCancelled(true);
+				}
 			}
 		}
 	}
@@ -916,7 +922,7 @@ class minigame extends PluginBase implements Listener{
 			$attacker = $event->getDamager();
 			if($victim instanceof Player && $attacker instanceof Player)
 			{			
-				if($this->getServer()->getDefaultLevel() == $victim->getLevel())
+				if($this->lobbyname == $victim->getLevel()->getName())
 				{
 					$event->setCancelled(true);
 				}
@@ -935,7 +941,7 @@ class minigame extends PluginBase implements Listener{
 		if(!($player instanceof Player))return;
 		$name = $event->getEntity()->getName();
 		unset ($this->players[$name]);
-		
+		$event->getEntity()->setGamemode(0);
 		if(isset($this->players))
 		{
 			$letztespieler = count($this->players);
@@ -965,10 +971,9 @@ class minigame extends PluginBase implements Listener{
 			}
 			else
 			{
-				$kistencoords = ($event->getBlock()->getX().",".($event->getBlock()->getY()+1).",".$event->getBlock()->getZ());
-				$this->feuer[] = $kistencoords;
+				$feuerncoords = ($event->getBlock()->getX().",".($event->getBlock()->getY()+1).",".$event->getBlock()->getZ());
+				$this->feuer[] = $feuerncoords;
 			}
-
 		}	
 	}
  	public function onDisable()
