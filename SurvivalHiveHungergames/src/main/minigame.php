@@ -205,24 +205,6 @@ class sgworldborder extends PluginTask
 	}
 }
 
-class info extends PluginTask
-{
-	public function __construct(Plugin $owner)
-	{
-		parent::__construct($owner);
-	}
-	public function onRun($currentTick)
-	{
-		if(isset($this->getOwner()->players))
-		{
-			foreach($this->getOwner()->players as $p)
-			{
-				$this->getOwner()->getLogger()->info("$p");
-			}
-		}
-	}
-}
-
 class statuscheck extends PluginTask
 {
 	public function __construct(Plugin $owner)
@@ -581,7 +563,6 @@ class statuscheck extends PluginTask
 										$level = $this->getOwner()->selectarena;
 										$coords = explode(",", $kiste);
 										$this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);
-										$this->getOwner()->getLogger()->info($kiste." Kiste mit Luft ueberschrieben");
 									}
 									$tileanzahl = 0;
 									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest) 
@@ -589,7 +570,6 @@ class statuscheck extends PluginTask
 										if($chest instanceof Chest) 
 										{
 											$chest->close();
-											$this->getOwner()->getLogger()->info("TILE CLOSED");
 											$tileanzahl++;
 										}
 									}
@@ -648,7 +628,6 @@ class statuscheck extends PluginTask
 										$level = $this->getOwner()->selectarena;
 										$coords = explode(",", $kiste);
 										$this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);
-										$this->getOwner()->getLogger()->info($kiste." Kiste mit Luft ueberschrieben");
 									}
 									$tileanzahl = 0;
 									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest) 
@@ -656,7 +635,6 @@ class statuscheck extends PluginTask
 										if($chest instanceof Chest) 
 										{
 											$chest->close();
-											$this->getOwner()->getLogger()->info("TILE CLOSED");
 											$tileanzahl++;
 										}
 									}
@@ -728,7 +706,6 @@ class minigame extends PluginBase implements Listener{
 		$this->getLogger()->info('SurvivalHive Hungergames loaded!');
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new sgworldborder($this), 40);
-		//$this->getServer()->getScheduler()->scheduleRepeatingTask(new info($this), 600);
 		
 		if (!file_exists($this->getDataFolder()))
 		{
@@ -945,6 +922,10 @@ class minigame extends PluginBase implements Listener{
 			foreach($this->getServer()->getOnlinePlayers() as $player)
 			{
 				$player->sendMessage(MT::GREEN.$name.MT::RED.' died '.MT::AQUA.'-> '.MT::RED.$letztespieler.MT::GREEN.' players alive');
+			}
+			foreach($this->getOwner()->players as $p)
+			{
+				$this->getOwner()->getLogger()->info("$p");
 			}
 		}
 	}
