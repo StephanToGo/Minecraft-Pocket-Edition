@@ -406,7 +406,8 @@ class statuscheck extends PluginTask
 										$player->setGamemode(0);
 										$player->setHealth(20);
 					//problem
-										$player->getInventory()->clearAll();
+										if($player->isOnline())$player->getInventory()->clearAll();
+										
 									
 										$player->sendMessage(MT::GREEN.'Arena '.MT::RED.$arena.MT::GREEN.' win');
 										$player->sendPopUp(MT::AQUA.'Teleport event start now');
@@ -493,7 +494,7 @@ class statuscheck extends PluginTask
 															$chest->pairWith($tile);
 															$tile->pairWith($chest);
 														}	
-														$kistencoords = ($randx.",".($yachse+1).",".$randz);
+														$kistencoords = ($randx.",".$yachse.",".$randz);
 														$this->getOwner()->kisten[] = $kistencoords;	
 														//Kisten füllen
 														$truhe15 = $this->getOwner()->getServer()->getLevelbyName("$level")->getBlock(new Vector3($randx, $yachse, $randz));
@@ -506,21 +507,19 @@ class statuscheck extends PluginTask
 															
 															$ids = $this->getOwner()->itemids;
 															$itemanzahl = $this->getOwner()->numberofitemsperchest;
-															//$ids = [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366]; //Edit the items here...
 															$ids[array_rand($ids)];
 															for($i3 = 0; $i3 < $itemanzahl; $i3++)
 															{
 																$inv->addItem(Item::get($ids[mt_rand(0, count($ids) - 1)]));
 															}				
 														}
-														$this->getOwner()->getLogger()->info('erfolgreich kiste gesetzt');
 											}
 										}
 									}
 								$this->getOwner()->chestgenerator = 1;
 								//Chest Generator---
 								$zahl = count($this->getOwner()->kisten);
-								$this->getOwner()->getLogger()->info("KISTEN $zahl");
+								$this->getOwner()->getLogger()->info("Kisten $zahl");
 
 								//feuer check and deleter
 								
@@ -547,11 +546,11 @@ class statuscheck extends PluginTask
 									}
 								}
 							}
-							if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 10)
+							if($time > $this->getOwner()->afterteleporttimer && $time < $this->getOwner()->afterteleporttimer + 5)
 							{
 								$player->sendPopUp(MT::GREEN.'Game start NOW!!!');	
 							}
-							if($time > $this->getOwner()->afterteleporttimer + 10 && $time < ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime))
+							if($time > $this->getOwner()->afterteleporttimer + 5 && $time < ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime))
 							{
 								$time = time();
 								$rundenzeit = ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime) - $time;
@@ -570,7 +569,11 @@ class statuscheck extends PluginTask
 									$player->setGamemode(0);
 									$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
 									$player->sendMessage(MT::RED.'Game Over '.MT::GREEN.'winner is '.MT::AQUA.$gewinner);
-								}		
+									
+								}
+								
+								$this->getOwner()->getLogger()->info("Gewinner $gewinner");
+								
 								if(isset($this->getOwner()->kisten))
 								{
 									foreach($this->getOwner()->kisten as $kiste)
@@ -578,14 +581,19 @@ class statuscheck extends PluginTask
 										$level = $this->getOwner()->selectarena;
 										$coords = explode(",", $kiste);
 										$this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);
+										$this->getOwner()->getLogger()->info($kiste." Kiste mit Luft ueberschrieben");
 									}
+									$tileanzahl = 0;
 									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest) 
 									{
 										if($chest instanceof Chest) 
 										{
 											$chest->close();
+											$this->getOwner()->getLogger()->info("TILE CLOSED");
+											$tileanzahl++;
 										}
 									}
+									$this->getOwner()->getLogger()->info("Tiles closed ".$tileanzahl);
 								}
 								$test = $this->getOwner()->getServer()->getLevelbyName($this->getOwner()->selectarena)->getEntities();
 								foreach($test as $sender)
@@ -633,21 +641,26 @@ class statuscheck extends PluginTask
 									$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
 									$player->sendMessage(MT::RED.'Game Over '.MT::AQUA.'no winner');
 								}
-								if(isset($this->getOwner()->kisten))
+							if(isset($this->getOwner()->kisten))
 								{
 									foreach($this->getOwner()->kisten as $kiste)
 									{
 										$level = $this->getOwner()->selectarena;
 										$coords = explode(",", $kiste);
 										$this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(0), false, true);
+										$this->getOwner()->getLogger()->info($kiste." Kiste mit Luft ueberschrieben");
 									}
-									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest)
+									$tileanzahl = 0;
+									foreach($this->getOwner()->getServer()->getLevelbyName("$level")->getTiles() as $chest) 
 									{
-										if($chest instanceof Chest)
+										if($chest instanceof Chest) 
 										{
 											$chest->close();
+											$this->getOwner()->getLogger()->info("TILE CLOSED");
+											$tileanzahl++;
 										}
 									}
+									$this->getOwner()->getLogger()->info("Tiles closed ".$tileanzahl);
 								}
 								$test = $this->getOwner()->getServer()->getLevelbyName($this->getOwner()->selectarena)->getEntities();
 								foreach($test as $sender)
@@ -680,6 +693,7 @@ class statuscheck extends PluginTask
 class minigame extends PluginBase implements Listener{
 	
 	private $listener;
+	
 	public $time = array();
 	public $schalter = array();
 	public $round = array();
@@ -714,7 +728,7 @@ class minigame extends PluginBase implements Listener{
 		$this->getLogger()->info('SurvivalHive Hungergames loaded!');
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new sgworldborder($this), 40);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(new info($this), 600);
+		//$this->getServer()->getScheduler()->scheduleRepeatingTask(new info($this), 600);
 		
 		if (!file_exists($this->getDataFolder()))
 		{
