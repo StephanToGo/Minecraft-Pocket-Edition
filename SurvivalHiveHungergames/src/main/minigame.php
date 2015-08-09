@@ -595,14 +595,6 @@ class statuscheck extends PluginTask
 										$sender->close();
 									}
 								}
-								if(isset($this->getOwner()->feuer))
-								{
-									foreach($this->getOwner()->feuer as $feuer)
-									{
-										$feurerpos = explode(",", $feuer);
-										$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
-									}
-								}
 								unset ($this->getOwner()->players);
 								unset ($this->getOwner()->arena1);
 								unset ($this->getOwner()->arena2);
@@ -614,7 +606,6 @@ class statuscheck extends PluginTask
 								unset ($this->getOwner()->selectarena);
 								unset ($this->getOwner()->chestgenerator);
 								unset ($this->getOwner()->kisten);	
-								unset ($this->getOwner()->feuer);
 								return true;
 							}
 							else
@@ -666,14 +657,6 @@ class statuscheck extends PluginTask
 										$sender->close();
 									}
 								}
-								if(isset($this->getOwner()->feuer))
-								{
-									foreach($this->getOwner()->feuer as $feuer)
-									{
-										$feurerpos = explode(",", $feuer);
-										$this->getOwner()->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
-									}
-								}
 								unset ($this->getOwner()->players);
 								unset ($this->getOwner()->arena1);
 								unset ($this->getOwner()->arena2);
@@ -685,7 +668,6 @@ class statuscheck extends PluginTask
 								unset ($this->getOwner()->selectarena);
 								unset ($this->getOwner()->chestgenerator);
 								unset ($this->getOwner()->kisten);
-								unset ($this->getOwner()->feuer);
 								return true;
 							}
 						}
@@ -969,11 +951,6 @@ class minigame extends PluginBase implements Listener{
 			{
 				$event->setCancelled(true);
 			}
-			else
-			{
-				$feuerncoords = ($event->getBlock()->getX().",".($event->getBlock()->getY()+1).",".$event->getBlock()->getZ());
-				$this->feuer[] = $feuerncoords;
-			}
 		}	
 	}
  	public function onDisable()
@@ -994,11 +971,6 @@ class minigame extends PluginBase implements Listener{
  					$chest->close();
  				}
  			}
- 			foreach($this->getOwner()->feuer as $feuer)
- 			{
-				$feurerpos = explode(",", $feuer);
-				$this->getServer()->getLevelByName($this->getOwner()->selectarena)->setBlock(new Vector3($feurerpos[0],$feurerpos[1],$feurerpos[2]), BLOCK::get(0), false, true);
-			}
  		}
 		$this->getLogger()->info('SurvivalHive Hungergames unloaded!');
 	}
