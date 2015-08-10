@@ -539,17 +539,28 @@ class statuscheck extends PluginTask
 								$rundenzeit = ($this->getOwner()->afterteleporttimer + $this->getOwner()->roundtime) - $time;
 								$letztespieler = count($this->getOwner()->players);
 								$player->sendPopUp(MT::RED.$letztespieler.MT::GOLD.' players alive '.MT::RED.$rundenzeit.MT::GREEN.' left');
-								$kills = $this->getOwner()->stats[$name]['Kills'];
-								if(isset($this->getOwner()->stats[$name]))$player->sendTip("\n\n\n\n".'                                  Kills '.$kills);
+								
+								if(isset($this->getOwner()->stats[$name]))
+								{
+									$kills = $this->getOwner()->stats[$name]['Kills'];
+									$player->sendTip("\n\n\n\n".'                                  Kills '.$kills);
+								}
 								
 							}
 							if(count($this->getOwner()->players) <= 1 && $time > $this->getOwner()->afterteleporttimer)
 							{
 								foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 								{
-									foreach($this->getOwner()->players as $p)
+									if(count($this->getOwner()->players) == 0)
 									{
-										$gewinner = $p;
+										$gewinner = "winner logt out...";
+									}
+									else
+									{
+										foreach($this->getOwner()->players as $p)
+										{
+											$gewinner = $p;
+										}
 									}
 									$player->setHealth(20);
 									$player->setGamemode(0);
@@ -702,7 +713,7 @@ class minigame extends PluginBase implements Listener{
 	public $arena5areapos2;
 	public $numberofchests;
 	public $roundtime;
-	public $stats;
+	public $stats = array ();
 	
 	public $numberofitemsperchest;
 	public $itemids = array();
@@ -919,9 +930,11 @@ class minigame extends PluginBase implements Listener{
 	{
 		$player = $event->getEntity();
 		if(!($player instanceof Player))return;
+		
 		$name = $event->getEntity()->getName();
 		unset ($this->players[$name]);
 		$player->setGamemode(0);
+		
 		if(isset($this->players))
 		{
 			$letztespieler = count($this->players);
@@ -935,18 +948,21 @@ class minigame extends PluginBase implements Listener{
 				$this->getLogger()->info("$p");
 			}
 		}
-		
-		$cause = $player->getLastDamageCause();
+		$this->getLogger()->info("1");
+		$cause = $event->getEntity()->getLastDamageCause();
 		if($cause instanceof EntityDamageByEntityEvent)
 		{
+			$this->getLogger()->info("2");
 			$damager = $cause->getDamager();
 			if($damager instanceof Player)
 			{
+				$this->getLogger()->info("3");
 				$name = $damager->getName();
 				$this->stats[$name]['Kills'] = ($this->stats[$name]['Kills']+1);
+				$kills = $this->stats[$name]['Kills'];
+				$this->getLogger()->info("$kills");
 			}
-		}
-		
+		}	
 	}
 	public function onPlayerQuitEvent(PlayerQuitEvent $event)
 	{
