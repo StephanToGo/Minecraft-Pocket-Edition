@@ -11,3 +11,7 @@ commands:
   description: "Vote for arena"
  watch:
   description: "Spectator mode"
+ playerspawn:
+  description: "Playerspawn command"
+ chestspawn:
+  description: "Chestspawn command"
