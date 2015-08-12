@@ -1340,6 +1340,7 @@ class minigame extends PluginBase implements Listener{
 							$ppos3 = $config["PlayerspawnPos3"];
 							$ppos4 = $config["PlayerspawnPos4"];
 							$ppos5 = $config["PlayerspawnPos5"];
+							
 							if($args[0] == "add")
 							{
 								if(isset($args[1]))
@@ -1515,7 +1516,7 @@ class minigame extends PluginBase implements Listener{
 										if(in_array($commandpos, $ppos2))
 										{
 											$key = array_search($commandpos, $ppos2);
-											unset($ppos[$key]);
+											unset($ppos2[$key]);
 											$sender->sendMessage(MT::GREEN."Position deleted ".$commandpos);
 											$config["PlayerspawnPos2"] = $ppos2;
 											$this->config->setAll($config);
@@ -1533,7 +1534,7 @@ class minigame extends PluginBase implements Listener{
 										if(in_array($commandpos, $ppos3))
 										{
 											$key = array_search($commandpos, $ppos3);
-											unset($ppos[$key]);
+											unset($ppos3[$key]);
 											$sender->sendMessage(MT::GREEN."Position deleted ".$commandpos);
 											$config["PlayerspawnPos3"] = $ppos3;
 											$this->config->setAll($config);
@@ -1551,7 +1552,7 @@ class minigame extends PluginBase implements Listener{
 										if(in_array($commandpos, $ppos4))
 										{
 											$key = array_search($commandpos, $ppos4);
-											unset($ppos[$key]);
+											unset($ppos4[$key]);
 											$sender->sendMessage(MT::GREEN."Position deleted ".$commandpos);
 											$config["PlayerspawnPos4"] = $ppos4;
 											$this->config->setAll($config);
@@ -1569,7 +1570,7 @@ class minigame extends PluginBase implements Listener{
 										if(in_array($commandpos, $ppos5))
 										{
 											$key = array_search($commandpos, $ppos5);
-											unset($ppos[$key]);
+											unset($ppos5[$key]);
 											$sender->sendMessage(MT::GREEN."Position deleted ".$commandpos);
 											$config["PlayerspawnPos5"] = $ppos5;
 											$this->config->setAll($config);
@@ -1680,7 +1681,7 @@ class minigame extends PluginBase implements Listener{
 										{
 											if(!is_array($ppos3))
 											{
-												$ppos = array($commandpos);
+												$ppos3 = array($commandpos);
 												return true;
 											}
 											else
