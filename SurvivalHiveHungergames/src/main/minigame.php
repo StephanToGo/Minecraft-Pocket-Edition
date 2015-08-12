@@ -388,35 +388,35 @@ class statuscheck extends PluginTask
 										}
 										else
 										{
-											if($this->getOwner()->arena1name == $this->getOwner()->selectarena)
+											if($this->getOwner()->arena1name == $arenaname)
 											{
 												$anzahlspawnpos = count($this->getOwner()->randomplayerspawn)-1;
 												$coords = explode(",", $this->getOwner()->randomplayerspawn[$spawnvar]);
 												$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($coords[0],$coords[1],$coords[2])));
 												if($anzahlspawnpos > $spawnvar)$spawnvar = $spawnvar+1;
 											}
-											if($this->getOwner()->arena2name == $this->getOwner()->selectarena)
+											if($this->getOwner()->arena2name == $arenaname)
 											{
 												$anzahlspawnpos = count($this->getOwner()->randomplayerspawn2)-1;
 												$coords = explode(",", $this->getOwner()->randomplayerspawn2[$spawnvar]);
 												$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($coords[0],$coords[1],$coords[2])));
 												if($anzahlspawnpos > $spawnvar)$spawnvar = $spawnvar+1;
 											}
-											if($this->getOwner()->arena3name == $this->getOwner()->selectarena)
+											if($this->getOwner()->arena3name == $arenaname)
 											{
 												$anzahlspawnpos = count($this->getOwner()->randomplayerspawn3)-1;
 												$coords = explode(",", $this->getOwner()->randomplayerspawn3[$spawnvar]);
 												$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($coords[0],$coords[1],$coords[2])));
 												if($anzahlspawnpos > $spawnvar)$spawnvar = $spawnvar+1;
 											}
-											if($this->getOwner()->arena4name == $this->getOwner()->selectarena)
+											if($this->getOwner()->arena4name == $arenaname)
 											{
 												$anzahlspawnpos = count($this->getOwner()->randomplayerspawn4)-1;
 												$coords = explode(",", $this->getOwner()->randomplayerspawn4[$spawnvar]);
 												$player->teleport($this->getOwner()->getServer()->getLevelByName($arenaname)->getSafeSpawn(new Position($coords[0],$coords[1],$coords[2])));
 												if($anzahlspawnpos > $spawnvar)$spawnvar = $spawnvar+1;
 											}
-											if($this->getOwner()->arena5name == $this->getOwner()->selectarena)
+											if($this->getOwner()->arena5name == $arenaname)
 											{
 												$anzahlspawnpos = count($this->getOwner()->randomplayerspawn5)-1;
 												$coords = explode(",", $this->getOwner()->randomplayerspawn5[$spawnvar]);
@@ -967,7 +967,7 @@ class statuscheck extends PluginTask
 									$player->teleport($this->getOwner()->getServer()->getDefaultLevel()->getSafeSpawn());
 									$player->sendMessage(MT::RED.'Game Over '.MT::AQUA.'no winner');
 								}
-								if($this->config->get("RandomChestSpawn"))
+								if($this->getOwner()->config->get("RandomChestSpawn"))
  								{
 									if(isset($this->getOwner()->kisten))
 									{
