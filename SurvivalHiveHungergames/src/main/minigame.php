@@ -1368,7 +1368,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1395,7 +1395,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1422,7 +1422,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1449,7 +1449,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1476,7 +1476,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1507,7 +1507,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1525,7 +1525,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1543,7 +1543,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1561,7 +1561,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1579,7 +1579,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1592,7 +1592,7 @@ class minigame extends PluginBase implements Listener{
 							}
 							if($args[0] == "list")
 							{
-								$player->sendMessage(MT::GREEN."Playerspawns: ".implode(", ", $ppos));
+								$sender->sendMessage(MT::GREEN."Playerspawns: ".implode(", ", $ppos));
 								return true;
 							}
 						}
@@ -1646,7 +1646,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1696,7 +1696,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1721,7 +1721,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}
@@ -1746,7 +1746,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position exist");
+											$sender->sendMessage(MT::RED."Position exist");
 											return false;
 										}
 									}	
@@ -1776,7 +1776,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1794,7 +1794,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1812,7 +1812,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1830,7 +1830,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1848,7 +1848,7 @@ class minigame extends PluginBase implements Listener{
 										}
 										else
 										{
-											$player->sendMessage(MT::RED."Position dont exist");
+											$sender->sendMessage(MT::RED."Position dont exist");
 											return false;
 										}
 									}
@@ -1862,7 +1862,7 @@ class minigame extends PluginBase implements Listener{
 							}
 							if($args[0] == "list")
 							{
-								$player->sendMessage(MT::GREEN."Playerspawns: ".implode(", ", $ppos));
+								$sender->sendMessage(MT::GREEN."Playerspawns: ".implode(", ", $ppos));
 								return true;
 							}
 						}
