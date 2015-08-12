@@ -1,0 +1,11 @@
+name: SurvivalHiveStats
+main: main\stats
+version: 1.0.0
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDevTeam
+authors: [Xenturio]
+description: kp
+commands:
+ stats:
+  description: "Zeigt die deine Statistik an"
