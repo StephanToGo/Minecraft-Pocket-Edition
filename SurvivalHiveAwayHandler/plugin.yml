@@ -1,0 +1,9 @@
+name: SurvivalHiveAwayhandler
+main: main\awayhandler
+version: 1.0
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Awayhandler
+website: http://www.survivalhive.de
