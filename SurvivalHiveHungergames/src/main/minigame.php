@@ -1171,8 +1171,10 @@ class minigame extends PluginBase implements Listener{
 			@mkdir($this->getDataFolder(), true);
 		}
 			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Lobby" => 'lobbyworld',"LobbyPos1" => "50,0,50","LobbyPos2" => "50,0,50","Arena1" => 'world',"Arena1Pos1" => "50,0,50","Arena1Pos2" => "50,0,50", "Arena2" => 'world2',"Arena2Pos1" => "50,0,50","Arena2Pos2" => "50,0,50","Arena3" => 'world3',"Arena3Pos1" => "50,0,50","Arena3Pos2" => "50,0,50","Arena4" => 'world4',"Arena4Pos1" => "50,0,50","Arena4Pos2" => "50,0,50","Arena5" => 'world5',"Arena5Pos1" => "50,0,50","Arena5Pos2" => "50,0,50","NumberofChests" => "30","NumberofItemsperChest" => "6","PossibleItemIds" => [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366],"Roundtime" => "10", "RandomChestSpawn" => true, "RandomPlayerSpawn" => true, "ChestspawnPos" => [], "PlayerspawnPos" => [], "ChestspawnPos2" => [], "PlayerspawnPos2" => [], "ChestspawnPos3" => [], "PlayerspawnPos3" => [], "ChestspawnPos4" => [], "PlayerspawnPos4" => [], "ChestspawnPos5" => [], "PlayerspawnPos5" => []));
+			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Lobby" => 'lobbyworld',"LobbyPos1" => "0,0,0","LobbyPos2" => "500,150,500","Arena1" => 'arena1',"Arena1Pos1" => "0,0,0","Arena1Pos2" => "500,150,500", "Arena2" => 'arena2',"Arena2Pos1" => "0,0,0","Arena2Pos2" => "500,150,500","Arena3" => 'arena3',"Arena3Pos1" => "0,0,0","Arena3Pos2" => "500,150,500","Arena4" => 'arena4',"Arena4Pos1" => "0,0,0","Arena4Pos2" => "500,150,500","Arena5" => 'arena5',"Arena5Pos1" => "0,0,0","Arena5Pos2" => "500,150,500","NumberofChests" => "30","NumberofItemsperChest" => "6","PossibleItemIds" => [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366],"Roundtime" => "10", "RandomChestSpawn" => true, "RandomPlayerSpawn" => true, "ChestspawnPos" => [], "PlayerspawnPos" => [], "ChestspawnPos2" => [], "PlayerspawnPos2" => [], "ChestspawnPos3" => [], "PlayerspawnPos3" => [], "ChestspawnPos4" => [], "PlayerspawnPos4" => [], "ChestspawnPos5" => [], "PlayerspawnPos5" => []));
 	
+		
+				
 		$this->lobbyname = 	$this->config->get("Lobby");
 		$this->lobbyareapos1 = $this->config->get("LobbyPos1");
 		$this->lobbyareapos2 = $this->config->get("LobbyPos2");
@@ -1218,6 +1220,27 @@ class minigame extends PluginBase implements Listener{
 		
 		$this->randomchestspawn5 = $this->config->get("ChestspawnPos5");
 		$this->randomplayerspawn5 = $this->config->get("PlayerspawnPos5");
+		
+		if(!$this->getServer()->isLevelLoaded($this->arena1name))
+		{
+			$this->getServer()->loadLevel($this->arena1name);
+		}
+		if(!$this->getServer()->isLevelLoaded($this->arena2name))
+		{
+			$this->getServer()->loadLevel($this->arena2name);
+		}
+		if(!$this->getServer()->isLevelLoaded($this->arena3name))
+		{
+			$this->getServer()->loadLevel($this->arena3name);
+		}
+		if(!$this->getServer()->isLevelLoaded($this->arena4name))
+		{
+			$this->getServer()->loadLevel($this->arena4name);
+		}
+		if(!$this->getServer()->isLevelLoaded($this->arena5name))
+		{
+			$this->getServer()->loadLevel($this->arena5name);
+		}
 	}
 	public function onJoin(PlayerJoinEvent $event)
 	{
