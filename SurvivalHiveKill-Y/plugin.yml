@@ -1,9 +1,0 @@
-name: SurvivalHiveKillPlayerY
-main: main\killplayery
-version: 1.0
-api: 1.4.0
-load: STARTUP
-author: SurvivalHiveDev
-authors: [Xenturio]
-description: Kill Player under Position Y < -25
-website: http://www.survivalhive.de
