@@ -1,9 +1,0 @@
-name: SurvivalHiveOPKickCancel
-main: main\OPKickCancel
-version: 1.3
-api: 1.4.0
-load: STARTUP
-author: SurvivalHiveDev
-authors: [Xenturio]
-description: OPKickCancel
-website: http://www.survivalhive.de
