@@ -7,7 +7,7 @@ use pocketmine\command\Command;
 use pocketmine\IPlayer;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerKickEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\plugin\Plugin;
@@ -22,15 +22,18 @@ class respawnback extends PluginBase implements Listener
 		{
 			@mkdir($this->getDataFolder(), true);
 		}
-		$this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, ["IP" => "127.0.0.1","Port" => "19132",]);
+		$this->config = new Config($this->getDataFolder() . "config.yml", Config::YAML, 
+		[
+			"Respawnworld" => "lobby",
+		]);
 	}
-	public function onPlayerKickEvent(PlayerKickEvent $event)
+	public function onPlayerRespawn(PlayerRespawnEvent $event)
 	{
 		$name = $event->getPlayer()->getName();
 		$p = $event->getPlayer();
-		$reason = $event->getReason();
-			if($reason == "disconnectionScreen.serverFull")
-			{
+		$worldname = $this->config->get("Respawnworld");
+		if($reason == "disconnectionScreen.serverFull")
+		{
 				$pl = $event->getPlayer();
 				$addr1 = $this->config->get("IP");
 				$addr2 = $this->config->get("Port");
