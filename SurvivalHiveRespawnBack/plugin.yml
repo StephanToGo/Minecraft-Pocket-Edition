@@ -1,0 +1,9 @@
+name: SurvivalHiveRespawnBack
+main: main\respawnback
+version: 1.0
+api: 1.12.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: RespawnBack
+website: http://www.survivalhive.de
