@@ -10,7 +10,6 @@ use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\math\Vector3;
-use pocketmine\level\Position;
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
@@ -48,6 +47,7 @@ use pocketmine\plugin\Plugin;
 				{
 					$event->setCancelled();
 					$player->sendMessage(MT::RED.$this->config['Errormessage']);
+					$this->getLogger()->info(MT::RED."$name try to use a bad word: $badword);
 				}	
 			}
 		}
