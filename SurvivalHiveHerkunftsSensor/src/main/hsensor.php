@@ -1,8 +1,5 @@
 <?php
-
-
 namespace main;
-
 
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\command\CommandSender;
