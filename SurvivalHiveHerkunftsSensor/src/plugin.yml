@@ -1,0 +1,9 @@
+name: SurvivalHiveHerkunftsSensor
+main: main\hsensor
+version: 1.3
+api: 1.4.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Herkunfts Sensor
+website: http://www.survivalhive.de
