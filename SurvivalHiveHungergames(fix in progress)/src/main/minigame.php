@@ -65,10 +65,6 @@ use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\metadata\MetadataValue;
-use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\DataPacket;
@@ -96,6 +92,11 @@ use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\scheduler\CallbackTask;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
 
 use pocketmine\tile\Chest as TileChest;
 
@@ -210,7 +211,7 @@ class statuscheck extends PluginTask
 			foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player)
 			{
 				$name = $player->getName();	
-				if($spieleranzahl < 2 && (!(isset($this->getOwner()->players))))
+				if($spieleranzahl < 1 && (!(isset($this->getOwner()->players))))
 				{
 					$player->sendPopUp(MT::AQUA.'Wait for other players');
 					unset ($this->getOwner()->players);		
@@ -494,12 +495,12 @@ class statuscheck extends PluginTask
 												{
 								
 													$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($randx,$yachse,$randz), BLOCK::get(54), false, true);
-													$nbt = new Compound("", [
-															new Enum("Items", []),
-															new String("id", Tile::CHEST),
-															new Int("x", $randx),
-															new Int("y", $yachse),
-															new Int("z", $randz)
+													$nbt = new CompoundTag("", [
+															new ListTag("Items", []),
+															new StringTag("id", Tile::CHEST),
+															new IntTag("x", $randx),
+															new IntTag("y", $yachse),
+															new IntTag("z", $randz)
 													]);
 															
 													$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -551,12 +552,12 @@ class statuscheck extends PluginTask
 													
 												$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(54), false, true);
 													
-												$nbt = new Compound("", [
-														new Enum("Items", []),
-														new String("id", Tile::CHEST),
-														new Int("x", $coords[0]),
-														new Int("y", $coords[1]),
-														new Int("z", $coords[2])
+												$nbt = new CompoundTag("", [
+														new ListTag("Items", []),
+														new StringTag("id", Tile::CHEST),
+														new IntTag("x", $coords[0]),
+														new IntTag("y", $coords[1]),
+														new IntTag("z", $coords[2])
 												]);
 											
 												$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -594,12 +595,12 @@ class statuscheck extends PluginTask
 														
 												$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(54), false, true);
 														
-												$nbt = new Compound("", [
-														new Enum("Items", []),
-														new String("id", Tile::CHEST),
-														new Int("x", $coords[0]),
-														new Int("y", $coords[1]),
-														new Int("z", $coords[2])
+												$nbt = new CompoundTag("", [
+														new ListTag("Items", []),
+														new StringTag("id", Tile::CHEST),
+														new IntTag("x", $coords[0]),
+														new IntTag("y", $coords[1]),
+														new IntTag("z", $coords[2])
 												]);
 												
 												$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -637,12 +638,12 @@ class statuscheck extends PluginTask
 														
 												$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(54), false, true);
 														
-												$nbt = new Compound("", [
-														new Enum("Items", []),
-														new String("id", Tile::CHEST),
-														new Int("x", $coords[0]),
-														new Int("y", $coords[1]),
-														new Int("z", $coords[2])
+												$nbt = new CompoundTag("", [
+														new ListTag("Items", []),
+														new StringTag("id", Tile::CHEST),
+														new IntTag("x", $coords[0]),
+														new IntTag("y", $coords[1]),
+														new IntTag("z", $coords[2])
 												]);
 												
 												$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -680,12 +681,12 @@ class statuscheck extends PluginTask
 														
 												$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(54), false, true);
 													
-												$nbt = new Compound("", [
-														new Enum("Items", []),
-														new String("id", Tile::CHEST),
-														new Int("x", $coords[0]),
-														new Int("y", $coords[1]),
-														new Int("z", $coords[2])
+												$nbt = new CompoundTag("", [
+														new ListTag("Items", []),
+														new StringTag("id", Tile::CHEST),
+														new IntTag("x", $coords[0]),
+														new IntTag("y", $coords[1]),
+														new IntTag("z", $coords[2])
 												]);
 												
 												$nbt->Items->setTagType(NBT::TAG_Compound);
@@ -723,12 +724,12 @@ class statuscheck extends PluginTask
 														
 												$chest = $this->getOwner()->getServer()->getLevelByName("$level")->setBlock(new Vector3($coords[0],$coords[1],$coords[2]), BLOCK::get(54), false, true);
 														
-												$nbt = new Compound("", [
-														new Enum("Items", []),
-														new String("id", Tile::CHEST),
-														new Int("x", $coords[0]),
-														new Int("y", $coords[1]),
-														new Int("z", $coords[2])
+												$nbt = new CompoundTag("", [
+														new ListTag("Items", []),
+														new StringTag("id", Tile::CHEST),
+														new IntTag("x", $coords[0]),
+														new IntTag("y", $coords[1]),
+														new IntTag("z", $coords[2])
 												]);
 												
 												$nbt->Items->setTagType(NBT::TAG_Compound);
