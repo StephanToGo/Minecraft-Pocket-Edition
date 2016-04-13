@@ -1,0 +1,12 @@
+name: SurvivalHivePosition
+main: main\pos
+version: 2.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Position
+website: http://www.survivalhive.de
+commands:
+ shpos:
+  description: "Zeigt Position an"
