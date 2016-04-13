@@ -1,0 +1,9 @@
+name: SurvivalHiveChatfilter
+main: main\chat
+version: 2.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Chatfilter
+website: http://www.survivalhive.de
