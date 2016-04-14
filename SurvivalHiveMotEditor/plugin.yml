@@ -1,0 +1,8 @@
+name: SurvivalHiveModEditor
+main: main\modeditor
+version: 2.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Anpassung der Mod
+website: http://www.survivalhive.de
