@@ -1,6 +1,4 @@
 <?php
-
-
 namespace main;
 
 use pocketmine\utils\TextFormat as MT;
@@ -13,10 +11,6 @@ use pocketmine\level;
 use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
-use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\math\Vector3;
 use pocketmine\level\Position;
 use pocketmine\event\server\QueryRegenerateEvent;
@@ -25,7 +19,6 @@ use pocketmine\plugin\Plugin;
 
 	class modeditor extends PluginBase implements Listener
 	{
-		public $players = array();
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
@@ -36,7 +29,7 @@ use pocketmine\plugin\Plugin;
 				@mkdir($this->getDataFolder(), true);
 			}
 			$this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML, [
-					"Motd" => "{G}My {R}new {O}server {A} RUNS",
+					"Motd" => "{G}My {R}new {O}server {A}RUNS",
 			]);
 			
 			$this->motd = $this->cfg->get("Motd");
@@ -47,7 +40,7 @@ use pocketmine\plugin\Plugin;
 			$motd = str_replace('{A}', MT::AQUA, $motd);
 			$this->getServer()->getNetwork()->setName($motd);
 		}
-				
+	
 		public function onDisable()
 		{
 			$this->getLogger()->info(MT::AQUA."Plugin unloaded!");			
