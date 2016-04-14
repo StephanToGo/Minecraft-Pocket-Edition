@@ -1,0 +1,15 @@
+name: SurvivalHiveSimpleTPA
+main: main\tpa
+version: 1.0.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDevTeam
+authors: [Xenturio]
+description: SimpleTPA
+commands:
+ tpa:
+  description: "Stellt TPA Anfrage"
+ tpja:
+  description: "Bestaetigt TPA Anfrage"
+ tpnein:
+  description: "Verneint TPA Anfrage"
