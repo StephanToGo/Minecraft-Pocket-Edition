@@ -1,6 +1,7 @@
 name: SurvivalHiveModEditor
 main: main\modeditor
 version: 2.0
+api: 2.0.0
 load: STARTUP
 author: SurvivalHiveDev
 authors: [Xenturio]
