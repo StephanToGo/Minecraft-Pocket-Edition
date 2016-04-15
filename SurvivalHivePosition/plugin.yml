@@ -9,4 +9,4 @@ description: Position
 website: http://www.survivalhive.de
 commands:
  shpos:
-  description: "Zeigt Position an"
+  description: "toggle - Zeigt Position an"
