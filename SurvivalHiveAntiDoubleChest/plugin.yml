@@ -1,0 +1,9 @@
+name: SurvivalHiveAntiDoubleChest
+main: main\antidoublechest
+version: 1.4
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description:  Anti double chest
+website: http://www.survivalhive.de
