@@ -1,5 +1,5 @@
-name: SurvivalHiveModEditor
-main: main\modeditor
+name: SurvivalHiveModtEditor
+main: main\modteditor
 version: 2.0
 api: 2.0.0
 load: STARTUP

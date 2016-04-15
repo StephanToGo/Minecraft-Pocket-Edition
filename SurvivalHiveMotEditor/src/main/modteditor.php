@@ -17,19 +17,19 @@ use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 
-	class modeditor extends PluginBase implements Listener
+	class modteditor extends PluginBase implements Listener
 	{
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
-			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-ModEditor loading...!");
+			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Modteditor loading...!");
 
 			if (!file_exists($this->getDataFolder()))
 			{
 				@mkdir($this->getDataFolder(), true);
 			}
 			$this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML, [
-					"Motd" => "{G}My {R}new {O}server {A}RUNS",
+					"Modt" => "{G}My {R}new {O}server {A}RUNS",
 			]);
 			
 			$this->motd = $this->cfg->get("Motd");
