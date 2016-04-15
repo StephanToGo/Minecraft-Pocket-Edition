@@ -2,20 +2,22 @@
 namespace main;
 
 use pocketmine\utils\TextFormat as MT;
-use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\level;
-use pocketmine\item\Item;
 use pocketmine\event\Listener;
-use pocketmine\command\Command;
-use pocketmine\math\Vector3;
-use pocketmine\level\Position;
-use pocketmine\event\server\QueryRegenerateEvent;
-use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
+use pocketmine\network\Network;
+use pocketmine\network\protocol\BatchPacket;
+use pocketmine\network\protocol\CraftingDataPacket;
+use pocketmine\network\protocol\DataPacket;
+use pocketmine\network\protocol\PlayerListPacket;
+use pocketmine\network\query\QueryHandler;
+use pocketmine\network\RakLibInterface;
+use pocketmine\network\rcon\RCON;
+use pocketmine\network\upnp\UPnP;
+use pocketmine\network\CompressBatchedTask;
 
 	class modteditor extends PluginBase implements Listener
 	{
@@ -32,13 +34,18 @@ use pocketmine\plugin\Plugin;
 					"Modt" => "{G}My {R}new {O}server {A}RUNS",
 			]);
 			
-			$this->motd = $this->cfg->get("Motd");
+			$this->motd = $this->cfg->get("Modt");
 			
 			$motd = str_replace('{G}', MT::GREEN, $this->motd);
 			$motd = str_replace('{R}', MT::RED, $motd);
 			$motd = str_replace('{O}', MT::GOLD, $motd);
 			$motd = str_replace('{A}', MT::AQUA, $motd);
+
+			$test = $this->getServer()->getNetwork()->getName();
+			$this->getLogger()->info(MT::AQUA."$test");	
 			$this->getServer()->getNetwork()->setName($motd);
+			$test = $this->getServer()->getNetwork()->getName();
+			$this->getLogger()->info(MT::AQUA."$test");
 		}
 	
 		public function onDisable()
