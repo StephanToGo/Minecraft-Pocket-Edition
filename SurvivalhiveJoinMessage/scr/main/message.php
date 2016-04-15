@@ -21,16 +21,27 @@ class message extends PluginBase implements Listener
 	{	
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		$this->getLogger()->info(MT::AQUA."-=SH=-JoinMessage loading...!");
+		
+		if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
+		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Join" => '{Player} joined...',"Quit" => '{Player} gone...',"Killed" => '{Player} killed by {Damager}'));
+	
+		$this->joinmessage = $this->config->get("Join");
+		$this->quitmessage = $this->config->get("Quit");
+		$this->killedmessage = $this->config->get("Killed");
     }
 	
 	public function onJoin (PlayerJoinEvent $ev)
 	{
-		$ev->setJoinMessage("");
+		$playername = $event->getPlayer()->getName();
+		$message = str_replace('{Player}', MT::GREEN.$playername, $this->joinmessage);
+		$ev->setJoinMessage("$message");
 	}
 
 	public function onQuit(PlayerQuitEvent $ev)
 	{
-		$ev->setQuitMessage("");
+		$playername = $event->getPlayer()->getName();
+		$message = str_replace('{Player}', MT::GREEN.$playername, $this->quitmessage);
+		$ev->setQuitMessage("$message");
 	} 
 
 	public function onDeath(PlayerDeathEvent $ev)
