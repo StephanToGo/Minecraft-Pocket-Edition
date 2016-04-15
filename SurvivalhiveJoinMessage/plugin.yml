@@ -1,1 +1,8 @@
-.
+name: SurvivalHiveJoinMessage
+main: main\message
+version: 1.0.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Join leave messages
