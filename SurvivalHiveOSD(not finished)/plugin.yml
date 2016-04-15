@@ -1,0 +1,9 @@
+name: SurvivalHiveOSD
+main: main\osd
+version: 1.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: OSD
+website: http://www.survivalhive.de
