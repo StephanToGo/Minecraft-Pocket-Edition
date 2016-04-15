@@ -1,0 +1,14 @@
+name: SurvivalHiveKickBan
+main: main\kickban
+version: 1.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Kick / Ban Players
+website: http://www.survivalhive.de
+commands:
+ shkick:
+  description: "kick player"
+ shban:
+  description: "ban player ('shban player pardon' to remove)"
