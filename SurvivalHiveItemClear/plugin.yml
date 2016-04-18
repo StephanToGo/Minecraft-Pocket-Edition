@@ -1,0 +1,11 @@
+name: SurvivalHiveItemClear
+main: main\itemclear
+version: 1.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: delete entitys 
+commands:
+ shitemclear:
+  description: "delete droped blocks/items/enemys on server" 
