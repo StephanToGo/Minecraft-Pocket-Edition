@@ -19,7 +19,6 @@ use pocketmine\plugin\Plugin;
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-DisableMe loading...!");
-			$this->getServer()->getScheduler()->scheduleRepeatingTask(new task($this), 15);
 
 			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
 			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Commands" => []));
@@ -51,15 +50,3 @@ use pocketmine\plugin\Plugin;
 			}
 		}
 	}
-
-class task1 extends PluginTask
-{
-	public function __construct(Plugin $owner)
-	{
-		parent::__construct($owner);
-	}
-	public function onRun($currentTick)
-	{
-
-	}
-}
