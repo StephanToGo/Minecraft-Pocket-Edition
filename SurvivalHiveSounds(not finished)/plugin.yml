@@ -1,0 +1,9 @@
+name: SurvivalHiveSounds
+main: main\sounds
+version: 1.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Sounds
+website: http://www.survivalhive.de
