@@ -7,14 +7,9 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\level;
-use pocketmine\item\Item;
 use pocketmine\event\Listener;
 use pocketmine\command\Command;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
-use pocketmine\math\Vector3;
-use pocketmine\level\Position;
-use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 
