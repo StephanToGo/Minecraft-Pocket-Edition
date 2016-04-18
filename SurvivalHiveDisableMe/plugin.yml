@@ -1,0 +1,9 @@
+name: SurvivalHiveDisableMe
+main: main\disableme
+version: 2.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Disable server commands like /me
+website: http://www.survivalhive.de
