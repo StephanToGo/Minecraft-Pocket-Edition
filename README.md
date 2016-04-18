@@ -1,6 +1,14 @@
 # Minecraft-Pocket-Edition www.SurvivalHive.de
 Server and more...
 
+Benutzt http://pmt.mcpe.me um die Plugins in Phar Dateien zu konvertieren 
+oder ladet euch DEV TOOLS runter um den Ordner direkt nutzen zu können.
+
+Use http://pmt.mcpe.me to convert our plugins or install dev tools on
+your server that u can use the directorys directly.
+
+------------------------------------------------------
+
 Alle Plugins unterliegen meinen Rechten.
 
 Das anschauen und lernen von diesen ist strikt gefordert und wird gern gesehen.
