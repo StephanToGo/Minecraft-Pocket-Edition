@@ -18,7 +18,7 @@ use pocketmine\plugin\Plugin;
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
-			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-test loading...!");
+			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-OSD loading...!");
 			$this->getServer()->getScheduler()->scheduleRepeatingTask(new osdtask($this), 15);
 
 			$test = date_default_timezone_set("Europe/Belgrade");
@@ -33,7 +33,6 @@ use pocketmine\plugin\Plugin;
 		{
 			$zeit = date("h:i");
 			$leer = "\n\n\n\n\n\n\n";
-			$this->getLogger()->info(MT::AQUA."$leer Time:$zeit");
 			
 			foreach($this->getServer()->getOnlinePlayers() as $p)
 			{
