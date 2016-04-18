@@ -115,7 +115,6 @@ class tpa extends PluginBase implements Listener
 			$sender->sendMessage("Nur im Spiel moeglich | Only in game");
 			return true;
 		}
-		break;
 	}
    
     public function onDisable()

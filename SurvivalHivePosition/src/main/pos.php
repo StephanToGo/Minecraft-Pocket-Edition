@@ -2,6 +2,7 @@
 
 namespace main;
 
+use pocketmine\utils\TextFormat as MT;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\command\Command;
@@ -20,7 +21,6 @@ use pocketmine\math\AxisAlignedBB;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\plugin\Plugin;
 use pocketmine\tile\Sign;
-use pocketmine\utils\TextFormat;
 
 class pos extends PluginBase implements Listener {
 	
@@ -58,10 +58,9 @@ class pos extends PluginBase implements Listener {
     	}
     	else 
     	{
-    	$p->sendMessage("Nur im Spiel moeglich");
-    	return true;
+    		$p->sendMessage("Nur im Spiel moeglich");
+    		return true;
     	}
-    	break;
     }
     
 	public function onBlockBreak(BlockBreakEvent $event)
