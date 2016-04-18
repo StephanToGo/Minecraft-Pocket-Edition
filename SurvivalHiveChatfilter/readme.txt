@@ -1,3 +1,5 @@
+this plugin blocks words if they are in config file...
+
 Example Config:
 
 ---
