@@ -33,14 +33,14 @@ class message extends PluginBase implements Listener
 	
 	public function onJoin (PlayerJoinEvent $ev)
 	{
-		$playername = $event->getPlayer()->getName();
+		$playername = $ev->getPlayer()->getName();
 		$message = str_replace('{Player}', MT::GREEN.$playername, $this->joinmessage);
 		$ev->setJoinMessage("$message");
 	}
 
 	public function onQuit(PlayerQuitEvent $ev)
 	{
-		$playername = $event->getPlayer()->getName();
+		$playername = $ev->getPlayer()->getName();
 		$message = str_replace('{Player}', MT::GREEN.$playername, $this->quitmessage);
 		$ev->setQuitMessage("$message");
 	} 
