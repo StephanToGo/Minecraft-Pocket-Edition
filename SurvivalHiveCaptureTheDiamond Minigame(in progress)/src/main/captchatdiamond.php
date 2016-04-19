@@ -370,7 +370,7 @@ class status extends PluginTask
 		if(!$this->getOwner()->isrunning)$this->getOwner()->onDebug(MT::GREEN. 'IsRunning FALSE');
 	}
 }
-class captchatheflag extends PluginBase implements Listener{
+class captchatdiamond extends PluginBase implements Listener{
 	
 	private $listener;
 	
