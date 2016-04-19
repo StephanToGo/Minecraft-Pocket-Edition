@@ -124,7 +124,7 @@ class heim extends PluginBase implements Listener
 					{
 						if($welt == $row[1])
 						{
-							$exCoord = explode(',', $row[0])
+							$exCoord = explode(',', $row[0]);
 							$x = $exCoord[0];
 							$y = $exCoord[1];
 							$z = $exCoord[2];
