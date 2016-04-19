@@ -1,0 +1,15 @@
+name: SurvivalHiveHeim
+main: main\heim
+version: 1.1
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDevTeam
+authors: [Xenturio]
+description: Heimpunkte
+commands:
+ setheim:
+  description: "Setzt einen Heim Punkt"
+ heim:
+  description: "Heim Punkte auslesen und zu einem teleportieren"
+ delheim:
+  description: "Loescht einen Heim Punkt"
