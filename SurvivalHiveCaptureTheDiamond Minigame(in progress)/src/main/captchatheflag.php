@@ -1,5 +1,3 @@
-<php?
-
 <?php
 
 namespace main;
