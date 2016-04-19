@@ -7,3 +7,6 @@ author: SurvivalHiveDev
 authors: [Xenturio]
 description: OSD
 website: http://www.survivalhive.de
+commands:
+ shosd:
+  description: "toggle - OSD an"

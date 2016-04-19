@@ -29,6 +29,37 @@ use pocketmine\plugin\Plugin;
 			$this->getLogger()->info(MT::AQUA."Plugin unloaded!");			
 		}
 
+		public function onCommand(CommandSender $p, Command $command, $label, array $args)
+		{
+			if($p instanceof Player) 
+			{
+				if(strtolower($command->getName()) == "shosd")
+				{
+					$id = $p->getID();
+					$name = strtolower($p->getName());
+				
+					if (! (in_array($id, $this->schalter)))
+					{
+						$this->schalter[$name] = $id;
+						$p->sendMessage(MT::GREEN."OSD Eingeschaltet");
+						return true;
+					}
+					else
+					{
+						$index = array_search($id, $this->schalter);
+						unset($this->schalter[$index]);
+						$p->sendMessage(MT::GREEN."OSD Ausgeschaltet");
+						return true;
+					}
+				}
+			}
+			else 
+			{
+				$p->sendMessage(MT::RED."Nur im Spiel moeglich");
+				return true;
+			}
+		}
+		
 		public function onOSD()
 		{
 			$zeit = date("h:i");
@@ -36,7 +67,12 @@ use pocketmine\plugin\Plugin;
 			
 			foreach($this->getServer()->getOnlinePlayers() as $p)
 			{
-				$p->sendTip(MT::AQUA."$leer$zeit");
+				$id = $p->getID();
+		
+				if(in_array($id, $this->schalter))
+				{
+					$p->sendTip(MT::AQUA."$leer$zeit");
+				}
 			}
 		}
 	}

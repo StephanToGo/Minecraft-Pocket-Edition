@@ -1,0 +1,3 @@
+this plugn shows the time as an osd (toggle on/off)
+
+expansions in progress...
