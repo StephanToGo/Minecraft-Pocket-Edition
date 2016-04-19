@@ -1,0 +1,8 @@
+name: SurvivalHiveJoinMessage
+main: main\message
+version: 1.1
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDevTeam
+authors: [Xenturio]
+description: Messages
