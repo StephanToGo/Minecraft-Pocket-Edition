@@ -13,6 +13,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\Plugin;
+use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as MT;
 
 class message extends PluginBase implements Listener 
@@ -28,7 +29,7 @@ class message extends PluginBase implements Listener
 		$this->joinmessage = $this->config->get("Join");
 		$this->quitmessage = $this->config->get("Quit");
 		$this->killedmessage = $this->config->get("Killed");
-    }
+   	}
 	
 	public function onJoin (PlayerJoinEvent $ev)
 	{
