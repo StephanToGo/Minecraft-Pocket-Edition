@@ -15,6 +15,9 @@ use pocketmine\plugin\Plugin;
 
 	class osd extends PluginBase implements Listener
 	{
+
+		public $schalter = array();
+
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
