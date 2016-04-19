@@ -25,14 +25,25 @@ class heim extends PluginBase implements Listener
 				"MySQL Benutzer" => "root",
 				"MySQL Passwort" => "",
 				"MySQL Datenbank" => "Pocketmine",
+				"Maximale Heim Punkte" => "3",
 			]);
-
+		
 		$server = $this->config->get("MySQL Server IP");
 		$benutzer = $this->config->get("MySQL Benutzer");
 		$passwort = $this->config->get("MySQL Passwort");
 		$datenbank = $this->config->get("MySQL Datenbank");
+		$heimanzahl = $this->config->get("Maximale Heim Punkte");
 		
-		$this->mysqli = mysqli_connect("$server","$benutzer","$passwort","$datenbank");
+		$this->mysqli = mysqli_connect("$server","$benutzer","$passwort","$datenbank");	
+		$sql = "CREATE TABLE heimpunkte (
+				id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+				name VARCHAR(30) NOT NULL,
+				heim VARCHAR(30) NOT NULL,
+				coord VARCHAR(50) NOT NULL,
+				welt VARCHAR(50) NOT NULL
+				)";
+		$eintrag = $this->mysqli->prepare( $sql );
+		$eintrag->execute();
 	}
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
@@ -52,10 +63,11 @@ class heim extends PluginBase implements Listener
 				$x = round($this->pos[$name]->getX());
 				$y = round($this->pos[$name]->getY());
 				$z = round($this->pos[$name]->getZ());
+				$coords = "$x,$y,$z";
 				
 				$zaehler = 0;
 				
-				$sql = "SELECT name FROM homepunkte WHERE owner = '$name'";
+				$sql = "SELECT heim,coords,welt FROM homepunkte WHERE name = '$name'";
 				$result = $this->mysqli->query($sql);
 					
 				if ($result != false)
@@ -65,17 +77,13 @@ class heim extends PluginBase implements Listener
 						$zaehler++;
 						if($args[0] == $row[0])
 						{
-						$sender->sendMessage("Heim name besteht bereits");
-						$sender->sendMessage("Heim name exist");
-						return true;
+							$sender->sendMessage("Heim name besteht bereits");
+							$sender->sendMessage("Heim name exist");
+							return true;
 						}
 					}
 					
-					$sql = "SELECT homepunkte FROM spieler WHERE name = '$name'";
-					$result = $this->mysqli1->query($sql);
-					$row = mysqli_fetch_row($result);
-					
-					if($zaehler > ($row[0]))
+					if($zaehler > $heimanzahl)
 					{
 						$sender->sendMessage("Du hast das maximum erreicht");
 						$sender->sendMessage("Maximum reached");
@@ -83,9 +91,9 @@ class heim extends PluginBase implements Listener
 					}
 					else
 					{
-					$sql = "INSERT INTO homepunkte (owner, name, x, y, z, welt) VALUES ('$name','$args[0]','$x','$y','$z','$welt')";
-					$eintrag = $this->mysqli->prepare( $sql );
-					$eintrag->execute();
+						$sql = "INSERT INTO homepunkte (name, heim, coord, welt) VALUES ('$name','$args[0]','$coords','$welt')";
+						$eintrag = $this->mysqli->prepare( $sql );
+						$eintrag->execute();
 					}
 
 				}
@@ -109,21 +117,21 @@ class heim extends PluginBase implements Listener
 				if(isset($args[0]))
 				{
 					$name = strtolower($sender->getName());
-					$sql = "SELECT x,y,z,welt FROM homepunkte WHERE name = '$args[0]' AND owner = '$name'";
+					$sql = "SELECT coords,welt FROM homepunkte WHERE name = '$name' AND heim = '$args[0])'";
 					$result = $this->mysqli->query($sql);
 					
 					if($row = mysqli_fetch_row($result))
 					{
-						if($welt == $row[3])
+						if($welt == $row[1])
 						{
-							$x = $row[0];
-							$y = $row[1];
-							$z = $row[2];
-							$welt = $row[3];
+							$exCoord = explode(',', $row[0])
+							$x = $exCoord[0];
+							$y = $exCoord[1];
+							$z = $exCoord[2];
+							$welt = $row[1];
 							
 							$sender->teleport(Server::getInstance()->getLevelByName($welt)->getSafeSpawn(new Position($x, $y, $z)));
 							$sender->sendMessage("Erfolgreich zu $args[0] teleportiert");
-							//$sender->getPlayer()->teleport(new Vector3($x,$y,$z));
 						}
 						else
 						{
@@ -135,7 +143,7 @@ class heim extends PluginBase implements Listener
 				else
 				{	
 					$name = strtolower($sender->getName());
-					$sql = "SELECT name FROM homepunkte WHERE owner = '$name'";
+					$sql = "SELECT heim FROM homepunkte WHERE name = '$name'";
 					$result = $this->mysqli->query($sql);
 					
 					if ($result != false)
@@ -145,7 +153,6 @@ class heim extends PluginBase implements Listener
 							$sender->sendMessage("$row[0]");
 						}
 					}
-					
 					return true;
 				}
 			}
@@ -157,7 +164,7 @@ class heim extends PluginBase implements Listener
 			
 					$p = $sender->getPlayer();
 
-					$sql = "DELETE FROM homepunkte WHERE owner = '$name' AND name = '$args[0]'";
+					$sql = "DELETE FROM homepunkte WHERE name = '$name' AND heim = '$args[0]'";
 					$eintrag = $this->mysqli->prepare( $sql );
 					$eintrag->execute();
 					$sender->sendMessage("Heim $args[0] erfolgreich geloescht");
