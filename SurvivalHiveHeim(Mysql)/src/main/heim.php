@@ -37,7 +37,6 @@ class heim extends PluginBase implements Listener
 		$benutzer = $this->config->get("MySQL Benutzer");
 		$passwort = $this->config->get("MySQL Passwort");
 		$datenbank = $this->config->get("MySQL Datenbank");
-		$heimanzahl = $this->config->get("Maximale Heim Punkte");
 		
 		$this->mysqli = mysqli_connect("$server","$benutzer","$passwort","$datenbank");	
 		$sql = "CREATE TABLE heimpunkte (
@@ -72,7 +71,7 @@ class heim extends PluginBase implements Listener
 				
 					$zaehler = 0;
 				
-					$sql = "SELECT heim,coords,welt FROM heimpunkte WHERE name = '$name'";
+					$sql = "SELECT heim,coord,welt FROM heimpunkte WHERE name = '$name'";
 					$result = $this->mysqli->query($sql);
 					
 					if ($result != false)
@@ -88,7 +87,7 @@ class heim extends PluginBase implements Listener
 							}
 						}
 					
-						if($zaehler > $heimanzahl)
+						if($zaehler >= $this->config->get("Maximale Heim Punkte"))
 						{
 							$sender->sendMessage("Du hast das maximum erreicht");
 							$sender->sendMessage("Maximum reached");
