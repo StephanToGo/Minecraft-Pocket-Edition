@@ -42,11 +42,10 @@ use pocketmine\math\Vector3;
 				{
 					if(isset($args[0]) && isset($args[1]))
 					{
-						$p = array_shift($args);
-                                                $player = $this->getServer()->getPlayer($p);
+                                        $player = $this->getServer()->getPlayer($args[0]);
                                                 if($player !== null && $player->isOnline()){
                                                 	$sender->sendMessage(MT::RED"Du hast " . $player . " erfolgreich gekickt!");
-                                                	$this->getServer()->getPlayer($player)->kick($args[1] . $args[2] . $args[3] . $args[5]);
+                                                	$player->kick($args[1] . $args[2] . $args[3] . $args[5]);
                                                 }
                                                 if($player == null){
                                                 	$sender->sendMessage(MT::RED"Der Spieler ist offline!");
