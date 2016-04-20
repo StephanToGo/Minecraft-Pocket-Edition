@@ -17,3 +17,26 @@ Commands:
 Permissions:
 
 - survivalhive.nicks
+
+Config:
+
+---
+Nicknames:
+- Hans
+- Peter
+- Karl-Heinz
+- Ingeborg
+- Willy
+- Selma
+- MegaMan
+- Son-Goku
+- Flash Gordon
+- Gordon Freeman
+- Wurstbrot
+- Kaesesuppe
+- Backfisch
+- Kraeuterquark
+- Salatgurke
+- Petrolium
+Permissions: true
+...
