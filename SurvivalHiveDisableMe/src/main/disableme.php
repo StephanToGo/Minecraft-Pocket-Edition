@@ -35,7 +35,7 @@ use pocketmine\plugin\Plugin;
 		{
 			$message = $event->getMessage();
 			$name = strtolower($event->getPLayer()->getName());
-			if($message{0} === "/")
+			if($message{0} === "/" && !$event->getPlayer()->isOP())
 			{ 
 				$command = substr($message, 1);
 				$args = explode(" ", $command);
