@@ -25,7 +25,23 @@ use pocketmine\event\player\PlayerInteractEvent;
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Nicks loading...!");
 
 			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => ['Hans','Peter']));
+			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => [
+																												'Hans',
+																												'Peter',
+																												'Karl-Heinz',
+																												'Ingeborg',
+																												'Willy',
+																												'Selma',
+																												'MegaMan',
+																												'Son-Goku',
+																												'Flash Gordon',
+																												'Gordon Freeman',
+																												'Wurstbrot',
+																												'Kaesesuppe',
+																												'Backfisch',
+																												'Kraeuterquark',
+																												'Salatgurke',
+																												'Petrolium']));
 			
 			$this->nicks = $this->config->get("Nicknames");
 		}
@@ -74,7 +90,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 			{
 				if($itemid == 50 && isset($this->namesave[$id]))
 				{
-					$name = $event_>getPlayer()->getName();
+					$name = $event->getPlayer()->getName();
 					$event->getPlayer()->setNameTag("$name");
 					$event->getPlayer()->sendMessage("$name");
 					return true;
