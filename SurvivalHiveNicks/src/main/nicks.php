@@ -24,7 +24,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA.'Plugin -=SH=-Nicks loading...!');
-
 			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
 			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => [
 																												'Hans',
@@ -43,9 +42,8 @@ use pocketmine\event\player\PlayerInteractEvent;
 																												'Kraeuterquark',
 																												'Salatgurke',
 																												'Petrolium'],
-																												'Permissions' => true) 
-																												);
-			
+																								'Permissions' => true) 
+																								);	
 			$this->nicks = $this->config->get('Nicknames');
 			$this->permissions = $this->config->get('Permissions');
 		}
@@ -96,14 +94,14 @@ use pocketmine\event\player\PlayerInteractEvent;
 			if (! (in_array($id, $this->schalter)))
 			{
 				$this->schalter[$name] = $id;
-				$p->sendMessage(MT::GREEN."SHNick Eingeschaltet");
+				$p->sendMessage(MT::GREEN."-=SH=-Nick Eingeschaltet");
 				return true;
 			}
 			else
 			{
 				$index = array_search($id, $this->schalter);
 				unset($this->schalter[$index]);
-				$p->sendMessage(MT::GREEN."SHNick Ausgeschaltet");
+				$p->sendMessage(MT::GREEN."-=SH=-Nick Ausgeschaltet");
 				return true;
 			}
 		}
