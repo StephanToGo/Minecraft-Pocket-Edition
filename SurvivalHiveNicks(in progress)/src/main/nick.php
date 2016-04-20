@@ -68,14 +68,24 @@ use pocketmine\event\player\PlayerInteractEvent;
 		public function playerBlockTouch(PlayerInteractEvent $event)
 		{
 			$id = $event->getPlayer()->getID();
+			$itemid = $event->getItem()->getID();
 		
 			if(in_array($id, $this->schalter))
 			{
+				if($itemid == && isset($this->namesave[$id])
+				{
+					$name = $event_>getPlayer()->getName();
+					$event->getPlayer()->setNameTag("$name");
+					$event->getPlayer()->sendMessage("$name");
+					return true;
+				}
+				
 				if(!isset($this->namesave[$id])){$this->namesave[$id] = $event->getPlayer()->getName();}
 				$anzahldernicks = count($this->nicks)-1;
 				$rand = mt_rand(0, $anzahldernicks)
 				$randnickname = $this->nicks[$rand];
 				$event->getPlayer()->sendMessage("$randnickname");
-				$event->getPlayer()->setNameTag("$randnickname");
-			}
+				$event->getPlayer()->setNameTag("$randnickname");	
+				return true;
+			}	
 		}
