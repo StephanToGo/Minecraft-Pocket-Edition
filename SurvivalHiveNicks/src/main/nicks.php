@@ -66,6 +66,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 						if($p->isOp() || $p->hasPermission('survivalhive.nicks'))
 						{		
 							$this->onSchalter($p);
+							return true;
 						}
 						else
 						{
@@ -76,6 +77,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 					else
 					{
 						$this->onSchalter($p);
+						return true;
 					}
 				}
 			}
