@@ -59,7 +59,6 @@ use pocketmine\item\Item;
 use pocketmine\level;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\LevelProvider;
-//use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
@@ -178,7 +177,8 @@ class statuscheck extends PluginTask
 					{
 						if(!$entity instanceof Player)$entity->close();
 					}
-					$pos = new Vector3(-110, 5, 261);
+					$coords = explode(",", $this->diamondspawn);
+					$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 					$this->getOwner()->getServer()->getLevelbyName($this->getOwner()->arena1name)->dropItem($pos, Item::get(264));
 					
 					foreach($this->getOwner()->getServer()->getOnlinePlayers() as  $player)
@@ -348,7 +348,8 @@ class statuscheck extends PluginTask
 						$player->sendMessage(MT::GOLD.'Diamond dropped for to long time -> back to the middle!');
 						$player->sendMessage(MT::GOLD.'Diamant lag zulang rum -> zurueck zur Mitte!');
 					}
-					$pos = new Vector3(-110, 5, 261);
+					$coords = explode(",", $this->diamondspawn);
+					$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 					$this->getOwner()->getServer()->getLevelbyName($this->getOwner()->arena1name)->dropItem($pos, Item::get(264));
 					
 					unset ($this->getOwner()->diamonddrop);
@@ -401,6 +402,7 @@ class captchatdiamond extends PluginBase implements Listener{
 				array(
 						"Lobby" => 'lobbyworld',
 						"Arena1" => 'arena',
+						"DiamondSpawn" => "124,64,124",
 						"TeamSpawnBlau" => "126,64,128",
 						"TeamSpawnRot" => "126,64,122",
 						"TeamSpawnGelb" => "122,64,122",
@@ -417,6 +419,7 @@ class captchatdiamond extends PluginBase implements Listener{
 		$this->teamspawnrot = $this->config->get("TeamSpawnRot");
 		$this->teamspawngelb = $this->config->get("TeamSpawnGelb");
 		$this->teamspawngruen = $this->config->get("TeamSpawnGruen");
+		$this->diamondspawn = $this->config->get("DiamondSpawn");
 		
 		$this->team['Rot'] = 0;
 		$this->team['Blau'] = 0;
@@ -456,7 +459,8 @@ class captchatdiamond extends PluginBase implements Listener{
 				{
 					if(!isset($this->pteam[$name]))
 					{
-					$sender->teleport($this->getServer()->getLevelByName($this->arena1name)->getSafeSpawn(new Position(-110, 5, 261)));
+					$coords = explode(",", $this->diamondspawn);
+					$sender->teleport($this->getServer()->getLevelByName($this->arena1name)->getSafeSpawn(new Position($coords[0], $coords[1], $coords[2])));
 					$sender->setGamemode(3);
 					return true;
 					}
@@ -592,7 +596,8 @@ class captchatdiamond extends PluginBase implements Listener{
 						{
 							$player->sendMessage(MT::GOLD.'Caution: Diamond is back the middle!');
 						}
-						$pos = new Vector3(-110, 5, 261);
+						$coords = explode(",", $this->diamondspawn);
+						$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 						$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 						unset ($this->hatflagge);
 					}
@@ -635,7 +640,8 @@ class captchatdiamond extends PluginBase implements Listener{
 					case "Rot":
 						if($punktezoneID1 == 14)
 						{
-							$pos = new Vector3(-110, 5, 261);
+							$coords = explode(",", $this->diamondspawn);
+							$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 							$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 							
 							$event->setCancelled();
@@ -657,7 +663,8 @@ class captchatdiamond extends PluginBase implements Listener{
 					case "Blau":
 						if($punktezoneID1 == 3)
 						{
-							$pos = new Vector3(-110, 5, 261);
+							$coords = explode(",", $this->diamondspawn);
+							$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 							$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 							
 							$event->setCancelled();
@@ -679,7 +686,8 @@ class captchatdiamond extends PluginBase implements Listener{
 					case "Gruen":
 						if($punktezoneID1 == 5)
 						{
-							$pos = new Vector3(-110, 5, 261);
+							$coords = explode(",", $this->diamondspawn);
+							$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 							$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 							
 							$event->setCancelled();
@@ -701,7 +709,8 @@ class captchatdiamond extends PluginBase implements Listener{
 					case "Gelb":
 						if($punktezoneID1 == 4)
 						{
-							$pos = new Vector3(-110, 5, 261);
+							$coords = explode(",", $this->diamondspawn);
+							$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 							$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 							
 							$event->setCancelled();
@@ -763,7 +772,8 @@ class captchatdiamond extends PluginBase implements Listener{
 					{
 						$player->sendMessage(MT::GOLD.'Caution: Diamond is back the middle!');
 					}
-					$pos = new Vector3(-110, 5, 261);
+					$coords = explode(",", $this->diamondspawn);
+							$pos = new Vector3($coords[0], $coords[1], $coords[2]);
 					$this->getServer()->getLevelbyName($this->arena1name)->dropItem($pos, Item::get(264));
 					unset ($this->hatflagge);
 				}
