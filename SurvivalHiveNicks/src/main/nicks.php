@@ -23,7 +23,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
-			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Nicks loading...!");
+			$this->getLogger()->info(MT::AQUA.'Plugin -=SH=-Nicks loading...!');
 
 			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
 			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => [
@@ -42,43 +42,41 @@ use pocketmine\event\player\PlayerInteractEvent;
 																												'Backfisch',
 																												'Kraeuterquark',
 																												'Salatgurke',
-																												'Petrolium']));
+																												'Petrolium'],
+																												'Permissions' => true) 
+																												);
 			
-			$this->nicks = $this->config->get("Nicknames");
+			$this->nicks = $this->config->get('Nicknames');
+			$this->permissions = $this->config->get('Permissions');
 		}
 		
 		public function onDisable()
 		{
-			$this->getLogger()->info(MT::AQUA."Plugin unloaded!");			
+			$this->getLogger()->info(MT::AQUA.'Plugin unloaded!');			
 		}
 
 		public function onCommand(CommandSender $p, Command $command, $label, array $args)
 		{
 			if($p instanceof Player) 
 			{
-				if(strtolower($command->getName()) == "shnick" && ($p->isOp() || $p->hasPermission('survivalhive.nicks')))
+				if(strtolower($command->getName()) == 'shnick')
 				{
-					$id = $p->getID();
-					$name = strtolower($p->getName());
-				
-					if (! (in_array($id, $this->schalter)))
+					if($this->permissions == true)
 					{
-						$this->schalter[$name] = $id;
-						$p->sendMessage(MT::GREEN."SHNick Eingeschaltet");
-						return true;
+						if($p->isOp() || $p->hasPermission('survivalhive.nicks'))
+						{		
+							$this->onSchalter($p);
+						}
+						else
+						{
+							$p->sendMessage(MT::RED."You dont have the permissions to use this command!");
+							return true;
+						}
 					}
 					else
 					{
-						$index = array_search($id, $this->schalter);
-						unset($this->schalter[$index]);
-						$p->sendMessage(MT::GREEN."SHNick Ausgeschaltet");
-						return true;
+						$this->onSchalter($p);
 					}
-				}
-				else
-				{
-					$p->sendMessage(MT::RED."You dont have the permissions to use this command!");
-					return true;
 				}
 			}
 			else 
@@ -87,6 +85,27 @@ use pocketmine\event\player\PlayerInteractEvent;
 				return true;
 			}
 		}
+		
+		public function onSchalter($p)
+		{
+			$id = $p->getID();
+			$name = strtolower($p->getName());
+				
+			if (! (in_array($id, $this->schalter)))
+			{
+				$this->schalter[$name] = $id;
+				$p->sendMessage(MT::GREEN."SHNick Eingeschaltet");
+				return true;
+			}
+			else
+			{
+				$index = array_search($id, $this->schalter);
+				unset($this->schalter[$index]);
+				$p->sendMessage(MT::GREEN."SHNick Ausgeschaltet");
+				return true;
+			}
+		}
+		
 		public function playerBlockTouch(PlayerInteractEvent $event)
 		{
 			$id = $event->getPlayer()->getID();
@@ -101,8 +120,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 					$event->getPlayer()->sendMessage("$name");
 					return true;
 				}
-				
-				if(!isset($this->namesave[$id])){$this->namesave[$id] = $event->getPlayer()->getName();}
 				$anzahldernicks = count($this->nicks)-1;
 				$rand = mt_rand(0, $anzahldernicks);
 				$randnickname = $this->nicks[$rand];
