@@ -1,6 +1,7 @@
 <?php
 namespace main;
 
+use pocketmine\permission\Permission;
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
@@ -55,7 +56,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 		{
 			if($p instanceof Player) 
 			{
-				if(strtolower($command->getName()) == "shnick")
+				if(strtolower($command->getName()) == "shnick" && ($p->isOp() || $p->hasPermission('survivalhive.nicks')))
 				{
 					$id = $p->getID();
 					$name = strtolower($p->getName());
@@ -73,6 +74,11 @@ use pocketmine\event\player\PlayerInteractEvent;
 						$p->sendMessage(MT::GREEN."SHNick Ausgeschaltet");
 						return true;
 					}
+				}
+				else
+				{
+					$p->sendMessage(MT::RED."You dont have the permissions to use this command!");
+					return true;
 				}
 			}
 			else 
