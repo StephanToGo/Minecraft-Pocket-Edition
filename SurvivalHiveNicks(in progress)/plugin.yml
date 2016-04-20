@@ -1,0 +1,12 @@
+name: SurvivalHiveNicks
+main: main\nicks
+version: 2.0
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Nicks
+website: http://www.survivalhive.de
+commands:
+ shnick:
+  description: "toggle - Nicks"

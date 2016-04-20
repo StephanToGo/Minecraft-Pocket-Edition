@@ -14,7 +14,7 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 use pocketmine\event\player\PlayerInteractEvent;
 
-	class nick extends PluginBase implements Listener
+	class nicks extends PluginBase implements Listener
 	{
 		public $schalter = array();
 		public $namesave = array();
@@ -25,7 +25,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Nicks loading...!");
 
 			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => []));
+			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => ['Hans','Peter']));
 			
 			$this->nicks = $this->config->get("Nicknames");
 		}
@@ -72,7 +72,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 		
 			if(in_array($id, $this->schalter))
 			{
-				if($itemid == && isset($this->namesave[$id])
+				if($itemid == 50 && isset($this->namesave[$id]))
 				{
 					$name = $event_>getPlayer()->getName();
 					$event->getPlayer()->setNameTag("$name");
@@ -82,10 +82,11 @@ use pocketmine\event\player\PlayerInteractEvent;
 				
 				if(!isset($this->namesave[$id])){$this->namesave[$id] = $event->getPlayer()->getName();}
 				$anzahldernicks = count($this->nicks)-1;
-				$rand = mt_rand(0, $anzahldernicks)
+				$rand = mt_rand(0, $anzahldernicks);
 				$randnickname = $this->nicks[$rand];
 				$event->getPlayer()->sendMessage("$randnickname");
 				$event->getPlayer()->setNameTag("$randnickname");	
 				return true;
 			}	
 		}
+	}
