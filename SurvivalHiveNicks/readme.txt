@@ -9,3 +9,11 @@ kannst du den Command "/shnick" benutzen und das plugin einschalten.
 tippe überall hin um deinen nick zu aendern.
 tippe mit der fackel in der hand um deinen alten nick wieder zu hohlen.
 /shnick erneut zum ausschalten.
+
+Commands:
+
+/shnick
+
+Permissions:
+
+- survivalhive.nicks
