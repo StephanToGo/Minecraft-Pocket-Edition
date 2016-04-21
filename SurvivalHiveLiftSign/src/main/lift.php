@@ -34,29 +34,43 @@ class lift extends PluginBase implements Listener
     
     public function schildaendern(SignChangeEvent $event)
     {	
-    	$linien = $event->getLine(0);
-    	
-    	if($linien == 'lh')
-    	{
-    		$event->setLine(0, '[Lift hoch]');
-    	}
-    	if($linien == 'lr')
-    	{
-    		$event->setLine(0, '[Lift runter]');
-    	}	
+		$p = $event->getPlayer();
+		$linien = $event->getLine(0);	
+
+		if($linien == 'lh' || $linien == 'lr' || $linien == '[Lift hoch]' || $linien == '[Lift runter]')
+		{
+			if($this->permissions == true)
+			{
+				if($p->isOp() || $p->hasPermission('survivalhive.lift'))
+				{
+					if($linien == 'lh'){$event->setLine(0, '[Lift hoch]');}
+					if($linien == 'lr'){$event->setLine(0, '[Lift runter]');}
+
+					return true;
+				}
+				else
+				{
+					$p->sendMessage(MT::RED.'You dont have the permissions to use this command!');
+					$event->setLine(0, MT::RED.'Broken');
+					return true;
+				}
+			}
+			else
+			{		
+				if($linien == 'lh'){$event->setLine(0, '[Lift hoch]');}
+				if($linien == 'lr'){$event->setLine(0, '[Lift runter]');}
+				return true;			
+			}	
+		}			
     }
-    
-    
+
     public function playerBlockTouch(PlayerInteractEvent $event)
     {
         if($event->getBlock()->getID() == 323 || $event->getBlock()->getID() == 63 || $event->getBlock()->getID() == 68)
         {
            $sign = $event->getPlayer()->getLevel()->getTile($event->getBlock());
            
-            if(!($sign instanceof Sign))
-            {
-                return;
-            }
+            if(!($sign instanceof Sign)){return;}
             
             $sign = $sign->getText();
             
