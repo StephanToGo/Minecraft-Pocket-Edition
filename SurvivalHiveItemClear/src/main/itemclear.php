@@ -3,6 +3,7 @@
 namespace main;
 
 use pocketmine\utils\TextFormat as MT;
+use pocketmine\permission\Permission;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\command\Command;
@@ -21,6 +22,8 @@ class itemclear extends PluginBase implements Listener
 	{
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getLogger()->info(MT::AQUA."-=SH=-ItemClear Plugin loading...!");
+		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Permissions" => true));
+    	$this->permissions = $this->config->get('Permissions');
 	}
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
@@ -28,22 +31,36 @@ class itemclear extends PluginBase implements Listener
 		switch(strtolower($command->getName()))
 		{
 			case "itemclear":
-				$this->onItemclear($sender);
+				if($this->permissions == true)
+				{
+					if($sender->isOp() || $sender->hasPermission('survivalhive.itemclear'))
+					{
+						$this->onItemclear($sender);
+						return true;
+					}
+					else
+					{
+						$sender->sendMessage(MT::RED.'You dont have the permissions to use this command!');
+						return true;
+					}
+				}
+				else
+				{
+					$this->onItemclear($sender);
+					return true;
+				}	
 				break;
 		}
 	}
 	
 	public function onItemclear($sender)
 	{
-		if($sender->isOp())
+		foreach($this->plugin->getServer()->getLevels() as $level)
 		{
-			foreach($this->plugin->getServer()->getLevels() as $level)
+			$levelname = $level->getName();
+			foreach($this->plugin->getServer()->getLevelbyName($levelname)->getEntities() as $entity)
 			{
-				$levelname = $level->getName();
-				foreach($this->plugin->getServer()->getLevelbyName($levelname)->getEntities() as $entity)
-				{
-					if(!$entity instanceof Player){$entity->kill();}
-				}
+				if(!$entity instanceof Player){$entity->kill();}
 			}
 		}
 		$sender->sendMessage(MT::RED.'All entities cleared');
