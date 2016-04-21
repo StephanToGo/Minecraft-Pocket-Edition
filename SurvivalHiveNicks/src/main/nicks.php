@@ -1,8 +1,8 @@
 <?php
 namespace main;
 
-use pocketmine\permission\Permission;
 use pocketmine\utils\TextFormat as MT;
+use pocketmine\permission\Permission;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;

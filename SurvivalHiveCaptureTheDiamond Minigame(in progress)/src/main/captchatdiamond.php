@@ -801,7 +801,7 @@ class captchatdiamond extends PluginBase implements Listener{
 			$i3 = $sign[3];
 		
 			$i32 = explode(",", $sign[3]);
-			if($sign[0] == '[CTF]' && $sign[1] == 'Team')
+			if($sign[0] == '[CTD]' && $sign[1] == 'Team')
 			{
 				if(!$this->isrunning)
 				{
