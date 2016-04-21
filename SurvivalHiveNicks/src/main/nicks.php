@@ -24,28 +24,12 @@ use pocketmine\event\player\PlayerInteractEvent;
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA.'Plugin -=SH=-Nicks loading...!');
-			if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Nicknames" => [
-																												'Hans',
-																												'Peter',
-																												'Karl-Heinz',
-																												'Ingeborg',
-																												'Willy',
-																												'Selma',
-																												'MegaMan',
-																												'Son-Goku',
-																												'Flash Gordon',
-																												'Gordon Freeman',
-																												'Wurstbrot',
-																												'Kaesesuppe',
-																												'Backfisch',
-																												'Kraeuterquark',
-																												'Salatgurke',
-																												'Petrolium'],
-																								'Permissions' => true) 
-																								);	
-			$this->nicks = $this->config->get('Nicknames');
-			$this->permissions = $this->config->get('Permissions');
+
+			$this->saveDefaultConfig();
+			$cfg = $this->getConfig();
+			
+			$this->nicks = $cfg->get('Nicknames');
+			$this->permissions = $cfg->get('Permissions');
 		}
 		
 		public function onDisable()
