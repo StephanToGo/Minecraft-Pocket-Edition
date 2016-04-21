@@ -389,7 +389,7 @@ class captchatdiamond extends PluginBase implements Listener{
 	
 	public function onEnable()
 	{
-		$this->getLogger()->info('SurvivalHive CTF loaded!');
+		$this->getLogger()->info('-=SH=- CTD loaded!');
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new status($this), 300);
 		
@@ -400,7 +400,7 @@ class captchatdiamond extends PluginBase implements Listener{
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, 
 				array(
-						"Lobby" => 'lobbyworld',
+						"Lobby" => 'lobby',
 						"Arena1" => 'arena',
 						"DiamondSpawn" => "124,64,124",
 						"TeamSpawnBlau" => "126,64,128",
@@ -1015,6 +1015,6 @@ class captchatdiamond extends PluginBase implements Listener{
 	}
  	public function onDisable()
  	{
-		$this->getLogger()->info('SurvivalHive CTF unloaded!');
+		$this->getLogger()->info(MT::AQUA.'Plugin unloaded!');
 	}
 }
