@@ -3,8 +3,10 @@
 namespace main;
 
 use pocketmine\utils\TextFormat as MT;
+use pocketmine\permission\Permission;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use pocketmine\utils\Config;
 use pocketmine\Server;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -24,6 +26,9 @@ class lift extends PluginBase implements Listener
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getLogger()->info(MT::AQUA."Plugin -=SH=-LiftSign loading...!");
+		if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
+		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Permissions" => true));
+    	$this->permissions = $this->config->get('Permissions');
     }
  
     
