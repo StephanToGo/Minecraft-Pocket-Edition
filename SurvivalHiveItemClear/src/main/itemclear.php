@@ -22,8 +22,9 @@ class itemclear extends PluginBase implements Listener
 	{
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getLogger()->info(MT::AQUA."-=SH=-ItemClear Plugin loading...!");
-		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Permissions" => true));
-    	$this->permissions = $this->config->get('Permissions');
+		$this->saveDefaultConfig();
+		$cfg = $this->getConfig();
+		$this->permissions = $cfg->get('Permissions');
 	}
 	
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
