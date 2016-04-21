@@ -97,7 +97,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 		
 			if(in_array($id, $this->schalter))
 			{
-				if($itemid == 50 && isset($this->namesave[$id]))
+				if($itemid == 50)
 				{
 					$name = $event->getPlayer()->getName();
 					$event->getPlayer()->setNameTag("$name");
