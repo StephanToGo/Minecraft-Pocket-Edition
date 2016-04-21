@@ -92,6 +92,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 		
 		public function playerBlockTouch(PlayerInteractEvent $event)
 		{
+			$p = $event->getPlayer();
 			$id = $event->getPlayer()->getID();
 			$itemid = $event->getItem()->getID();
 		
@@ -100,16 +101,23 @@ use pocketmine\event\player\PlayerInteractEvent;
 				if($itemid == 50)
 				{
 					$name = $event->getPlayer()->getName();
-					$event->getPlayer()->setNameTag("$name");
-					$event->getPlayer()->sendMessage("$name");
-					return true;
+					$this->onNickchange($p, $name);
 				}
-				$anzahldernicks = count($this->nicks)-1;
-				$rand = mt_rand(0, $anzahldernicks);
-				$randnickname = $this->nicks[$rand];
-				$event->getPlayer()->sendMessage("$randnickname");
-				$event->getPlayer()->setNameTag("$randnickname");	
-				return true;
+				else
+				{
+					$anzahldernicks = count($this->nicks)-1;
+					$rand = mt_rand(0, $anzahldernicks);
+					$randnickname = $this->nicks[$rand];
+					$this->onNickchange($p, $randnickname);
+				}
 			}	
+		}
+
+		public function onNickchange($p, $nick)
+		{
+			$p->setNameTag("$nick");
+			$p->sendMessage("$nick");
+			$p->setDisplayName("$nick");
+			return true;
 		}
 	}
