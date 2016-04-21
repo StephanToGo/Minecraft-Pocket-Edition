@@ -1162,61 +1162,56 @@ class minigame extends PluginBase implements Listener{
 		$this->getLogger()->info('SurvivalHive Hungergames loaded!');
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new statuscheck($this), 20);
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new sgworldborder($this), 40);
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		
-		if (!file_exists($this->getDataFolder()))
-		{
-			@mkdir($this->getDataFolder(), true);
-		}
-			$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Lobby" => 'lobbyworld',"LobbyPos1" => "0,0,0","LobbyPos2" => "500,150,500","Arena1" => 'arena1',"Arena1Pos1" => "0,0,0","Arena1Pos2" => "500,150,500", "Arena2" => 'arena2',"Arena2Pos1" => "0,0,0","Arena2Pos2" => "500,150,500","Arena3" => 'arena3',"Arena3Pos1" => "0,0,0","Arena3Pos2" => "500,150,500","Arena4" => 'arena4',"Arena4Pos1" => "0,0,0","Arena4Pos2" => "500,150,500","Arena5" => 'arena5',"Arena5Pos1" => "0,0,0","Arena5Pos2" => "500,150,500","NumberofChests" => "30","NumberofItemsperChest" => "6","PossibleItemIds" => [259, 260, 261, 262, 264, 265, 268, 271, 272, 275, 280, 282, 298, 299, 300, 301, 302, 303 ,304, 305, 306, 308, 309, 314, 315, 316, 317, 319, 320, 354, 357, 363, 364, 365, 366],"Roundtime" => "10", "RandomChestSpawn" => true, "RandomPlayerSpawn" => true, "ChestspawnPos" => [], "PlayerspawnPos" => [], "ChestspawnPos2" => [], "PlayerspawnPos2" => [], "ChestspawnPos3" => [], "PlayerspawnPos3" => [], "ChestspawnPos4" => [], "PlayerspawnPos4" => [], "ChestspawnPos5" => [], "PlayerspawnPos5" => []));
+		$this->saveDefaultConfig();
+		$cfg = $this->getConfig();
 	
+		$this->lobbyname = 	$cfg->get("Lobby");
+		$this->lobbyareapos1 = $cfg->get("LobbyPos1");
+		$this->lobbyareapos2 = $cfg->get("LobbyPos2");
 		
-				
-		$this->lobbyname = 	$this->config->get("Lobby");
-		$this->lobbyareapos1 = $this->config->get("LobbyPos1");
-		$this->lobbyareapos2 = $this->config->get("LobbyPos2");
+		$this->arena1name = 	$cfg->get("Arena1");
+		$this->arena1areapos1 = $cfg->get("Arena1Pos1");
+		$this->arena1areapos2 = $cfg->get("Arena1Pos2");
 		
-		$this->arena1name = 	$this->config->get("Arena1");
-		$this->arena1areapos1 = $this->config->get("Arena1Pos1");
-		$this->arena1areapos2 = $this->config->get("Arena1Pos2");
+		$this->arena2name = 	$cfg->get("Arena2");
+		$this->arena2areapos1 = $cfg->get("Arena2Pos1");
+		$this->arena2areapos2 = $cfg->get("Arena2Pos2");
 		
-		$this->arena2name = 	$this->config->get("Arena2");
-		$this->arena2areapos1 = $this->config->get("Arena2Pos1");
-		$this->arena2areapos2 = $this->config->get("Arena2Pos2");
+		$this->arena3name = 	$cfg->get("Arena3");
+		$this->arena3areapos1 = $cfg->get("Arena3Pos1");
+		$this->arena3areapos2 = $cfg->get("Arena3Pos2");
 		
-		$this->arena3name = 	$this->config->get("Arena3");
-		$this->arena3areapos1 = $this->config->get("Arena3Pos1");
-		$this->arena3areapos2 = $this->config->get("Arena3Pos2");
+		$this->arena4name = 	$cfg->get("Arena4");
+		$this->arena4areapos1 = $cfg->get("Arena4Pos1");
+		$this->arena4areapos2 = $cfg->get("Arena4Pos2");
 		
-		$this->arena4name = 	$this->config->get("Arena4");
-		$this->arena4areapos1 = $this->config->get("Arena4Pos1");
-		$this->arena4areapos2 = $this->config->get("Arena4Pos2");
+		$this->arena5name = 	$cfg->get("Arena5");
+		$this->arena5areapos1 = $cfg->get("Arena5Pos1");
+		$this->arena5areapos2 = $cfg->get("Arena5Pos2");
 		
-		$this->arena5name = 	$this->config->get("Arena5");
-		$this->arena5areapos1 = $this->config->get("Arena5Pos1");
-		$this->arena5areapos2 = $this->config->get("Arena5Pos2");
+		$this->numberofchests = $cfg->get("NumberofChests");
 		
-		$this->numberofchests = $this->config->get("NumberofChests");
-		
-		$this->roundtime = (($this->config->get("Roundtime")*20)*3);
+		$this->roundtime = (($cfg->get("Roundtime")*20)*3);
 		
 		$this->numberofitemsperchest = $this->config->get("NumberofItemsperChest");
-		$this->itemids = $this->config->get("PossibleItemIds");
+		$this->itemids = $cfg->get("PossibleItemIds");
 		
-		$this->randomchestspawn = $this->config->get("ChestspawnPos");
-		$this->randomplayerspawn = $this->config->get("PlayerspawnPos");
+		$this->randomchestspawn = $cfg->get("ChestspawnPos");
+		$this->randomplayerspawn = $cfg->get("PlayerspawnPos");
 		
-		$this->randomchestspawn2 = $this->config->get("ChestspawnPos2");
-		$this->randomplayerspawn2 = $this->config->get("PlayerspawnPos2");
+		$this->randomchestspawn2 = $cfg->get("ChestspawnPos2");
+		$this->randomplayerspawn2 = $cfg->get("PlayerspawnPos2");
 		
-		$this->randomchestspawn3 = $this->config->get("ChestspawnPos3");
-		$this->randomplayerspawn3 = $this->config->get("PlayerspawnPos3");
+		$this->randomchestspawn3 = $cfg->get("ChestspawnPos3");
+		$this->randomplayerspawn3 = $cfg->get("PlayerspawnPos3");
 		
-		$this->randomchestspawn4 = $this->config->get("ChestspawnPos4");
-		$this->randomplayerspawn4 = $this->config->get("PlayerspawnPos4");
+		$this->randomchestspawn4 = $cfg->get("ChestspawnPos4");
+		$this->randomplayerspawn4 = $cfg->get("PlayerspawnPos4");
 		
-		$this->randomchestspawn5 = $this->config->get("ChestspawnPos5");
-		$this->randomplayerspawn5 = $this->config->get("PlayerspawnPos5");
+		$this->randomchestspawn5 = $cfg->get("ChestspawnPos5");
+		$this->randomplayerspawn5 = $cfg->get("PlayerspawnPos5");
 		
 		if(!$this->getServer()->isLevelLoaded($this->arena1name))
 		{
