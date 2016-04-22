@@ -6,3 +6,8 @@ load: STARTUP
 author: SurvivalHiveDev
 authors: [Xenturio]
 description: Lift sign
+
+permissions:
+     survivalhive.lift: 
+        default: op #Es gibt op / true / false
+        description: "Standard permissions"
