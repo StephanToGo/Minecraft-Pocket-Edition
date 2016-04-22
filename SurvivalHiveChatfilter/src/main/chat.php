@@ -1,6 +1,5 @@
 <?php 
 namespace main;
-
 use pocketmine\utils\TextFormat as MT;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
@@ -16,54 +15,31 @@ use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\plugin\Plugin;
 	class chat extends PluginBase implements Listener
-	{
-		
-		public $config = array();
-		public function onEnable()
-		{
+	{	
+		public function onEnable(){
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Chatfilter loading...!");
-			@mkdir($this->getDataFolder());
-			$this->config = (new Config($this->getDataFolder()."config.yml", Config::YAML))->getAll();
-			if(!(isset($this->config['Badwords'])))
-			{
-				$this->config['Badwords'] = [];
-				$this->onSave();
-			}
-			
-			if(!(isset($this->config['Errormessage'])))
-			{
-				$this->config['Errormessage'] = 'Bad word dude...';
-				$this->onSave();
-			}
+			$this->saveDefaultConfig();
+			$cfg = $this->getConfig();
+			$this->errormessage = $cfg->get('Errormessage');
+			$this->badwords = $cfg->get('Badwords');
 		}
-		public function onChat(PlayerChatEvent $event)
-		{
+		public function onChat(PlayerChatEvent $event){
 			$player = $event->getPlayer();
 			$name = $player->getName();
 			$chat = $event->getMessage();
 			
-			foreach($this->config['Badwords'] as $badword)
+			foreach($this->badwords as $badword)
 			{
 				if(strpos($chat, $badword)!== false)
 				{
 					$event->setCancelled();
-					$player->sendMessage(MT::RED.$this->config['Errormessage']);
+					$player->sendMessage(MT::RED.$this->errormessage);
 					$this->getLogger()->info(MT::RED."$name try to use a bad word: $badword");
 				}	
 			}
 		}
-		
-		private function onSave()
-		{
-			$config = (new Config($this->getDataFolder()."config.yml", Config::YAML));
-			$config->setAll($this->config);
-			$config->save();
-			unset($config);
-		}
-		
-		public function onDisable()
-		{
+		public function onDisable(){
 			$this->getLogger()->info(MT::AQUA."Plugin unloaded!");			
 		}
 	}
