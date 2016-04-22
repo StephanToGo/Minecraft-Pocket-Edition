@@ -1,0 +1,12 @@
+name: SurvivalHiveLove
+main: main\love
+version: 1.4
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description:  Love
+website: http://www.survivalhive.de
+commands:
+ shlove:
+  description: "/shlove love name | /shlove unlove name | /shlove hate name | /shlove unhate name"
