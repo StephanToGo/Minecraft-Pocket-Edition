@@ -1,0 +1,9 @@
+name: SurvivalHiveAntiKickOp
+main: main\antikickop
+version: 1.4
+api: 2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description:  Anti Kick Op
+website: http://www.survivalhive.de
