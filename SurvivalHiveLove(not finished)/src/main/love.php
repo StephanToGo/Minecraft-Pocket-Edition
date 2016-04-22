@@ -17,42 +17,41 @@ use pocketmine\event\player\PlayerInteractEvent;
 
 	class love extends PluginBase implements Listener
 	{
-		public $schalter = array();
-		public $namesave = array();
+		public $config;
 		
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA.'Plugin -=SH=-Love loading...!');
-			$this->saveDefaultConfig();
-			$cfg = $this->getConfig();
+			$this->saveDefaultConfig();	
+			$this->permissions = $this->getConfig()->get('Permissions');
 		}
 		
 		public function onCommand(CommandSender $p, Command $command, $label, array $args)
 		{
-			if($p instanceof Player) 
-			{
+			//if($p instanceof Player) 
+			//{
 				if(strtolower($command->getName()) == 'shlove')
 				{
 					if($this->permissions == true)
 					{
-						if($p->isOp() || $p->hasPermission('survivalhive.nicks'))
+						if($p->isOp() || $p->hasPermission('survivalhive.love'))
 						{
 							if(isset($args[0]))
 							{
 								switch(strtolower($args[0]))
 								{
 									case "love":
-										$this->inLove($p, $args[0]);
+										$this->inLove($p, $args[1]);
 										break;
 									case "hate":
-										$this->inHate($p, $args[0]);
+										$this->inHate($p, $args[1]);
 										break;
 									case "unlove":
-										$this->outLove($p, $args[0]);
+										$this->outLove($p, $args[1]);
 										break;
 									case "unhate":
-										$this->outHate($p, $args[0]);
+										$this->outHate($p, $args[1]);
 										break;
 								}
 							}
@@ -71,6 +70,21 @@ use pocketmine\event\player\PlayerInteractEvent;
 						
 					}	
 				}
-			}
+			//}
+		}
+		
+		public function inLove($p, $args)
+		{
+			$name = $p->getName();
+			$love = $this->getConfig()->get('Love');
+			$love[] = $name."=>".$args;
+			//$this->getConfig()->set('Love', [$name]);
+			$this->getConfig()->setAll($this->getConfig()->getAll());
+			$this->getConfig()->save();
+		}
+		   
+		   public function onDisable()
+		{
+			$this->getLogger()->info(MT::AQUA."Plugin unloaded!");
 		}
 	}
