@@ -1,0 +1,5 @@
+---
+Join: '{Player} joined...'
+Quit: '{Player} gone...'
+Killed: '{Player} killed by {Damager}'
+...

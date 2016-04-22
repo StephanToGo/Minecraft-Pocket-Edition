@@ -21,14 +21,11 @@ class message extends PluginBase implements Listener
 	public function onEnable() 
 	{	
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
-		$this->getLogger()->info(MT::AQUA."-=SH=-JoinMessage loading...!");
-		
-		if (!file_exists($this->getDataFolder())){@mkdir($this->getDataFolder(), true);}
-		$this->config = new Config($this->getDataFolder(). "config.yml", Config::YAML, array("Join" => '{Player} joined...',"Quit" => '{Player} gone...',"Killed" => '{Player} killed by {Damager}'));
-	
-		$this->joinmessage = $this->config->get("Join");
-		$this->quitmessage = $this->config->get("Quit");
-		$this->killedmessage = $this->config->get("Killed");
+		$this->getLogger()->info(MT::AQUA.'-=SH=-JoinMessage loading...!');
+		$this->saveDefaultConfig();	
+		$this->joinmessage = $this->getConfig()->get('Join');
+		$this->quitmessage = $this->getConfig()->get('Quit');
+		$this->killedmessage = $this->getConfig()->get('Killed');
    	}
 	
 	public function onJoin (PlayerJoinEvent $ev)
@@ -48,11 +45,11 @@ class message extends PluginBase implements Listener
 	public function onDeath(PlayerDeathEvent $ev)
 	{
 		$player = $ev->getEntity();
-		if($player instanceof Player){$ev->setDeathMessage("");}
+		if($player instanceof Player){$ev->setDeathMessage('');}
 	}
 	
 	public function onDisable()
 	{
-		$this->getLogger()->info(MT::AQUA."Plugin unloaded!");
+		$this->getLogger()->info(MT::AQUA.'Plugin unloaded!');
 	}
 }
