@@ -24,19 +24,9 @@ use pocketmine\plugin\Plugin;
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Regeln loading...!");
-			@mkdir($this->getDataFolder());
-			$this->config = (new Config($this->getDataFolder()."config.yml", Config::YAML))->getAll();
-			if(!(isset($this->config['Rules'])))
-			{
-				$this->config['Rules'] = [];
-				$this->onSave();
-			}
-			
-			if(!(isset($this->config['Regeln'])))
-			{
-				$this->config['Regeln'] = [];
-				$this->onSave();
-			}
+			$this->saveDefaultConfig();
+			$this->rules = $this->getConfig()->get('Rules');
+			$this->regeln = $this->getConfig()->get('Regeln');
 		}
 		
 		public function onCommand(CommandSender $sender, Command $command, $label, array $args) 
@@ -56,7 +46,7 @@ use pocketmine\plugin\Plugin;
 		
 		public function onRules($sender)
 		{
-			foreach($this->config['Rules'] as $rules)
+			foreach($this->rules as $rules)
 			{
 				$sender->sendMessage("$rules");
 			}
@@ -64,7 +54,7 @@ use pocketmine\plugin\Plugin;
 		
 		public function onRegeln($sender)
 		{
-			foreach($this->config['Regeln'] as $regeln)
+			foreach($this->regeln as $regeln)
 			{
 				$sender->sendMessage("$regeln");
 			}
