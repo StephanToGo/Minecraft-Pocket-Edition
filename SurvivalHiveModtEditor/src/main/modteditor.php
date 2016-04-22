@@ -26,15 +26,9 @@ use pocketmine\network\CompressBatchedTask;
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
 			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Modteditor loading...!");
 
-			if (!file_exists($this->getDataFolder()))
-			{
-				@mkdir($this->getDataFolder(), true);
-			}
-			$this->cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML, [
-					"Modt" => "{G}My {R}new {O}server {A}RUNS",
-			]);
-			
-			$this->motd = $this->cfg->get("Modt");
+			$this->saveDefaultConfig();
+			$cfg = $this->getConfig();
+			$this->motd = $cfg->get('Modt');
 			
 			$motd = str_replace('{G}', MT::GREEN, $this->motd);
 			$motd = str_replace('{R}', MT::RED, $motd);
