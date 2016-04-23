@@ -76,11 +76,15 @@ use pocketmine\event\player\PlayerInteractEvent;
 		public function inLove($p, $args)
 		{
 			$name = $p->getName();
-			$love = $this->getConfig()->get('Love');
-			$love[] = $name."=>".$args;
-			//$this->getConfig()->set('Love', [$name]);
-			$this->getConfig()->setAll($this->getConfig()->getAll());
+			$config = $this->getConfig()->getAll();
+			//$config2 = $this->getConfig()->get('Love');
+			$love = $config["Love"];
+			$love[$name] = $args;
+			$config['Love'] = $love;
+			
+			$this->getConfig()->setAll($config);
 			$this->getConfig()->save();
+			$p->sendMessage('save');
 		}
 		   
 		   public function onDisable()
