@@ -91,13 +91,14 @@ use pocketmine\event\player\PlayerInteractEvent;
 		public function playerBlockTouch(PlayerInteractEvent $event)
 		{
 			$p = $event->getPlayer();
-			$id = $event->getPlayer()->getID();
+			$id = $p->getID();
+			$name = $p->getName();
 			$itemid = $event->getItem()->getID();
 			$block = $event->getBlock();
 		
 			if(in_array($id, $this->schalter))
 			{
-				if($block->getY() > $player->getY()) 
+				if($block->getY() > $p->getY()) 
 				{
 					$anzahldernicks = count($this->nicks)-1;
 					$rand = mt_rand(0, $anzahldernicks);
@@ -106,7 +107,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 				}
 				else
 				{
-					$name = $event->getPlayer()->getName();
 					$this->onNickchange($p, $name);
 				}
 			}	
