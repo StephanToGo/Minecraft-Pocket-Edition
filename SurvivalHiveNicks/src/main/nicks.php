@@ -93,26 +93,22 @@ use pocketmine\event\player\PlayerInteractEvent;
 			$p = $event->getPlayer();
 			$id = $event->getPlayer()->getID();
 			$itemid = $event->getItem()->getID();
+			$block = $event->getBlock();
 		
 			if(in_array($id, $this->schalter))
 			{
+				if($block->getY() > $player->getY()) 
+				{
 					$anzahldernicks = count($this->nicks)-1;
 					$rand = mt_rand(0, $anzahldernicks);
 					$randnickname = $this->nicks[$rand];
 					$this->onNickchange($p, $randnickname);
-			}	
-		}
-		
-		public function playerBlockBreak(BlockBreakEvent $event)
-		{
-			$p = $event->getPlayer();
-			$id = $event->getPlayer()->getID();
-			$itemid = $event->getItem()->getID();
-		
-			if(in_array($id, $this->schalter))
-			{
-				$name = $event->getPlayer()->getName();
-				$this->onNickchange($p, $name);
+				}
+				else
+				{
+					$name = $event->getPlayer()->getName();
+					$this->onNickchange($p, $name);
+				}
 			}	
 		}
 
