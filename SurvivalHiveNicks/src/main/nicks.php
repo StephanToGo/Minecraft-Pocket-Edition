@@ -18,7 +18,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 	class nicks extends PluginBase implements Listener
 	{
 		public $schalter = array();
-		public $namesave = array();
 		
 		public function onEnable()
 		{
