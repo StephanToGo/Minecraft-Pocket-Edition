@@ -96,26 +96,31 @@ use pocketmine\event\player\PlayerInteractEvent;
 		
 			if(in_array($id, $this->schalter))
 			{
-				if($itemid == 50)
-				{
-					$name = $event->getPlayer()->getName();
-					$this->onNickchange($p, $name);
-				}
-				else
-				{
 					$anzahldernicks = count($this->nicks)-1;
 					$rand = mt_rand(0, $anzahldernicks);
 					$randnickname = $this->nicks[$rand];
 					$this->onNickchange($p, $randnickname);
-				}
+			}	
+		}
+		
+		public function playerBlockBreak(BlockBreakEvent $event)
+		{
+			$p = $event->getPlayer();
+			$id = $event->getPlayer()->getID();
+			$itemid = $event->getItem()->getID();
+		
+			if(in_array($id, $this->schalter))
+			{
+				$name = $event->getPlayer()->getName();
+				$this->onNickchange($p, $name);
 			}	
 		}
 
 		public function onNickchange($p, $nick)
 		{
-			$p->setNameTag("$nick");
-			$p->sendMessage("$nick");
-			$p->setDisplayName("$nick");
+			$p->setNameTag(MT::GREEN."$nick");
+			$p->sendMessage(MT::GREEN."Nickname: $nick");
+			$p->setDisplayName(MT::GREEN."$nick");
 			return true;
 		}
 	}
