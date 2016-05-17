@@ -44,7 +44,7 @@ use pocketmine\plugin\Plugin;
 
 				foreach($this->commands as $command)
 				{
-					if($args[0] === "$command")
+					if(strtolower($args[0]) === "$command")
 					{
 						$event->getPlayer()->sendMessage(MT::RED."This command is blocked!");
 						$event->setCancelled(true);
