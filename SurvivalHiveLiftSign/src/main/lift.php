@@ -110,7 +110,7 @@ class lift extends PluginBase implements Listener
 			for ($i = 1; $i <= 32; $i++) 
 			{
 				$pos = $bl->getLevel()->getBlock(new Vector3($bl->x,$bl->y+$i,$bl->z));
-				if($pos->getID() == 323 || $pos->getID() == 63 || $pos->getID() == 323)
+				if($pos->getID() == 323 || $pos->getID() == 63 || $pos->getID() == 68)
 				{
 					$p->teleport(new Position($bl->x,$bl->y+$i,$bl->z));
 					return true;
@@ -122,7 +122,7 @@ class lift extends PluginBase implements Listener
 			for($i = 32; $i >=0; $i--) 
 			{
             	$pos = $bl->getLevel()->getBlock(new Vector3($bl->x,$bl->y-$i,$bl->z));
-            	if($pos->getID() == 323 || $pos->getID() == 63 || $pos->getID() == 323)
+            	if($pos->getID() == 323 || $pos->getID() == 63 || $pos->getID() == 68)
             	{
             		$p->teleport(new Position($bl->x,$bl->y-$i,$bl->z));
             		return true;
