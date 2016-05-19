@@ -1,0 +1,9 @@
+name: SurvivalHiveAntiKickLocation
+main: main\kickloc
+version: 2.0
+api: 1.4.0,2.0.0
+load: STARTUP
+author: SurvivalHiveDev
+authors: [Xenturio]
+description: Stopped kick from another location
+website: http://www.survivalhive.de
