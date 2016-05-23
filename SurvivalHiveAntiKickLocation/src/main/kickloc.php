@@ -28,7 +28,7 @@ class kickloc extends PluginBase implements Listener
 			$grund = $event->getReason();
 			$kicklocationreason = 'logged in from another location';
 
-			if($grund = $kicklocationreason)
+			if($grund == $kicklocationreason)
 			{
 				$event->setCancelled();
 			}
