@@ -14,7 +14,7 @@ use pocketmine\plugin\Plugin;
 		public function onEnable()
 		{
 			$this->getServer()->getPluginManager()->registerEvents($this,$this);
-			$this->getLogger()->info(MT::AQUA."Plugin -=SH=-Modteditor loading...!");
+			$this->getLogger()->info(MT::AQUA."-=SH=-Modteditor loading...!");
 
 			$this->saveDefaultConfig();
 			$cfg = $this->getConfig();
@@ -25,12 +25,8 @@ use pocketmine\plugin\Plugin;
 			$motd = str_replace('{O}', MT::GOLD, $motd);
 			$motd = str_replace('{A}', MT::AQUA, $motd);
 			$motd = str_replace('{Y}', MT::YELLOW, $motd);
-
-			$test = $this->getServer()->getNetwork()->getName();
-			$this->getLogger()->info(MT::AQUA."$test");	
+	
 			$this->getServer()->getNetwork()->setName($motd);
-			$test = $this->getServer()->getNetwork()->getName();
-			$this->getLogger()->info(MT::AQUA."$test");
 		}
 	
 		public function onDisable()
