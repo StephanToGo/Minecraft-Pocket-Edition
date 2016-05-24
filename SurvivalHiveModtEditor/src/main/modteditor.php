@@ -34,6 +34,7 @@ use pocketmine\network\CompressBatchedTask;
 			$motd = str_replace('{R}', MT::RED, $motd);
 			$motd = str_replace('{O}', MT::GOLD, $motd);
 			$motd = str_replace('{A}', MT::AQUA, $motd);
+			$motd = str_replace('{Y}', MT::YELLOW, $motd);
 
 			$test = $this->getServer()->getNetwork()->getName();
 			$this->getLogger()->info(MT::AQUA."$test");	
