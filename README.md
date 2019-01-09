@@ -23,7 +23,7 @@ jeden Fall und bringen diesen zur Anzeige!
 
 Issues = Probleme
 Bitte hinterlegt hier euren Fehler oder das Problem,
-welches Ihr Festgestellt habt, damit wir daran arbeiten können.
+welches Ihr festgestellt habt, damit wir daran arbeiten können.
 
 ------------------------------------------------------
 All plugin source codes are under my rights.
